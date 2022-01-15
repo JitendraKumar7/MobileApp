@@ -1,0 +1,26 @@
+name: easy_web_view
+description: A super simple webview for Flutter Web and Mobile
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: ">=2.15.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  http: ^0.13.4
+  html2md: ^1.2.5
+  markdown: ^4.0.1
+  url_launcher: ^6.0.18
+  webview_flutter: ^3.0.0
+  flutter_markdown: ^0.6.9
+  permission_handler: ^8.3.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
