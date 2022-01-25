@@ -20,7 +20,7 @@ class ViewSalesOrder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const Toolbar('SALES SUMMARY'),
+      appBar: const Toolbar('SALES ORDER'),
       body: PdfPreview(
         canDebug: false,
         canChangePageFormat: false,

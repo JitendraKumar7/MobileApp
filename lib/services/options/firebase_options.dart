@@ -17,6 +17,8 @@ FirebaseOptions get options {
       _appId = kDebugMode
           ? '1:93429636162:android:f887b3decd26061cfa61db'
           : '1:93429636162:android:f7b998c09c752b35fa61db';
+    } else if (Platform.isIOS) {
+      _appId = '1:93429636162:ios:45ed69d19fa68238fa61db';
     }
   }
   return FirebaseOptions(

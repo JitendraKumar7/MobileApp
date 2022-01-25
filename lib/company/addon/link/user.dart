@@ -13,13 +13,9 @@ class UserPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const Toolbar('LINK USERS'),
-      body: const EmptyView(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(Icons.person_add_alt_1_sharp),
-      ),
+    return const Scaffold(
+      appBar: Toolbar('LINK USERS'),
+      body: EmptyView(),
     );
   }
 }

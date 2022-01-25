@@ -20,7 +20,7 @@ class ViewProformaInvoice extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const Toolbar('INVOICE SUMMARY'),
+      appBar: const Toolbar('PROFORMA INVOICE'),
       body: PdfPreview(
         canDebug: false,
         canChangePageFormat: false,

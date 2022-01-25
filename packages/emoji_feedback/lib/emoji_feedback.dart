@@ -17,23 +17,30 @@ class EmojiModel {
 
 final List<EmojiModel> reactions = <EmojiModel>[
   const EmojiModel(
-      label: 'Terrible',
-      src: 'assets/worried.png',
-      activeSrc: 'assets/worried_big.png'),
+    label: 'Terrible',
+    src: 'assets/worried.png',
+    activeSrc: 'assets/worried_big.png',
+  ),
   const EmojiModel(
-      label: 'Bad', src: 'assets/sad.png', activeSrc: 'assets/sad_big.png'),
+    label: 'Bad',
+    src: 'assets/sad.png',
+    activeSrc: 'assets/sad_big.png',
+  ),
   const EmojiModel(
-      label: 'OK',
-      src: 'assets/ambitious.png',
-      activeSrc: 'assets/ambitious_big.png'),
+    label: 'OK',
+    src: 'assets/ambitious.png',
+    activeSrc: 'assets/ambitious_big.png',
+  ),
   const EmojiModel(
-      label: 'Good',
-      src: 'assets/smile.png',
-      activeSrc: 'assets/smile_big.png'),
+    label: 'Good',
+    src: 'assets/smile.png',
+    activeSrc: 'assets/smile_big.png',
+  ),
   const EmojiModel(
-      label: 'Awesome',
-      src: 'assets/surprised.png',
-      activeSrc: 'assets/surprised_big.png'),
+    label: 'Awesome',
+    src: 'assets/surprised.png',
+    activeSrc: 'assets/surprised_big.png',
+  ),
 ].toList();
 
 const emojiSize = 40.0;

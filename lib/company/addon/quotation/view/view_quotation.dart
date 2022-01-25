@@ -20,7 +20,7 @@ class ViewQuotation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const Toolbar('QUOTATION SUMMARY'),
+      appBar: const Toolbar('QUOTATION'),
       body: PdfPreview(
         canDebug: false,
         canChangePageFormat: false,

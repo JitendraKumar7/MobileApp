@@ -3,7 +3,7 @@ import 'package:emoji_feedback/emoji_feedback.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info/package_info.dart';
-import 'package:share/share.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:tally/app/app.dart';
 import 'package:tally/profile/profile.dart';
 import 'package:tally/web/web_view.dart';
@@ -171,7 +171,6 @@ class DrawerLayout extends StatelessWidget {
                 ]),
           ]),
         ),
-        const Divider(),
         ListTile(
           onTap: () {
             Navigator.of(context).pop();

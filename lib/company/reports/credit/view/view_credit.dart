@@ -6,24 +6,18 @@ import 'package:tally/pdf/pdf.dart';
 import 'package:tally/widget/widget.dart';
 
 class ViewCreditPage extends StatelessWidget {
-  final CompanyModal company;
-  final InvoiceModal modal;
+  final Future<InvoiceModal> modal;
 
   const ViewCreditPage({
     Key? key,
-    required this.company,
     required this.modal,
   }) : super(key: key);
 
   static Route page({
-    required InvoiceModal modal,
-    required CompanyModal company,
+    required Future<InvoiceModal> modal,
   }) {
     return MaterialPageRoute(
-      builder: (_) => ViewCreditPage(
-        company: company,
-        modal: modal,
-      ),
+      builder: (_) => ViewCreditPage(modal: modal),
     );
   }
 
@@ -37,7 +31,7 @@ class ViewCreditPage extends StatelessWidget {
         canChangePageFormat: false,
         canChangeOrientation: false,
         initialPageFormat: PdfPageFormat.a4,
-        build: (format) => getSalesPdf(company, modal),
+        build: (format) async => getCreditPdf(await modal),
       ),
     );
   }

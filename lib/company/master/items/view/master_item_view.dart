@@ -1,24 +1,22 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tally/constant/constant.dart';
 import 'package:tally/modal/modal.dart';
 import 'package:tally/widget/widget.dart';
 
 class MasterItemView extends StatelessWidget {
-  final QueryDocumentSnapshot<ItemModal> document;
+  final ItemModal modal;
 
-  const MasterItemView(this.document, {Key? key}) : super(key: key);
+  const MasterItemView(this.modal, {Key? key}) : super(key: key);
 
-  static Route page(QueryDocumentSnapshot<ItemModal> document) {
-    return MaterialPageRoute(builder: (_) => MasterItemView(document));
+  static Route page(ItemModal modal) {
+    return MaterialPageRoute(builder: (_) => MasterItemView(modal));
   }
 
   @override
   Widget build(BuildContext context) {
-    var modal = document.data();
-
-    var taxes = modal.taxDetails;
     var stock = modal.stockDetails;
+    var taxes = modal.taxDetails;
+    debugPrint(modal.toString());
 
     return Scaffold(
       appBar: const Toolbar('Item View'),
@@ -34,6 +32,7 @@ class MasterItemView extends StatelessWidget {
             ),
           ),
         ),
+
         Container(
           padding: const EdgeInsets.all(12),
           child: RowView(
@@ -42,11 +41,19 @@ class MasterItemView extends StatelessWidget {
           ),
         ),
 
+        Container(
+          padding: const EdgeInsets.all(12),
+          child: RowView(
+            title: 'RATE',
+            value: modal.rate,
+          ),
+        ),
+
         //Stock Details
         CardView('Stock Detail', children: [
           RowView(title: 'HSN Code', value: stock.hsnCode),
           RowView(title: 'Tax Ability', value: stock.taxAbility),
-          RowView(title: 'Applicable From', value: stock.applicableFrom),
+          RowView(title: 'From', value: stock.applicableFrom),
         ]),
 
         //Tax Details
@@ -54,17 +61,13 @@ class MasterItemView extends StatelessWidget {
           for (TaxDetails tax in taxes.take(3)) ...[
             RowView(
               title: tax.title,
-              value: tax.gstRate,
+              value: '${tax.gstRate}%',
             ),
             RowView(
               title: 'Duty Head',
               value: tax.gstRateDutyHead,
             ),
-            RowView(
-              title: 'Valuation Type',
-              value: tax.gstRateValuationType,
-            ),
-            Container(height: 6),
+            const Divider(),
           ]
         ]),
       ]),

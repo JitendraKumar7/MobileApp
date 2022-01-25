@@ -1,35 +1,20 @@
-import 'dart:convert';
-
 import 'package:collection/collection.dart';
-import 'package:intl/intl.dart';
-import 'package:tally/modal/modal.dart';
 
-class ProformaModal {
-  var company = CompanyModal();
-  var ledger = LedgerModal();
+import '../../modal.dart';
 
-  int timestamp = 0;
+class ProformaModal extends BaseModal {
   bool integratedTax = true;
 
-  late String date;
-
-  List<ProductModal> products = [];
-
-  ProformaModal() {
-    timestamp = (DateTime.now().millisecondsSinceEpoch ~/ 1000).toInt();
-
-    var dateTime = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
-    date = DateFormat('dd MMM yyyy').format(dateTime);
-  }
+  ProformaModal();
 
   List<List<String>> get data {
-    return products.map((e) => e.data).toList();
+    return items.map((e) => e.proforma).toList();
   }
 
   List<List<String>> get sundry {
-    var taxAmount = products.map((e) => e.taxAmount).sum;
-    var beforeTax = products.map((e) => e.beforeTax).sum;
-    var totalAmount = products.map((e) => e.totalAmount).sum;
+    var taxAmount = items.map((e) => e.taxAmount).sum;
+    var beforeTax = items.map((e) => e.beforeTax).sum;
+    var totalAmount = items.map((e) => e.totalAmount).sum;
 
     var taxLocal = (taxAmount / 2).toStringAsFixed(2);
     var taxCentral = taxAmount.toStringAsFixed(2);
@@ -39,11 +24,14 @@ class ProformaModal {
 
     return [
       ['', 'BEFORE TAX', beforeTax.toStringAsFixed(2)],
-      if (!integratedTax) ...[
+      ...integratedTax
+          ? [
+        ['', 'IGST', taxCentral]
+      ]
+          : [
         ['', 'CGST', taxLocal],
         ['', 'CGST', taxLocal],
       ],
-      if (integratedTax) ['', 'IGST', taxCentral],
       [
         '',
         'ROUND OFF (${roundOff > 0 ? '+' : '-'})',
@@ -53,34 +41,16 @@ class ProformaModal {
     ];
   }
 
-  void addAll(results) => products.addAll(results);
-
-  void remove(ProductModal item) => products.remove(item);
-
-  ProformaModal.fromJson(Map<String, dynamic>? json) {
-    if (json == null) return;
-    integratedTax = json['integratedTax'];
-    timestamp = json['timestamp'];
-    date = json['date'];
-
-    products = ProductModal.formJsonResults(json['products']);
-    company = CompanyModal.fromJson(json['company']);
-    ledger = LedgerModal.fromJson(json['ledger']);
-  }
-
+  @override
   Map<String, dynamic> toJson() {
-    final data = <String, dynamic>{};
-    data['integratedTax'] = integratedTax;
-    data['timestamp'] = timestamp;
-    data['date'] = date;
-
-    data['products'] = products.map((e) => e.toJson()).toList();
-    data['company'] = company.toJson();
-    data['ledger'] = ledger.toJson();
-
+    Map<String, dynamic> data = jsonData();
+    data['INTEGRATED'] = integratedTax;
     return data;
   }
 
-  @override
-  String toString() => jsonEncode(toJson());
+  ProformaModal.fromJson(Map<String, dynamic>? json) {
+    if (json == null) return;
+    integratedTax = json['INTEGRATED'];
+    jsonParse(json);
+  }
 }

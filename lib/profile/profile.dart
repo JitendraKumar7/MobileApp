@@ -14,7 +14,7 @@ class ProfilePage extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: const Toolbar('PROFILE'),
       body: ListView(padding: const EdgeInsets.all(12), children: <Widget>[
-        const ProfileWidget(),
+        ProfileWidget(capture: (bytes) {}),
         Container(
           padding: const EdgeInsets.all(12),
           alignment: Alignment.center,

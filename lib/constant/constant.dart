@@ -3,6 +3,7 @@ const String logo = 'assets/logo.png';
 const String person = 'assets/person.png';
 const String product = 'assets/product.jpg';
 const String calendar = 'assets/calendar.jpg';
+const String cardBack = 'assets/card_back.jpg';
 const String background = 'assets/background.png';
 
 const String masterItem = 'assets/icons/items.png';
@@ -24,3 +25,7 @@ const String addonQuotation = 'assets/icons/quotation.png';
 const String addonSalesOrder = 'assets/icons/sales_order.png';
 const String addonPurchaseOrder = 'assets/icons/purchase_order.png';
 const String addonProformaInvoice = 'assets/icons/proforma_invoice.png';
+
+
+//id1601196670
+//

@@ -1,62 +1,66 @@
-import 'dart:convert';
+import 'package:flutter/material.dart';
 
-import 'package:intl/intl.dart';
-import 'package:tally/modal/modal.dart';
+import '../../modal.dart';
 
-class OrderModal {
-  var company = CompanyModal();
-  var ledger = LedgerModal();
+const String hold = 'HOLD';
+const String cancel = 'CANCEL';
+const String received = 'RECEIVED';
+const String confirmed = 'CONFIRMED';
+const String dispatched = 'DISPATCHED';
 
-  String? remark;
-  late String date;
+class OrderModal extends BaseModal {
+  String status = 'RECEIVED';
+  String? message;
 
-  int timestamp = 0;
+  bool get isHold => status == 'HOLD';
 
-  List<ProductModal> products = [];
+  bool get isCancel => status == 'CANCEL';
 
-  OrderModal() {
-    timestamp = (DateTime.now().millisecondsSinceEpoch ~/ 1000).toInt();
+  bool get isReceived => status == 'RECEIVED';
 
-    var dateTime = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
-    date = DateFormat('dd MMM yyyy').format(dateTime);
+  bool get isConfirmed => status == 'CONFIRMED';
+
+  bool get isDispatched => status == 'DISPATCHED';
+
+  Color get color {
+    return isCancel
+        ? Colors.red
+        : isReceived
+            ? Colors.blue
+            : isConfirmed
+                ? Colors.green
+                : isDispatched
+                    ? Colors.brown
+                    : Colors.yellow;
   }
 
-
+  OrderModal();
 
   List<List<String>> get data {
-    return products.map((e) => e.data).toList();
+    return items.map((e) => e.order).toList();
   }
 
-  void addAll(result) => products.addAll(result);
-
-  void remove(ProductModal item) => products.remove(item);
-
-  OrderModal.fromJson(Map<String, dynamic>? json) {
-    if (json == null) return;
-    timestamp = json['timestamp'];
-    remark = json['remark'];
-    date = json['date'];
-
-    products = ProductModal.formJsonResults(json['products']);
-
-    company = CompanyModal.fromJson(json['company']);
-    ledger = LedgerModal.fromJson(json['ledger']);
-  }
-
-  Map<String, dynamic> toJson() {
-    final data = <String, dynamic>{};
-    data['timestamp'] = timestamp;
-    data['remark'] = remark;
-    data['date'] = date;
-
-    data['products'] = products.map((e) => e.toJson()).toList();
-    data['company'] = company.toJson();
-    data['ledger'] = ledger.toJson();
-
+  Map<String, dynamic> get doc {
+    var data = <String, dynamic>{};
+    data['MESSAGE'] = message;
+    data['STATUS'] = status;
     return data;
   }
 
   @override
-  String toString() => jsonEncode(toJson());
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> data = jsonData();
+    data['MESSAGE'] = message;
+    data['STATUS'] = status;
+    data['REMARK'] = remark;
+    return data;
+  }
 
+  OrderModal.fromJson(Map<String, dynamic>? json) {
+    if (json == null) return;
+    message = json['MESSAGE'];
+    remark = json['REMARK'];
+    status = json['STATUS'];
+    jsonParse(json);
+  }
 }

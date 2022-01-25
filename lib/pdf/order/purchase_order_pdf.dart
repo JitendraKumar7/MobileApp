@@ -1,0 +1,29 @@
+import 'dart:typed_data';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart';
+import 'package:tally/modal/modal.dart';
+
+import '../component/component.dart';
+
+Future<Uint8List> getPurchaseOrderPdf(OrderModal modal) async {
+  var header = HeaderModal.fromLedger(
+    'PURCHASE ORDER',
+    modal.ledger,
+    modal.timestamp,
+    'Order No. : ',
+  );
+  final page = Page(
+    pageFormat: PdfPageFormat.a4,
+    build: (Context context) => Column(
+      children: [
+        headerFrom(modal.company, header),
+        bodyOrder(context, modal.data),
+        Expanded(child: Text('')),
+        Text(modal.remark, style: const TextStyle(fontSize: 12)),
+        footer(context, modal.company.name),
+      ],
+      crossAxisAlignment: CrossAxisAlignment.start,
+    ),
+  );
+  return create(page);
+}

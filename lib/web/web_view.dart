@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:easy_web_view/easy_web_view.dart';
 import 'package:tally/widget/toolbar/toolbar.dart';
 
-class WebViewPage extends StatelessWidget {
+class WebViewPage extends StatefulWidget {
   const WebViewPage(
     this.title, {
     Key? key,
@@ -15,17 +14,21 @@ class WebViewPage extends StatelessWidget {
   }
 
   @override
+  State<WebViewPage> createState() => _WebViewPageState();
+}
+
+class _WebViewPageState extends State<WebViewPage> {
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     //var args = ModalRoute.of(context)?.settings.arguments;
-    return Scaffold(
-      appBar: Toolbar(title),
-      body: EasyWebView(
-        src: 'https://tallykonnect.com/',
-        onLoaded: () {},
-        isHtml: false,
-        isMarkdown: false,
-        convertToWidgets: false,
-      ),
-    );
+    //https://tallykonnect.com/
+
+    return Scaffold(appBar: Toolbar(widget.title));
   }
 }

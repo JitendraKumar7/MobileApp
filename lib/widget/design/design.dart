@@ -16,7 +16,7 @@ class RowView extends StatelessWidget {
         SizedBox(
           width: MediaQuery.of(context).size.width / 3.5,
           child: Text(
-            title,
+            title.toUpperCase(),
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
         ),

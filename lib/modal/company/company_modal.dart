@@ -4,6 +4,7 @@ class CompanyModal {
   String? name;
   String? email;
   String? gstin;
+  String? mobile;
   String? address;
   String? pinCode;
   String? stateName;
@@ -12,24 +13,27 @@ class CompanyModal {
   String? startingFrom;
   String? openingBalance;
   String? closingBalance;
-
-  bool? exportToCloud;
+  List<int> companyLogo = [];
 
   CompanyModal();
 
-  String get getAddress => '$address $stateName $countryName, $pinCode.';
+  String get getName => name?.toUpperCase() ?? '';
+
+  String get getAddress =>
+      '$address $stateName $countryName, $pinCode.'.toUpperCase();
 
   CompanyModal.fromJson(Map<String, dynamic>? json) {
     if (json == null) return;
+    companyLogo = json['COMPANY_LOGO']?.cast<int>() ?? [];
     openingBalance = json['OPENINGBALANCE'];
     closingBalance = json['CLOSINGBALANCE'];
-    exportToCloud = json['EXPORTTOCLOUD'];
     startingFrom = json['STARTINGFROM'];
     countryName = json['COUNTRYNAME'];
     booksFrom = json['BOOKSFROM'];
     stateName = json['STATENAME'];
     address = json['ADDRESS'];
     pinCode = json['PINCODE'];
+    mobile = json['MOBILE'];
     gstin = json['GSTIN'];
     email = json['EMAIL'];
     name = json['NAME'];
@@ -39,13 +43,14 @@ class CompanyModal {
     final data = <String, dynamic>{};
     data['OPENINGBALANCE'] = openingBalance;
     data['CLOSINGBALANCE'] = closingBalance;
-    data['EXPORTTOCLOUD'] = exportToCloud;
     data['STARTINGFROM'] = startingFrom;
+    data['COMPANY_LOGO'] = companyLogo;
     data['COUNTRYNAME'] = countryName;
     data['BOOKSFROM'] = booksFrom;
     data['STATENAME'] = stateName;
     data['ADDRESS'] = address;
     data['PINCODE'] = pinCode;
+    data['MOBILE'] = mobile;
     data['GSTIN'] = gstin;
     data['EMAIL'] = email;
     data['NAME'] = name;

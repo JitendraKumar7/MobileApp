@@ -6,10 +6,10 @@ import 'package:tally/widget/widget.dart';
 
 import 'card/card.dart';
 import 'link/user.dart';
-import 'proforma/proforma.dart';
-import 'purchase/purchase_order.dart';
-import 'quotation/quotation.dart';
 import 'sales/sales_order.dart';
+import 'proforma/proforma.dart';
+import 'quotation/quotation.dart';
+import 'purchase/purchase_order.dart';
 
 class AddonView extends StatelessWidget {
   const AddonView(this.document, {Key? key}) : super(key: key);
@@ -31,7 +31,7 @@ class AddonView extends StatelessWidget {
               name: addonCard,
               label: 'Business Card',
               onTap: () {
-                var page = CardPage.page(document.data());
+                var page = BusinessCardPage.page(document);
                 Navigator.push(context, page);
               },
             ),

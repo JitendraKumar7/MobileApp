@@ -1,19 +1,37 @@
 import 'dart:convert';
 
+import '../../modal.dart';
+
 class ItemModal {
   String? guid;
   String? name;
+  String? rate;
   String? parent;
 
   bool isSelected = false;
-
-  String price = '';
-  String description = '';
 
   var stockDetails = StockDetails();
   List<TaxDetails> taxDetails = [];
 
   ItemModal();
+
+  String? get gstRate => taxDetails
+      .firstWhere((e) => e.isIntegratedTax, orElse: () => TaxDetails())
+      .gstRate;
+
+  bool changeSelection() => isSelected = !isSelected;
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+
+    data['TAXDETAILS'] = taxDetails.map((v) => v.toJson()).toList();
+    data['STOCKDETAILS'] = stockDetails.toJson();
+    data['PARENT'] = parent;
+    data['RATE'] = rate;
+    data['NAME'] = name;
+    data['GUID'] = guid;
+    return data;
+  }
 
   ItemModal.fromJson(Map<String, dynamic>? json) {
     if (json == null) return;
@@ -24,31 +42,21 @@ class ItemModal {
       taxDetails.add(TaxDetails.fromJson(v));
     });
     parent = json['PARENT'];
+    rate = json['RATE'];
     name = json['NAME'];
     guid = json['GUID'];
-
-    description = json['description'] ?? '';
-    price = json['price'] ?? '';
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-
-    data['TAXDETAILS'] = taxDetails.map((v) => v.toJson()).toList();
-    data['STOCKDETAILS'] = stockDetails.toJson();
-    data['PARENT'] = parent;
-    data['NAME'] = name;
-    data['GUID'] = guid;
-    data['description'] = description;
-    data['price'] = price;
-    return data;
   }
 
   @override
   String toString() => jsonEncode(toJson());
 
-  static List<ItemModal> formJsonResults(json) {
-    return json.map<ItemModal>((e) => ItemModal.fromJson(e)).toList();
+  ProductModal toItem() {
+    return ProductModal(
+      hsn: stockDetails.hsnCode ?? '',
+      gst: gstRate ?? '',
+      rate: rate ?? '',
+      name: name ?? '',
+    );
   }
 }
 
@@ -58,6 +66,8 @@ class TaxDetails {
   String? gstRateValuationType;
 
   TaxDetails();
+
+  bool get isIntegratedTax => gstRateDutyHead == 'Integrated Tax';
 
   String get title => '${gstRateDutyHead?.substring(0, 1)}GST Rate';
 

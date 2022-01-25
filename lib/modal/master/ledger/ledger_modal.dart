@@ -21,27 +21,6 @@ class LedgerModal {
 
   LedgerModal();
 
-  LedgerModal.fromJson(Map<String, dynamic>? json) {
-    if (json == null) return;
-    gstRegistrationType = json['GSTREGISTRATIONTYPE'];
-    isEBankingEnabled = json['ISEBANKINGENABLED'];
-    incomeTexNumber = json['INCOMETAXNUMBER'];
-    closingBalance = json['CLOSINGBALANCE'];
-    priorStateName = json['PRIORSTATENAME'];
-    openingBalance = json['OPENINGBALANCE'];
-    accountNumber = json['ACCOUNTNUMBER'];
-    ledStateName = json['LEDSTATENAME'];
-    countryName = json['COUNTRYNAME'];
-    mailingName = json['MAILINGNAME'];
-    partyGstin = json['PARTYGSTIN'];
-    bankName = json['BANKNAME'];
-    ifscCode = json['IFSCODE'];
-    address = json['ADDRESS'];
-    pinCode = json['PINCODE'];
-    parent = json['PARENT'];
-    name = json['NAME'];
-  }
-
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['GSTREGISTRATIONTYPE'] = gstRegistrationType;
@@ -62,6 +41,27 @@ class LedgerModal {
     data['PARENT'] = parent;
     data['NAME'] = name;
     return data;
+  }
+
+  LedgerModal.fromJson(Map<String, dynamic>? json) {
+    if (json == null) return;
+    gstRegistrationType = json['GSTREGISTRATIONTYPE'];
+    isEBankingEnabled = json['ISEBANKINGENABLED'];
+    incomeTexNumber = json['INCOMETAXNUMBER'];
+    closingBalance = json['CLOSINGBALANCE'];
+    priorStateName = json['PRIORSTATENAME'];
+    openingBalance = json['OPENINGBALANCE'];
+    accountNumber = json['ACCOUNTNUMBER'];
+    ledStateName = json['LEDSTATENAME'];
+    countryName = json['COUNTRYNAME'];
+    mailingName = json['MAILINGNAME'];
+    partyGstin = json['PARTYGSTIN'];
+    bankName = json['BANKNAME'];
+    ifscCode = json['IFSCODE'];
+    address = json['ADDRESS'];
+    pinCode = json['PINCODE'];
+    parent = json['PARENT'];
+    name = json['NAME'];
   }
 
   @override

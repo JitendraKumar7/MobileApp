@@ -1,27 +1,63 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:tally/constant/constant.dart';
 import 'package:tally/modal/modal.dart';
-import 'package:tally/services/firestore_services.dart';
+import 'package:tally/services/services.dart';
 import 'package:tally/widget/widget.dart';
 
 import 'view/view_purchase.dart';
 
 class PurchasePage extends StatelessWidget {
-  PurchasePage(this.document, {Key? key}) : super(key: key);
+  final QueryDocumentSnapshot<CompanyModal> document;
+
+  const PurchasePage(this.document, {Key? key}) : super(key: key);
 
   static Route page(QueryDocumentSnapshot<CompanyModal> document) {
     return MaterialPageRoute(builder: (_) => PurchasePage(document));
   }
 
-  final QueryDocumentSnapshot<CompanyModal> document;
-  final controller = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
-    List<QueryDocumentSnapshot<InvoiceModal>> _list = [];
     return Scaffold(
+      body: QueryStreamBuilder(
+        stream: db.getPurchase(document.reference),
+        filter: (InvoiceModal modal, String value) {
+          var name = modal.partyName.toLowerCase();
+          return name.contains(value.toLowerCase());
+        },
+        builder: (InvoiceModal modal) => ListTile(
+          onTap: () {
+            var page = ViewPurchasePage.page(modal: modal.setLedger(document));
+            Navigator.push(context, page);
+          },
+          title: Text(
+            modal.partyName,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          subtitle: Row(
+            children: [
+              Text(
+                modal.id,
+                style: const TextStyle(fontSize: 12),
+              ),
+              Text(
+                modal.date,
+                style: const TextStyle(fontSize: 12),
+              ),
+            ],
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          ),
+          leading: const Leading(reportPurchase),
+        ),
+      ),
       appBar: const Toolbar('PURCHASE'),
-      body: SearchStreamBuilder(
+    );
+  }
+}
+
+/*
+* body: SearchStreamBuilder(
         stream: db.getPurchase(document.reference),
         builder: (List<QueryDocumentSnapshot<InvoiceModal>> snapshot) {
           _list = snapshot;
@@ -36,7 +72,7 @@ class PurchasePage extends StatelessWidget {
                     _list = [];
                     for (var document in snapshot) {
                       var modal = document.data();
-                      var name = modal.partyLedgerName!.toLowerCase();
+                      var name =  modal.partyName.toLowerCase();
                       if (name.contains(value.toLowerCase())) {
                         _list.add(document);
                       }
@@ -55,13 +91,18 @@ class PurchasePage extends StatelessWidget {
                       );
                       Navigator.push(context, page);
                     },
-                    leading: const CircleAvatar(
-                      child: Icon(
-                        Icons.person,
-                        color: Colors.white,
-                      ),
+                    title: Text(
+                      modal.partyName,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                     ),
-                    title: Text(modal.partyLedgerName ?? ''),
+                    subtitle: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(modal.id),
+                          Text(modal.date),
+                        ]),
+                    leading: const Leading(reportPurchase),
                   ),
                 );
               }).toList(),
@@ -70,6 +111,4 @@ class PurchasePage extends StatelessWidget {
         },
         controller: controller,
       ),
-    );
-  }
-}
+* */

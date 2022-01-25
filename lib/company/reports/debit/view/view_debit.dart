@@ -6,30 +6,23 @@ import 'package:tally/pdf/pdf.dart';
 import 'package:tally/widget/widget.dart';
 
 class ViewDebitPage extends StatelessWidget {
-  final CompanyModal company;
-  final InvoiceModal modal;
+  final Future<InvoiceModal> modal;
 
   const ViewDebitPage({
     Key? key,
-    required this.company,
     required this.modal,
   }) : super(key: key);
 
   static Route page({
-    required InvoiceModal modal,
-    required CompanyModal company,
+    required Future<InvoiceModal> modal,
   }) {
     return MaterialPageRoute(
-      builder: (_) => ViewDebitPage(
-        company: company,
-        modal: modal,
-      ),
+      builder: (_) => ViewDebitPage(modal: modal),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    debugPrint(modal.toString());
     return Scaffold(
       appBar: const Toolbar('DEBIT NOTE'),
       body: PdfPreview(
@@ -37,7 +30,7 @@ class ViewDebitPage extends StatelessWidget {
         canChangePageFormat: false,
         canChangeOrientation: false,
         initialPageFormat: PdfPageFormat.a4,
-        build: (format) => getPurchasePdf(company, modal),
+        build: (format) async => getDebitPdf(await modal),
       ),
     );
   }

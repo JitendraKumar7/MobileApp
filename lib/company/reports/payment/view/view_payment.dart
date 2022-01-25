@@ -6,30 +6,23 @@ import 'package:tally/pdf/pdf.dart';
 import 'package:tally/widget/widget.dart';
 
 class ViewPaymentPage extends StatelessWidget {
-  final CompanyModal company;
-  final InvoiceModal modal;
+  final Future<InvoiceModal> modal;
 
   const ViewPaymentPage({
     Key? key,
-    required this.company,
     required this.modal,
   }) : super(key: key);
 
   static Route page({
-    required InvoiceModal modal,
-    required CompanyModal company,
+    required Future<InvoiceModal> modal,
   }) {
     return MaterialPageRoute(
-      builder: (_) => ViewPaymentPage(
-        company: company,
-        modal: modal,
-      ),
+      builder: (_) => ViewPaymentPage(modal: modal),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    debugPrint(modal.toString());
     return Scaffold(
       appBar: const Toolbar('PAYMENT'),
       body: PdfPreview(
@@ -37,7 +30,7 @@ class ViewPaymentPage extends StatelessWidget {
         canChangePageFormat: false,
         canChangeOrientation: false,
         initialPageFormat: PdfPageFormat.a4,
-        build: (format) => getPaymentPdf(company, modal),
+        build: (format) async => getPaymentPdf(await modal),
       ),
     );
   }
