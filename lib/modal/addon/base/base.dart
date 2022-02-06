@@ -7,6 +7,7 @@ class BaseModal {
   var company = CompanyModal();
   var ledger = LedgerModal();
 
+  int update = 0;
   int timestamp = 0;
   String remark = '';
   String document = '';
@@ -15,13 +16,14 @@ class BaseModal {
 
   String get id => 'No. $timestamp';
 
-  String get name => ledger.name ?? '';
+  String get name => ledger.getName;
 
   String get date => getDateTimeFormat(timestamp);
 
   BaseModal() {
     timestamp = (DateTime.now().millisecondsSinceEpoch ~/ 1000).toInt();
     document = const Uuid().v1();
+    update = timestamp;
   }
 
   void remove(ProductModal item) {
@@ -33,6 +35,7 @@ class BaseModal {
     data['COMPANY'] = company.toJson();
     data['LEDGER'] = ledger.toJson();
 
+    data['UPDATE'] = update;
     data['REMARK'] = remark;
     data['DOCUMENT'] = document;
     data['TIMESTAMP'] = timestamp;

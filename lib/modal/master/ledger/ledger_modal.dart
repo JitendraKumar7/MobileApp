@@ -19,6 +19,11 @@ class LedgerModal {
   String? isEBankingEnabled;
   String? gstRegistrationType;
 
+  String get getName => name?.toUpperCase() ?? '';
+
+  String get getAddress =>
+      '$address $ledStateName $countryName, $pinCode.'.toUpperCase();
+
   LedgerModal();
 
   Map<String, dynamic> toJson() {

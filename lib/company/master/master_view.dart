@@ -17,31 +17,43 @@ class MasterView extends StatelessWidget {
 
   final DocumentReference reference;
 
+  Widget body(int index) {
+    switch (index) {
+      case 0:
+        return MasterLedger(reference);
+      case 1:
+        return MasterItems(reference);
+      case 2:
+        return MasterGroups(reference);
+      default:
+        return Center(child: Text('Error $index'));
+    }
+  }
+
+  String title(int index) {
+    switch (index) {
+      case 0:
+        return 'ACCOUNT MASTERS';
+      case 1:
+        return 'ITEM MASTERS';
+      case 2:
+        return 'GROUP MASTERS';
+      default:
+        return 'MASTERS';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => NavigateCubit(),
-      child: Scaffold(
-        appBar: const Toolbar('MASTERS'),
-        body: BlocBuilder<NavigateCubit, int>(
-          builder: (_, index) {
-            switch (index) {
-              case 0:
-                return MasterLedger(reference);
-              case 1:
-                return MasterItems(reference);
-              case 2:
-                return MasterGroups(reference);
-              default:
-                return Center(child: Text('Error $index'));
-            }
-          },
+      child: BlocBuilder<NavigateCubit, int>(
+        builder: (_, index) => Scaffold(
+          bottomNavigationBar: NavigatePage(index),
+          appBar: Toolbar(title(index)),
+          body: body(index),
         ),
-        bottomNavigationBar: const NavigatePage(),
       ),
     );
   }
 }
-
-
-

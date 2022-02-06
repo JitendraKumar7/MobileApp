@@ -1,5 +1,6 @@
 export 'order/purchase_order_pdf.dart';
 export 'quotation/quotation_pdf.dart';
+export 'statement/statement_pdf.dart';
 export 'purchase/purchase_pdf.dart';
 export 'proforma/proforma_pdf.dart';
 export 'order/sales_order_pdf.dart';

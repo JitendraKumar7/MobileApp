@@ -16,7 +16,7 @@ class MasterItems extends StatelessWidget {
     return QueryStreamBuilder(
       stream: db.getItems(reference),
       filter: (ItemModal modal, String value) {
-        var name = modal.name?.toLowerCase() ?? '';
+        var name = modal.getName.toLowerCase();
         return name.contains(value.toLowerCase());
       },
       builder: (ItemModal modal) => ListTile(
@@ -30,12 +30,10 @@ class MasterItems extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        title: Text(modal.name ?? ''),
-        subtitle:
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Text(modal.stockDetails.hsnCode ?? ''),
-          Text('₹ ${modal.rate}'),
-        ]),
+        title: Text(
+          modal.getName,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
       ),
     );
   }

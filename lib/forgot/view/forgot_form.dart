@@ -15,6 +15,16 @@ class ForgotForm extends StatelessWidget {
     var size = MediaQuery.of(context).size;
     return BlocListener<ForgotCubit, ForgotState>(
       listener: (context, state) {
+        if (state.status.isSubmissionSuccess) {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              const SnackBar(
+                content: Text('Mail Send Successfully'),
+              ),
+            );
+        }
+
         if (state.status.isSubmissionFailure) {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
@@ -37,24 +47,11 @@ class ForgotForm extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(children: [
             const SizedBox(height: 80),
-            const FadeAnimation(
-              2,
-              Text(
-                'Forgot Password',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 2,
-                  fontFamily: 'Lobster',
-                ),
-              ),
-            ),
             FadeAnimation(
               2,
               Container(
                 height: 250,
-                width: size.width,
+                width: size.width - 160,
                 child: Image.asset(
                   logo,
                   fit: BoxFit.fill,
@@ -62,6 +59,19 @@ class ForgotForm extends StatelessWidget {
                 margin: const EdgeInsets.only(right: 40),
               ),
             ),
+            const FadeAnimation(
+              2,
+              Text(
+                'Forgot Password',
+                style: TextStyle(
+                  fontSize: 24,
+                  letterSpacing: 2,
+                  color: Colors.black,
+                  fontFamily: 'Lobster',
+                ),
+              ),
+            ),
+            const SizedBox(height: 24),
             FadeAnimation(2, _EmailInput()),
             FadeAnimation(2, _ForgotButton()),
             FadeAnimation(
@@ -71,7 +81,10 @@ class ForgotForm extends StatelessWidget {
                   var bloc = context.read<AppBloc>();
                   bloc.add(AppLogoutRequested());
                 },
-                child: const Text('Login'),
+                child: const Text(
+                  'Login',
+                  style: TextStyle(fontSize: 18),
+                ),
               ),
             ),
           ]),
@@ -126,21 +139,21 @@ class _ForgotButton extends StatelessWidget {
                     ? () => context.read<ForgotCubit>().resetPassword()
                     : null,
                 child: Container(
-                  width: double.infinity,
+                  width: 200,
                   alignment: Alignment.center,
                   margin: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 10,
+                    horizontal: 12,
+                    vertical: 6,
                   ),
-                  padding: const EdgeInsets.only(top: 10, bottom: 10),
+                  padding: const EdgeInsets.only(top: 9, bottom: 9),
                   decoration: const BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(12)),
                     color: Color(0xFF536DFE),
                   ),
                   child: const Text(
-                    'Send',
+                    'SUBMIT',
                     style: TextStyle(
-                      fontSize: 30,
+                      fontSize: 18,
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),

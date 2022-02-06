@@ -26,6 +26,13 @@ const String addonSalesOrder = 'assets/icons/sales_order.png';
 const String addonPurchaseOrder = 'assets/icons/purchase_order.png';
 const String addonProformaInvoice = 'assets/icons/proforma_invoice.png';
 
+const String iOS = 'https://apps.apple.com/app/id1601196670';
+
+const String android =
+    'https://play.google.com/store/apps/details?id=com.tally.app';
+
+const String shareMessage = 'Hii Download Tally Mobile App \n\n'
+    'iOS\n$iOS \n\nAndroid\n$android';
 
 //id1601196670
 //

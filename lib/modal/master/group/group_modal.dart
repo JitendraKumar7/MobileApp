@@ -4,6 +4,8 @@ class GroupModal {
   String? name;
   String? parent;
 
+  String get getName => name?.toUpperCase() ?? '';
+
   GroupModal();
 
   GroupModal.fromJson(Map<String, dynamic>? json) {

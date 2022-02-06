@@ -23,8 +23,21 @@ class AddonView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const Toolbar('ADDON'),
+      appBar: const Toolbar('BUSINESS ADDONS'),
       body: Column(children: [
+        Container(
+          padding: const EdgeInsets.all(18),
+          alignment: Alignment.center,
+          child: Text(
+            document.data().getName,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
         Expanded(
           child: Row(children: [
             ButtonView(
@@ -35,7 +48,7 @@ class AddonView extends StatelessWidget {
                 Navigator.push(context, page);
               },
             ),
-            const VerticalDivider(),
+            //const VerticalDivider(),
             ButtonView(
               name: addonLinkUser,
               label: 'Link User',
@@ -46,7 +59,7 @@ class AddonView extends StatelessWidget {
             ),
           ]),
         ),
-        const Divider(),
+        //const Divider(),
         Expanded(
           child: Row(children: [
             ButtonView(
@@ -57,7 +70,7 @@ class AddonView extends StatelessWidget {
                 Navigator.push(context, page);
               },
             ),
-            const VerticalDivider(),
+            //const VerticalDivider(),
             ButtonView(
               name: addonPurchaseOrder,
               label: 'Purchase Order',
@@ -68,7 +81,7 @@ class AddonView extends StatelessWidget {
             ),
           ]),
         ),
-        const Divider(),
+        //const Divider(),
         Expanded(
           child: Row(children: [
             ButtonView(
@@ -79,7 +92,7 @@ class AddonView extends StatelessWidget {
                 Navigator.push(context, page);
               },
             ),
-            const VerticalDivider(),
+            //const VerticalDivider(),
             ButtonView(
               name: addonProformaInvoice,
               label: 'Proforma Invoice',

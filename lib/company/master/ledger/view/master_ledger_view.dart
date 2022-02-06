@@ -15,14 +15,14 @@ class LedgerViewPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: const Toolbar('LEDGER VIEW'),
+      appBar: const Toolbar('ACCOUNT MASTER'),
       body: ListView(padding: const EdgeInsets.all(12), children: <Widget>[
         ProfileWidget(capture: (bytes) {}),
         Container(
           padding: const EdgeInsets.all(12),
           alignment: Alignment.center,
           child: Text(
-            '${modal.name}',
+            modal.getName,
             style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,

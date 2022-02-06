@@ -27,13 +27,14 @@ class SalesPage extends StatelessWidget {
         },
         builder: (InvoiceModal modal) => ListTile(
           onTap: () {
-            var page = ViewSalesPage.page(modal: modal.setLedger(document));
+            var page = ViewSalesPage.page(modal.setLedger(document));
             Navigator.push(context, page);
           },
           title: Text(
             modal.partyName,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           subtitle: Row(
             children: [

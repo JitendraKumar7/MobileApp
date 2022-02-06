@@ -20,30 +20,31 @@ class AddSalesOrderPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const Toolbar('ADD SALES'),
+      appBar: Toolbar('ADD SALES ORDER', actions: [
+        IconButton(
+          onPressed: () {
+            var route = ViewSalesOrder.page(modal);
+            Navigator.push(context, route);
+          },
+          icon: const Icon(Icons.picture_as_pdf),
+        ),
+      ]),
       body: Column(children: [
-        ExpandedView(document, modal: modal),
-        Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-          ElevatedButton(
-            onPressed: () {
-              var route = ViewSalesOrder.page(modal);
-              Navigator.push(context, route);
-            },
-            child: const Text('VIEW SUMMARY'),
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              if (modal.items.isNotEmpty) {
-                db
-                    .salesOrder(document.reference)
-                    .doc(modal.document)
-                    .set(modal);
-                Navigator.pop(context, true);
-              }
-            },
-            child: const Text('PLACE ORDER'),
-          ),
-        ]),
+        ExpandedView(
+          document,
+          modal: modal,
+          header: 'YOUR CART',
+        ),
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(minimumSize: const Size(180, 45)),
+          onPressed: () async {
+            if (modal.items.isNotEmpty) {
+              db.salesOrder(document.reference).doc(modal.document).set(modal);
+              Navigator.pop(context, true);
+            }
+          },
+          child: const Text('CONFIRM'),
+        ),
       ]),
     );
   }

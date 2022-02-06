@@ -28,7 +28,7 @@ class ItemView extends StatelessWidget {
           keyboardType: TextInputType.number,
           decoration: const InputDecoration(
             fillColor: Colors.white,
-            labelText: 'Quantity',
+            hintText: 'Quantity',
             isDense: true,
             filled: true,
           ),
@@ -42,8 +42,11 @@ class ItemView extends StatelessWidget {
     return Card(
       child: ListTile(
         title: Text(
-          modal.name,
-          style: const TextStyle(fontSize: 14),
+          modal.name.toUpperCase(),
+          style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         trailing: IconButton(
           alignment: Alignment.topRight,
@@ -82,12 +85,14 @@ class ExpandedView extends StatefulWidget {
   final Function(bool value)? tax;
   final bool description;
   final BaseModal modal;
+  final String header;
 
   const ExpandedView(
     this.document, {
     Key? key,
     this.tax,
     required this.modal,
+    this.header = 'ADD ITEM',
     this.description = false,
   }) : super(key: key);
 
@@ -138,15 +143,14 @@ class _ExpandedViewState extends State<ExpandedView> {
   @override
   Widget build(BuildContext context) {
     var remark = widget.modal.remark;
-    var name = widget.modal.ledger.name;
-    var address = widget.modal.ledger.address;
+    var name = widget.modal.ledger.getName;
+    var address = widget.modal.ledger.getAddress;
     var partyGstin = widget.modal.ledger.partyGstin;
     return Expanded(
       child: ListView(children: [
-        CardView('TO', children: [
-          Text(name?.toUpperCase() ?? ''),
+        CardView(name, children: [
           Text(partyGstin ?? ''),
-          Text(address ?? ''),
+          Text(address),
         ]),
         if (widget.tax != null)
           Row(children: [
@@ -174,9 +178,10 @@ class _ExpandedViewState extends State<ExpandedView> {
             ),
           ]),
         Container(
-          child: const Text(
-            'ITEMS',
-            style: TextStyle(
+          alignment: Alignment.center,
+          child: Text(
+            widget.header,
+            style: const TextStyle(
               fontSize: 18,
               letterSpacing: 3,
               fontWeight: FontWeight.bold,
@@ -193,6 +198,13 @@ class _ExpandedViewState extends State<ExpandedView> {
                   description: widget.description,
                 ))
             .toList(),
+        Container(
+          alignment: const Alignment(0.9, 0.0),
+          child: FloatingActionButton(
+            child: const Icon(Icons.add),
+            onPressed: onPressed,
+          ),
+        ),
         if (widget.tax == null)
           Container(
             padding: const EdgeInsets.fromLTRB(6, 12, 6, 12),
@@ -209,13 +221,6 @@ class _ExpandedViewState extends State<ExpandedView> {
               controller: TextEditingController(text: remark),
             ),
           ),
-        Container(
-          alignment: const Alignment(0.9, 0.0),
-          child: FloatingActionButton(
-            child: const Icon(Icons.add_shopping_cart),
-            onPressed: onPressed,
-          ),
-        ),
       ]),
     );
   }

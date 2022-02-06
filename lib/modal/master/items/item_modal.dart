@@ -8,6 +8,8 @@ class ItemModal {
   String? rate;
   String? parent;
 
+  String get getName => name?.toUpperCase() ?? '';
+
   bool isSelected = false;
 
   var stockDetails = StockDetails();

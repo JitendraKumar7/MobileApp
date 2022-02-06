@@ -11,7 +11,7 @@ import 'app/app.dart';
 import 'services/options/firebase_options.dart';
 
 //https://apps.apple.com/app/id1601196670
-//
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (kIsWeb) {
@@ -19,17 +19,14 @@ Future<void> main() async {
   }
   // is mobile device
   else {
-    bool isSafeDevice = await SafeDevice.isSafeDevice;
+    await Firebase.initializeApp();
+   /* bool isSafeDevice = await SafeDevice.isSafeDevice;
     if (!isSafeDevice) {
-      await Firebase.initializeApp();
-    }
-    // else is not safe device
-    else {
       return runApp(
         const MaterialApp(
           home: Center(
             child: Text(
-              'Is not safe device',
+              'Device is not safe or broken',
               style: TextStyle(
                 fontSize: 18,
                 color: Colors.blueGrey,
@@ -39,8 +36,16 @@ Future<void> main() async {
           debugShowCheckedModeBanner: false,
         ),
       );
-    }
+    }*/
   }
+
+  // -> profile page
+
+  // forgot password
+  // logo change
+  // feedback submit
+  // about page (web open)
+  // master title dynamic
 
   final repository = AuthenticationRepository();
   await repository.user.first;

@@ -24,7 +24,7 @@ class ForgotCubit extends Cubit<ForgotState> {
     if (!state.status.isValidated) return;
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
     try {
-      _authenticationRepository.forgotPassword(email: state.email.value);
+      await _authenticationRepository.forgotPassword(email: state.email.value);
       emit(state.copyWith(status: FormzStatus.submissionSuccess));
     } on LogInWithEmailAndPasswordFailure catch (e) {
       emit(state.copyWith(

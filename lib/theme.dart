@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 //scaffoldBackgroundColor: const Color(0xFFE0F2F1),
 final theme = ThemeData(
   primarySwatch: Colors.blue,
+  scaffoldBackgroundColor: Colors.grey[200],
   textTheme: GoogleFonts.openSansTextTheme(),
   inputDecorationTheme: InputDecorationTheme(
     contentPadding: const EdgeInsets.all(9),

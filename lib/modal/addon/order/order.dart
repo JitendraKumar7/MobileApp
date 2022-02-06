@@ -43,6 +43,7 @@ class OrderModal extends BaseModal {
   Map<String, dynamic> get doc {
     var data = <String, dynamic>{};
     data['MESSAGE'] = message;
+    data['UPDATE'] = update;
     data['STATUS'] = status;
     return data;
   }

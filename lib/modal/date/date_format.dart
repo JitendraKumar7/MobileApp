@@ -2,12 +2,24 @@ import 'package:intl/intl.dart';
 
 final _dateFormat = DateFormat('dd-MM-yyyy');
 
-String getDateFormat(String date) {
+String getDateFormat(String date, [String tag='Date :']) {
   try {
     var parseDate = DateTime.parse(date);
-    return 'Date : ${_dateFormat.format(parseDate)}';
+    return '$tag ${_dateFormat.format(parseDate)}';
   } catch (e) {
-    return 'Date : $date';
+    return '$tag $date';
+  }
+}
+
+String getDateParse(String date) {
+  var today = DateTime.now();
+  var format = DateFormat('dd-MMM-yy');
+  try {
+    var parseDate = format.parse(date);
+    var isBigger = parseDate.compareTo(today) > 0;
+    return _dateFormat.format(isBigger ? today : parseDate);
+  } catch (e) {
+    return date;
   }
 }
 

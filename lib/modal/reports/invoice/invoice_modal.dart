@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:number_to_words/number_to_words.dart';
 import 'package:tally/services/services.dart';
@@ -9,15 +10,26 @@ import '../../modal.dart';
 class Products {
   String? rate;
   String? amount;
+  String? hsnCode;
   String? actualQty;
   String? billedDay;
   String? stockItemName;
+
+  bool get isEmpty {
+    return stockItemName == null &&
+        billedDay == null &&
+        actualQty == null &&
+        amount == null &&
+        hsnCode == null &&
+        rate == null;
+  }
 
   Products.fromJson(Map<String, dynamic>? json) {
     if (json == null) return;
     stockItemName = json['STOCKITEMNAME'];
     actualQty = json['ACTUALQTY'];
     billedDay = json['BILLEDDAY'];
+    hsnCode = json['HSNCODE'];
     amount = json['AMOUNT'];
     rate = json['RATE'];
   }
@@ -27,6 +39,7 @@ class Products {
     data['STOCKITEMNAME'] = stockItemName;
     data['ACTUALQTY'] = actualQty;
     data['BILLEDDAY'] = billedDay;
+    data['HSNCODE'] = hsnCode;
     data['AMOUNT'] = amount;
     data['RATE'] = rate;
     return data;
@@ -34,6 +47,7 @@ class Products {
 
   List<String> get data => [
         stockItemName ?? '',
+        hsnCode ?? '',
         rate ?? '',
         actualQty ?? '',
         amount?.replaceFirst('-', '') ?? '',
@@ -53,8 +67,6 @@ class InvoiceModal {
   String? voucherDate;
   String? voucherNumber;
   String? partyLedgerName;
-
-  //var productTotalAmount;
 
   String get id => 'No. : $reference';
 
@@ -85,14 +97,41 @@ class InvoiceModal {
     ];
   }
 
+  bool get productsEmpty {
+    return products.isEmpty || (products.length == 1 && products.first.isEmpty);
+  }
+
   List<List<String>> get data {
+    if (productsEmpty) {
+      var items = ledgerDetails.where((e) => e.isProduct).toList();
+      return items
+          .map((e) => [
+                e.ledgerName ?? '',
+                '',
+                '',
+                '',
+                e.positiveAmount,
+              ])
+          .toList();
+    }
     return products.map((e) => e.data).toList();
   }
 
   List<LedgerDetails> _remove() {
     List<LedgerDetails> _details = [...ledgerDetails];
     _details.removeWhere((e) => e.isRemove(partyName));
+    if (productsEmpty) {
+      _details.removeWhere((e) => e.isProduct);
+    }
     return _details;
+  }
+
+  String get beforeTaxAmount {
+    if (productsEmpty) {
+      var items = ledgerDetails.where((e) => e.isProduct).toList();
+      return items.map((e) => e.taxAmount).toList().sum.toStringAsFixed(2);
+    }
+    return totalAmount?.replaceFirst('-', '') ?? '';
   }
 
   List<List<String>> get sundry {
@@ -102,8 +141,7 @@ class InvoiceModal {
     var _ledgerDetails = _remove();
 
     return [
-      if (products.isEmpty)
-        ['', 'Before Tax', totalAmount?.replaceFirst('-', '') ?? ''],
+      ['', 'Before Tax', beforeTaxAmount],
       ..._ledgerDetails.map((e) => e.data).toList(),
       ['', 'Total Amount', details.positiveAmount],
     ];
@@ -174,6 +212,11 @@ class LedgerDetails {
   String? ledgerName;
   String? vatExpAmount;
 
+  bool get isProduct {
+    var name = ledgerName?.toLowerCase() ?? '';
+    return name.contains('sales') || name.contains('purchase');
+  }
+
   LedgerDetails.fromJson(Map<String, dynamic> json) {
     vatExpAmount = json['VATEXPAMOUNT'];
     ledgerName = json['LEDGERNAME'];
@@ -193,6 +236,8 @@ class LedgerDetails {
         ledgerName ?? '',
         positiveAmount,
       ];
+
+  double get taxAmount => double.tryParse(positiveAmount) ?? 0;
 
   String get positiveAmount => amount?.replaceFirst('-', '') ?? '0';
 

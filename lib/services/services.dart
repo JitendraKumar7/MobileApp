@@ -23,6 +23,14 @@ class FirestoreServices {
     }
   }
 
+  CollectionReference<FeedbackModal> get feedback {
+    return _instance.collection('Feedback').withConverter<FeedbackModal>(
+          fromFirestore: (snapshot, _) =>
+              FeedbackModal.fromJson(snapshot.data()),
+          toFirestore: (model, _) => model.toJson(),
+        );
+  }
+
   Stream<DocumentSnapshot<Map<String, dynamic>>> getCompany(String id) {
     return _instance.collection(id).doc('Tally').snapshots();
   }
@@ -94,7 +102,7 @@ class FirestoreServices {
   /* Reports <Start> */
   Stream<QuerySnapshot<StockModal>> getStock(DocumentReference reference) {
     return reference
-        .collection('Stock')
+        .collection('Inventory Ledger')
         .withConverter<StockModal>(
           fromFirestore: (snapshot, _) => StockModal.fromJson(snapshot.data()),
           toFirestore: (model, _) => model.toJson(),
@@ -176,13 +184,34 @@ class FirestoreServices {
         .snapshots();
   }
 
+  Stream<QuerySnapshot<Outstanding>> getPayable(DocumentReference reference) {
+    return reference
+        .collection('Payable')
+        .withConverter<Outstanding>(
+          fromFirestore: (snapshot, _) => Outstanding.fromJson(snapshot.data()),
+          toFirestore: (model, _) => model.toJson(),
+        )
+        .snapshots();
+  }
+
   Stream<QuerySnapshot<StatementModal>> getStatement(
       DocumentReference reference) {
     return reference
-        .collection('statement')
+        .collection('Account Statement')
         .withConverter<StatementModal>(
           fromFirestore: (snapshot, _) =>
               StatementModal.fromJson(snapshot.data()),
+          toFirestore: (model, _) => model.toJson(),
+        )
+        .snapshots();
+  }
+
+  Stream<QuerySnapshot<Outstanding>> getReceivable(
+      DocumentReference reference) {
+    return reference
+        .collection('Receivable')
+        .withConverter<Outstanding>(
+          fromFirestore: (snapshot, _) => Outstanding.fromJson(snapshot.data()),
           toFirestore: (model, _) => model.toJson(),
         )
         .snapshots();

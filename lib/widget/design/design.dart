@@ -40,7 +40,7 @@ class CardView extends StatelessWidget {
           borderRadius: BorderRadius.circular(9),
         ),
         clipBehavior: Clip.hardEdge,
-        color: Colors.blueGrey,
+        color: Colors.blue[300],
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Container(
             padding: const EdgeInsets.all(12),

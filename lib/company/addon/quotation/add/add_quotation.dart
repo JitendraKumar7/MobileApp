@@ -20,31 +20,31 @@ class AddQuotationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const Toolbar('ADD QUOTATION'),
+      appBar: Toolbar('ADD SALES QUOTATION', actions: [
+        IconButton(
+          onPressed: () {
+            var route = ViewQuotation.page(modal);
+            Navigator.push(context, route);
+          },
+          icon: const Icon(Icons.picture_as_pdf),
+        ),
+      ]),
       body: Column(children: [
         ExpandedView(
           document,
           modal: modal,
           description: true,
         ),
-        Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-          ElevatedButton(
-            onPressed: () {
-              var route = ViewQuotation.page(modal);
-              Navigator.push(context, route);
-            },
-            child: const Text('VIEW SUMMARY'),
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              if (modal.items.isNotEmpty) {
-                db.quotation(document.reference).doc(modal.document).set(modal);
-                Navigator.pop(context, true);
-              }
-            },
-            child: const Text('SAVE QUOTATION'),
-          ),
-        ]),
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(minimumSize: const Size(180, 45)),
+          onPressed: () async {
+            if (modal.items.isNotEmpty) {
+              db.quotation(document.reference).doc(modal.document).set(modal);
+              Navigator.pop(context, true);
+            }
+          },
+          child: const Text('CONFIRM'),
+        ),
       ]),
     );
   }

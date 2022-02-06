@@ -38,6 +38,7 @@ class SalesPage extends StatelessWidget {
             modal.name,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           subtitle: Column(children: [
             Row(
@@ -58,7 +59,7 @@ class SalesPage extends StatelessWidget {
                 modal.message ?? '',
                 style: const TextStyle(
                   fontSize: 12,
-                  color: Colors.blueGrey,
+                  color: Colors.red,
                 ),
               ),
           ]),

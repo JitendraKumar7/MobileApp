@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:tally/constant/constant.dart';
 import 'package:tally/widget/widget.dart';
+import 'package:tally/constant/constant.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class NavigatePage extends StatelessWidget {
-  const NavigatePage({Key? key}) : super(key: key);
+  final int index;
+
+  const NavigatePage(this.index, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +38,11 @@ class NavigatePage extends StatelessWidget {
           label: 'GROUPS',
         ),
       ],
-      currentIndex: NavigateCubit.getState(context),
-      onTap: (index) => NavigateCubit.navigation(context, index),
+      currentIndex: index,
+      onTap: (index) {
+        var obj = context.read<NavigateCubit>();
+        obj.change(index);
+      },
     );
   }
 }

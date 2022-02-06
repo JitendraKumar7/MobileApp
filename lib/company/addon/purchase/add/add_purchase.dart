@@ -20,30 +20,30 @@ class AddPurchaseOrderPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const Toolbar('ADD PURCHASE'),
+      appBar: Toolbar('ADD PURCHASE ORDER', actions: [
+        IconButton(
+          onPressed: () {
+            var route = ViewPurchaseOrder.page(modal);
+            Navigator.push(context, route);
+          },
+          icon: const Icon(Icons.picture_as_pdf),
+        ),
+      ]),
       body: Column(children: [
         ExpandedView(document, modal: modal),
-        Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-          ElevatedButton(
-            onPressed: () {
-              var route = ViewPurchaseOrder.page(modal);
-              Navigator.push(context, route);
-            },
-            child: const Text('VIEW SUMMARY'),
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              if (modal.items.isNotEmpty) {
-                db
-                    .purchaseOrder(document.reference)
-                    .doc(modal.document)
-                    .set(modal);
-                Navigator.pop(context, true);
-              }
-            },
-            child: const Text('PLACE ORDER'),
-          ),
-        ]),
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(minimumSize: const Size(180, 45)),
+          onPressed: () async {
+            if (modal.items.isNotEmpty) {
+              db
+                  .purchaseOrder(document.reference)
+                  .doc(modal.document)
+                  .set(modal);
+              Navigator.pop(context, true);
+            }
+          },
+          child: const Text('CONFIRM'),
+        ),
       ]),
     );
   }

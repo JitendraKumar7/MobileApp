@@ -42,7 +42,7 @@ class LoginForm extends StatelessWidget {
               2,
               Container(
                 height: 250,
-                width: size.width,
+                width: size.width - 160,
                 child: Image.asset(
                   logo,
                   fit: BoxFit.fill,
@@ -146,13 +146,13 @@ class _LoginButton extends StatelessWidget {
                     ? () => context.read<LoginCubit>().logInWithCredentials()
                     : null,
                 child: Container(
-                  width: double.infinity,
+                  width: 200,
                   alignment: Alignment.center,
                   margin: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 10,
+                    horizontal: 12,
+                    vertical: 6,
                   ),
-                  padding: const EdgeInsets.only(top: 10, bottom: 10),
+                  padding: const EdgeInsets.only(top: 9, bottom: 9),
                   decoration: const BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(12)),
                     color: Color(0xFF536DFE),
@@ -160,7 +160,7 @@ class _LoginButton extends StatelessWidget {
                   child: const Text(
                     'Login',
                     style: TextStyle(
-                      fontSize: 30,
+                      fontSize: 18,
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),

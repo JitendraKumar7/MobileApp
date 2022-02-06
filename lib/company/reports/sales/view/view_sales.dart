@@ -13,9 +13,7 @@ class ViewSalesPage extends StatelessWidget {
     required this.modal,
   }) : super(key: key);
 
-  static Route page({
-    required Future<InvoiceModal> modal,
-  }) {
+  static Route page(Future<InvoiceModal> modal) {
     return MaterialPageRoute(
       builder: (_) => ViewSalesPage(modal: modal),
     );

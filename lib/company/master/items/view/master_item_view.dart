@@ -18,14 +18,16 @@ class MasterItemView extends StatelessWidget {
     var taxes = modal.taxDetails;
     debugPrint(modal.toString());
 
+    var dateFrom = getDateFormat(stock.applicableFrom ?? '');
+
     return Scaffold(
-      appBar: const Toolbar('Item View'),
+      appBar: const Toolbar('ITEM MASTER'),
       body: ListView(children: [
         Image.asset(product, fit: BoxFit.cover),
         Container(
           padding: const EdgeInsets.all(12),
           child: Text(
-            modal.name ?? '',
+            modal.getName,
             style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -44,16 +46,23 @@ class MasterItemView extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(12),
           child: RowView(
-            title: 'RATE',
-            value: modal.rate,
+            title: 'PRICE',
+            value: modal.rate?.split('/').first,
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.all(12),
+          child: RowView(
+            title: 'UNIT',
+            value: modal.rate?.split('/').last,
           ),
         ),
 
         //Stock Details
-        CardView('Stock Detail', children: [
+        CardView('ABOUT', children: [
           RowView(title: 'HSN Code', value: stock.hsnCode),
-          RowView(title: 'Tax Ability', value: stock.taxAbility),
-          RowView(title: 'From', value: stock.applicableFrom),
+          RowView(title: 'Taxability', value: stock.taxAbility),
+          RowView(title: 'From', value: dateFrom),
         ]),
 
         //Tax Details

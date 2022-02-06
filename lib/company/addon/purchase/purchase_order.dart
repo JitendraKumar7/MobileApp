@@ -38,6 +38,7 @@ class PurchasePage extends StatelessWidget {
             modal.name,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           subtitle: Row(
             children: [

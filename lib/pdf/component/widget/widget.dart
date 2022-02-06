@@ -264,18 +264,21 @@ Widget bodyQuotation(Context context, List<List<String>> data) {
 }
 
 List<Widget> bodyProduct(Context context, InvoiceModal modal) {
-  var headers = <String>['ITEM', 'PRICE', 'QTY', 'AMOUNT'];
+  // sales, purchase, hsn
+  var headers = <String>['ITEM', 'HSN', 'PRICE', 'QTY', 'AMOUNT'];
   var cellAlignments = {
     0: Alignment.centerLeft,
     1: Alignment.center,
     2: Alignment.center,
-    3: Alignment.centerRight,
+    3: Alignment.center,
+    4: Alignment.centerRight,
   };
   var columnWidths = {
     0: const FlexColumnWidth(2),
     1: const FlexColumnWidth(1),
-    2: const FlexColumnWidth(1),
+    2: const FlexColumnWidth(1.2),
     3: const FlexColumnWidth(1.2),
+    4: const FlexColumnWidth(1.2),
   };
   return <Widget>[
     table(
@@ -345,6 +348,34 @@ List<Widget> bodyProforma(Context context, ProformaModal modal) {
         1: Alignment.centerLeft,
         2: Alignment.centerRight,
       },
+    ),
+  ];
+}
+
+List<Widget> bodyStatement(Context context, StatementModal modal) {
+  var cellAlignments = {
+    0: Alignment.centerLeft,
+    1: Alignment.centerLeft,
+    2: Alignment.centerLeft,
+    3: Alignment.centerLeft,
+    4: Alignment.centerRight,
+    5: Alignment.centerRight,
+  };
+  var columnWidths = {
+    0: const FlexColumnWidth(1),
+    1: const FlexColumnWidth(1.3),
+    2: const FlexColumnWidth(1),
+    3: const FlexColumnWidth(1),
+    4: const FlexColumnWidth(1),
+    5: const FlexColumnWidth(1),
+  };
+  return [
+    table(
+      data: modal.value,
+      context: context,
+      headers: modal.header,
+      columnWidths: columnWidths,
+      cellAlignments: cellAlignments,
     ),
   ];
 }

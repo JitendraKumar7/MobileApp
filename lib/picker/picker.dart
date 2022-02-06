@@ -17,19 +17,17 @@ Future<File?> showImagePicker({
     builder: (BuildContext context) => Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: ListView(shrinkWrap: true, children: [
-        const SizedBox(height: 18),
+        const SizedBox(height: 9),
         ListTile(
           leading: const Icon(Icons.camera_alt),
-          title: const Text('OPEN CAMERA'),
+          title: const Text('CAMERA'),
           onTap: () => Navigator.pop(context, ImageSource.camera),
         ),
-        const Divider(),
         ListTile(
           leading: const Icon(Icons.image),
-          title: const Text('FROM GALLERY'),
+          title: const Text('GALLERY'),
           onTap: () => Navigator.pop(context, ImageSource.gallery),
         ),
-        const Divider(),
         TextButton(
           onPressed: () => Navigator.pop(context),
           child: const Text('CANCEL'),

@@ -117,6 +117,7 @@ class _BusinessCardState extends State<BusinessCardPage> {
                           style: const TextStyle(
                             fontSize: 18,
                             color: Colors.black,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(

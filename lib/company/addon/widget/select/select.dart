@@ -51,13 +51,10 @@ class SelectItemPage extends StatelessWidget {
                         backgroundColor: Colors.white,
                       )
                     : const Leading(masterItem),
-                title: Text(modal.name ?? ''),
-                subtitle: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(modal.stockDetails.hsnCode ?? ''),
-                      Text('₹ ${modal.rate}'),
-                    ]),
+                title: Text(
+                  modal.getName,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
               ),
             ),
           ),
@@ -87,14 +84,17 @@ class SelectLedgerPage extends StatelessWidget {
       body: QueryStreamBuilder(
         stream: db.getLedger(reference),
         filter: (LedgerModal modal, String value) {
-          var name = modal.name?.toLowerCase() ?? '';
+          var name = modal.getName.toLowerCase();
           return name.contains(value.toLowerCase());
         },
         builder: (LedgerModal modal) => ListTile(
           onTap: () => Navigator.pop(context, modal),
-          title: Text(modal.name ?? ''),
-          subtitle: Text(modal.address ?? ''),
+          title: Text(
+            modal.getName,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
           leading: const Leading(masterLedger),
+          subtitle: Text(modal.getAddress, maxLines: 1),
         ),
       ),
       appBar: const Toolbar('SELECT LEDGER'),

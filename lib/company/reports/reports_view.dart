@@ -6,13 +6,13 @@ import 'package:tally/widget/widget.dart';
 
 import 'debit/debit.dart';
 import 'sales/sales.dart';
+import 'stocks/stock.dart';
 import 'credit/credit.dart';
 import 'payment/payment.dart';
 import 'receipts/receipts.dart';
 import 'purchase/purchase.dart';
+import 'statement/statement.dart';
 
-import 'widget/statement.dart';
-import 'widget/stock.dart';
 
 class ReportsView extends StatelessWidget {
   const ReportsView(this.document, {Key? key}) : super(key: key);
@@ -27,8 +27,21 @@ class ReportsView extends StatelessWidget {
   Widget build(BuildContext context) {
     var reference = document.reference;
     return Scaffold(
-      appBar: const Toolbar('REPORTS'),
+      appBar: const Toolbar('BUSINESS REPORTS'),
       body: Column(children: [
+        Container(
+          padding: const EdgeInsets.all(18),
+          alignment: Alignment.center,
+          child: Text(
+            document.data().getName,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
         Expanded(
           child: Row(children: [
             ButtonView(
@@ -39,7 +52,7 @@ class ReportsView extends StatelessWidget {
                 Navigator.push(context, page);
               },
             ),
-            const VerticalDivider(),
+            //const VerticalDivider(),
             ButtonView(
               name: reportPurchase,
               label: 'Purchase',
@@ -50,7 +63,7 @@ class ReportsView extends StatelessWidget {
             ),
           ]),
         ),
-        const Divider(),
+        //const Divider(),
         Expanded(
           child: Row(children: [
             ButtonView(
@@ -61,7 +74,7 @@ class ReportsView extends StatelessWidget {
                 Navigator.push(context, page);
               },
             ),
-            const VerticalDivider(),
+            //const VerticalDivider(),
             ButtonView(
               name: reportPayments,
               label: 'Payments',
@@ -72,7 +85,7 @@ class ReportsView extends StatelessWidget {
             ),
           ]),
         ),
-        const Divider(),
+        //const Divider(),
         Expanded(
           child: Row(children: [
             ButtonView(
@@ -83,7 +96,7 @@ class ReportsView extends StatelessWidget {
                 Navigator.push(context, page);
               },
             ),
-            const VerticalDivider(),
+            //const VerticalDivider(),
             ButtonView(
               name: reportCreditNotes,
               label: 'Credit Notes',
@@ -94,7 +107,7 @@ class ReportsView extends StatelessWidget {
             ),
           ]),
         ),
-        const Divider(),
+        //const Divider(),
         Expanded(
           child: Row(children: [
             ButtonView(
@@ -105,12 +118,12 @@ class ReportsView extends StatelessWidget {
                 Navigator.push(context, page);
               },
             ),
-            const VerticalDivider(),
+            //const VerticalDivider(),
             ButtonView(
               name: reportStatement,
-              label: 'Acc. Statements',
+              label: 'Statements',
               onTap: () {
-                var page = StatementPage.page(reference);
+                var page = StatementPage.page(document);
                 Navigator.push(context, page);
               },
             ),

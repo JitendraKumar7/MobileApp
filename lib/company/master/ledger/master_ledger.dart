@@ -11,13 +11,12 @@ class MasterLedger extends StatelessWidget {
 
   const MasterLedger(this.reference, {Key? key}) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
     return QueryStreamBuilder(
       stream: db.getLedger(reference),
       filter: (LedgerModal modal, String value) {
-        var name = modal.name?.toLowerCase() ?? '';
+        var name = modal.getName.toLowerCase();
         return name.contains(value.toLowerCase());
       },
       builder: (LedgerModal modal) => ListTile(
@@ -31,8 +30,11 @@ class MasterLedger extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        title: Text(modal.name ?? ''),
-        subtitle: Text(modal.address ?? ''),
+        title: Text(
+          modal.getName,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+        subtitle: Text(modal.getAddress, maxLines: 1),
       ),
     );
   }

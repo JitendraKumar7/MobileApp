@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:tally/constant/constant.dart';
 import 'package:tally/modal/modal.dart';
 import 'package:tally/services/services.dart';
 import 'package:tally/widget/widget.dart';
@@ -19,17 +20,13 @@ class StockPage extends StatelessWidget {
       body: QueryStreamBuilder(
         stream: db.getStock(reference),
         filter: (StockModal modal, String value) {
-          var name = modal.name?.toLowerCase() ?? '';
+          var name = modal.name.toLowerCase();
           return name.contains(value.toLowerCase());
         },
         builder: (StockModal modal) => ListTile(
-          leading: const CircleAvatar(
-            child: Icon(
-              Icons.person,
-              color: Colors.white,
-            ),
-          ),
-          title: Text(modal.name ?? ''),
+          onTap: () => debugPrint(modal.toString()),
+          leading: const Leading(reportStocks),
+          title: Text(modal.name),
         ),
       ),
       appBar: const Toolbar('STOCKS'),
