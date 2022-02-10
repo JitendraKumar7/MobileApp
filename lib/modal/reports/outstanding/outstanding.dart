@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 class Outstanding {
-  String? ref;
-  String? dueDate;
-  String? billDate;
-  String? partyName;
-  String? overDueDate;
-  String? pendingAmount;
+  dynamic ref;
+  dynamic dueDate;
+  dynamic billDate;
+  dynamic partyName;
+  dynamic overDueDate;
+  dynamic pendingAmount;
 
   String get name => partyName?.toUpperCase() ?? '';
 
