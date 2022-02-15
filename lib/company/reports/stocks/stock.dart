@@ -5,6 +5,8 @@ import 'package:tally/modal/modal.dart';
 import 'package:tally/services/services.dart';
 import 'package:tally/widget/widget.dart';
 
+import 'view/view_stock.dart';
+
 class StockPage extends StatelessWidget {
   final DocumentReference reference;
 
@@ -24,7 +26,10 @@ class StockPage extends StatelessWidget {
           return name.contains(value.toLowerCase());
         },
         builder: (StockModal modal) => ListTile(
-          onTap: () => debugPrint(modal.toString()),
+          onTap: () {
+            var page = ViewStockPage.page(modal);
+            Navigator.push(context, page);
+          },
           leading: const Leading(reportStocks),
           title: Text(modal.name),
         ),

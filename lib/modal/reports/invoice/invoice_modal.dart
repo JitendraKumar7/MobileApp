@@ -8,12 +8,12 @@ import 'package:tally/services/services.dart';
 import '../../modal.dart';
 
 class Products {
-  String? rate;
-  String? amount;
-  String? hsnCode;
-  String? actualQty;
-  String? billedDay;
-  String? stockItemName;
+  dynamic rate;
+  dynamic amount;
+  dynamic hsnCode;
+  dynamic actualQty;
+  dynamic billedDay;
+  dynamic stockItemName;
 
   bool get isEmpty {
     return stockItemName == null &&
@@ -58,15 +58,15 @@ class Products {
 }
 
 class InvoiceModal {
-  String? name;
-  String? vchKey;
-  String? vchType;
-  String? narration;
-  String? reference;
-  String? totalAmount;
-  String? voucherDate;
-  String? voucherNumber;
-  String? partyLedgerName;
+  dynamic name;
+  dynamic vchKey;
+  dynamic vchType;
+  dynamic narration;
+  dynamic reference;
+  dynamic totalAmount;
+  dynamic voucherDate;
+  dynamic voucherNumber;
+  dynamic partyLedgerName;
 
   String get id => 'No. : $reference';
 
@@ -106,7 +106,7 @@ class InvoiceModal {
       var items = ledgerDetails.where((e) => e.isProduct).toList();
       return items
           .map((e) => [
-                e.ledgerName ?? '',
+                '${e.ledgerName ?? ' '}',
                 '',
                 '',
                 '',
@@ -208,9 +208,9 @@ class InvoiceModal {
 }
 
 class LedgerDetails {
-  String? amount;
-  String? ledgerName;
-  String? vatExpAmount;
+  dynamic amount;
+  dynamic ledgerName;
+  dynamic vatExpAmount;
 
   bool get isProduct {
     var name = ledgerName?.toLowerCase() ?? '';

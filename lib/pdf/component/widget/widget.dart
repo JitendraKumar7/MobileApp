@@ -68,6 +68,80 @@ Widget footer(Context context, String? text) {
   ]);
 }
 
+Widget headerAcc({
+  required String gst,
+  required String name,
+  required String party,
+  required String label,
+  required String period,
+}) {
+  return Column(children: [
+    Container(
+      alignment: Alignment.center,
+      child: Text(
+        name,
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      ),
+      padding: const EdgeInsets.only(
+        bottom: 9,
+        right: 18,
+        left: 18,
+        top: 18,
+      ),
+    ),
+    Container(
+      alignment: Alignment.center,
+      child: Text(label),
+      padding: const EdgeInsets.only(
+        bottom: 9,
+        right: 18,
+        left: 18,
+        top: 9,
+      ),
+    ),
+    Container(
+      alignment: Alignment.center,
+      child: Text(
+        party,
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      padding: const EdgeInsets.only(
+        bottom: 9,
+        right: 18,
+        left: 18,
+        top: 9,
+      ),
+    ),
+    Container(
+      alignment: Alignment.center,
+      child: Text(
+        gst,
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      padding: const EdgeInsets.only(
+        bottom: 9,
+        right: 18,
+        left: 18,
+        top: 9,
+      ),
+    ),
+    Container(
+      alignment: Alignment.center,
+      child: Text(
+        period,
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      padding: const EdgeInsets.only(
+        bottom: 18,
+        right: 18,
+        left: 18,
+        top: 9,
+      ),
+    ),
+  ]);
+}
+
 Widget headerTo(CompanyModal to, HeaderModal modal) {
   return Column(children: [
     Container(
@@ -352,6 +426,39 @@ List<Widget> bodyProforma(Context context, ProformaModal modal) {
   ];
 }
 
+List<Widget> bodyOutstanding(Context context, Outstanding modal) {
+  var header = [
+    'BILL DATE',
+    'REFERENCE',
+    'DUE DATE',
+    'DUE DAYS',
+    'AMOUNT',
+  ];
+  var cellAlignments = {
+    0: Alignment.centerLeft,
+    1: Alignment.centerLeft,
+    2: Alignment.centerLeft,
+    3: Alignment.centerRight,
+    4: Alignment.centerRight,
+  };
+  var columnWidths = {
+    0: const FlexColumnWidth(1.0),
+    1: const FlexColumnWidth(1.0),
+    2: const FlexColumnWidth(1.0),
+    3: const FlexColumnWidth(0.8),
+    4: const FlexColumnWidth(1.0),
+  };
+  return [
+    table(
+      data: modal.data,
+      headers: header,
+      context: context,
+      columnWidths: columnWidths,
+      cellAlignments: cellAlignments,
+    ),
+  ];
+}
+
 List<Widget> bodyStatement(Context context, StatementModal modal) {
   var cellAlignments = {
     0: Alignment.centerLeft,
@@ -362,12 +469,12 @@ List<Widget> bodyStatement(Context context, StatementModal modal) {
     5: Alignment.centerRight,
   };
   var columnWidths = {
-    0: const FlexColumnWidth(1),
+    0: const FlexColumnWidth(1.0),
     1: const FlexColumnWidth(1.3),
-    2: const FlexColumnWidth(1),
-    3: const FlexColumnWidth(1),
-    4: const FlexColumnWidth(1),
-    5: const FlexColumnWidth(1),
+    2: const FlexColumnWidth(1.0),
+    3: const FlexColumnWidth(1.3),
+    4: const FlexColumnWidth(1.0),
+    5: const FlexColumnWidth(1.0),
   };
   return [
     table(

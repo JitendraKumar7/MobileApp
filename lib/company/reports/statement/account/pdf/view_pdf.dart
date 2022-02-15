@@ -5,14 +5,14 @@ import 'package:tally/modal/modal.dart';
 import 'package:tally/pdf/pdf.dart';
 import 'package:tally/widget/widget.dart';
 
-class ViewStatementPdf extends StatelessWidget {
+class ViewAccountPdf extends StatelessWidget {
   final StatementModal modal;
 
-  const ViewStatementPdf(this.modal, {Key? key})
+  const ViewAccountPdf(this.modal, {Key? key})
       : super(key: key);
 
   static Route page(StatementModal modal) {
-    return MaterialPageRoute(builder: (_) => ViewStatementPdf(modal));
+    return MaterialPageRoute(builder: (_) => ViewAccountPdf(modal));
   }
 
   @override
@@ -24,7 +24,7 @@ class ViewStatementPdf extends StatelessWidget {
         canChangePageFormat: false,
         canChangeOrientation: false,
         initialPageFormat: PdfPageFormat.a4,
-        build: (format) => getStatementPdf(modal),
+        build: (format) => getAccountPdf(modal),
       ),
     );
   }

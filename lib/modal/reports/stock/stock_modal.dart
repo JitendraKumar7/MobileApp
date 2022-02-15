@@ -3,27 +3,27 @@ import 'dart:convert';
 import '../../modal.dart';
 
 class StockModal {
-  String? parent;
+  dynamic parent;
 
-  String get name => parent?.toUpperCase() ?? '';
-
-  List<ItemModal> inventory = [];
+  List<ItemModal> items = [];
 
   StockModal();
 
-  StockModal.fromJson(Map<String, dynamic>? json) {
-    if (json == null) return;
-    parent = json['PARENT'];
-    (json['DATA'] ?? []).forEach((e) {
-      inventory.add(ItemModal.fromJson(e));
-    });
-  }
+  String get name => parent?.toUpperCase() ?? '';
 
   Map<String, dynamic> toJson() {
     var data = <String, dynamic>{};
     data['PARENT'] = parent;
-    data['DATA'] = inventory.map((e) => e.toJson()).toList();
+    data['ITEMS'] = items.map((e) => e.toJson()).toList();
     return data;
+  }
+
+  StockModal.fromJson(Map<String, dynamic>? json) {
+    if (json == null) return;
+    parent = json['PARENT'];
+    (json['ITEMS'] ?? []).forEach((e) {
+      items.add(ItemModal.fromJson(e));
+    });
   }
 
   @override

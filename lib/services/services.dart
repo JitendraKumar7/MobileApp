@@ -102,7 +102,7 @@ class FirestoreServices {
   /* Reports <Start> */
   Stream<QuerySnapshot<StockModal>> getStock(DocumentReference reference) {
     return reference
-        .collection('Inventory Ledger')
+        .collection('Stock Summary')
         .withConverter<StockModal>(
           fromFirestore: (snapshot, _) => StockModal.fromJson(snapshot.data()),
           toFirestore: (model, _) => model.toJson(),

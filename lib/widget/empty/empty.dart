@@ -6,7 +6,9 @@ class EmptyView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
+        padding: const EdgeInsets.all(36),
         alignment: Alignment.center,
+        color: Colors.black45,
         child: EmptyWidget(
           title: 'Empty',
           subTitle: 'No Record Found',

@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
 import 'package:tally/modal/modal.dart';
 
@@ -10,7 +9,7 @@ Future<Uint8List> getCreditPdf(InvoiceModal modal) async {
   var header = HeaderModal.fromInvoice('CREDIT NOTE', modal, 'Document ');
 
   final page = MultiPage(
-    pageFormat: PdfPageFormat.a4,
+    pageTheme: await pageTheme,
     crossAxisAlignment: CrossAxisAlignment.start,
     build: (Context context) => bodyProduct(context, modal),
     header: (Context context) => headerFrom(modal.company, header),

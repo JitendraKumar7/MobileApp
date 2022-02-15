@@ -5,6 +5,8 @@ import 'package:tally/modal/modal.dart';
 import 'package:tally/services/services.dart';
 import 'package:tally/widget/widget.dart';
 
+import 'view/view_receivable.dart';
+
 class ReceivableTab extends StatelessWidget {
   final QueryDocumentSnapshot<CompanyModal> document;
 
@@ -21,9 +23,9 @@ class ReceivableTab extends StatelessWidget {
       builder: (Outstanding modal) => ListTile(
         leading: const Leading(reportStatement),
         onTap: () {
-          debugPrint('ACCOUNT RECEIVABLE $modal');
-          //var page = ViewStatementPage.page(document, modal);
-          //Navigator.push(context, page);
+          modal.setDocument(document.id, document.data());
+          var page = ViewReceivable.page(modal);
+          Navigator.push(context, page);
         },
         title: Text(
           modal.name,

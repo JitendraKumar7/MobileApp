@@ -23,34 +23,46 @@ class Transaction extends InvoiceModal {
 
   double get balance => double.tryParse('$totalAmount') ?? 0;
 
-  // particulars
-  // vch type
-  // vch no
-  // +debit -> sale, debit note, payment -> (to particulars)
-  // -credit -> purchase, credit note, receipt -> (by particulars)
+  //opening or closing -> dr (-) or cr (+)
+  //
+  // Sales -> dr (-) or cr (+)
+  //
+  // Purchase -> dr (-) or cr (+)
+  //
+  // Receipts -> dr (-) or cr (+)
+  //
+  // Payment -> dr (-) or cr (+)
+  //
+  // Debit Note -> dr (-) or cr (+)
+  //
+  // Credit Note -> dr (-) or cr (+)
+  //
+  // Journal -> dr (-) or cr (+)
+  //
+  // Contra -> dr (-) or cr (+)
   List<String> get value => [
         date,
-        balance > 0 ? 'To \n$narration' : 'By  \n$narration',
+        balance > 0 ? 'To ' : 'By ',
         vchType ?? '',
         reference ?? '',
-        balance > 0 ? amount : '',
         balance > 0 ? '' : amount,
+        balance > 0 ? amount : '',
       ];
 }
 
 class StatementModal {
-  String? _name;
-  String? parent;
-  String? address;
-  String? partyGstin;
-  String? countryName;
-  String? mailingName;
-  String? ledStateName;
-  String? priorStateName;
-  String? closingBalance;
-  String? openingBalance;
-  String? isBankingEnables;
-  String? gstRegistrationType;
+  dynamic _name;
+  dynamic parent;
+  dynamic address;
+  dynamic partyGstin;
+  dynamic countryName;
+  dynamic mailingName;
+  dynamic ledStateName;
+  dynamic priorStateName;
+  dynamic closingBalance;
+  dynamic openingBalance;
+  dynamic isBankingEnables;
+  dynamic gstRegistrationType;
 
   List<Transaction> transaction = [];
 
@@ -79,12 +91,9 @@ class StatementModal {
     return data;
   }
 
-  var jsonData = [];
-
   StatementModal.fromJson(Map<String, dynamic>? json) {
     if (json == null) return;
 
-    jsonData = json['TRANSACTION'];
     _name = json['NAME'];
     parent = json['PARENT'];
     address = json['ADDRESS'];
@@ -120,6 +129,10 @@ class StatementModal {
     return transaction[i - 1].date;
   }
 
+  String get period {
+    return 'PERIOD [$startDate - $endDate]';
+  }
+
   String get endDate {
     if (transaction.isNotEmpty) {
       return transaction.last.date;
@@ -133,18 +146,14 @@ class StatementModal {
     return getDateParse('1-Apr-$date');
   }
 
-  String get period {
-    return 'PERIOD [$startDate - $endDate]';
-  }
-
   Widget data(int i, int j) {
     if (i == 0) {
-      if (opBal > 0 && j == 3) {
+      if (opBal < 0 && j == 3) {
         return Text(
           opBal.abs().toStringAsFixed(2),
           style: const TextStyle(fontWeight: FontWeight.bold),
         );
-      } else if (opBal < 0 && j > 3) {
+      } else if (opBal > 0 && j > 3) {
         return Text(
           opBal.abs().toStringAsFixed(2),
           style: const TextStyle(fontWeight: FontWeight.bold),
@@ -162,12 +171,12 @@ class StatementModal {
     }
 
     if (i > length - 2) {
-      if (clBal > 0 && j == 3) {
+      if (clBal < 0 && j == 3) {
         return Text(
           clBal.abs().toStringAsFixed(2),
           style: const TextStyle(fontWeight: FontWeight.bold),
         );
-      } else if (clBal < 0 && j > 3) {
+      } else if (clBal > 0 && j > 3) {
         return Text(
           clBal.abs().toStringAsFixed(2),
           style: const TextStyle(fontWeight: FontWeight.bold),
@@ -203,8 +212,8 @@ class StatementModal {
         'Opening Bal.',
         '',
         '',
-        opBal > 0 ? opBal.abs().toStringAsFixed(2) : '',
         opBal > 0 ? '' : opBal.abs().toStringAsFixed(2),
+        opBal > 0 ? opBal.abs().toStringAsFixed(2) : '',
       ],
       ...transaction.map((e) => e.value).toList(),
       [
@@ -212,8 +221,8 @@ class StatementModal {
         'Closing Bal.',
         '',
         '',
-        clBal > 0 ? clBal.abs().toStringAsFixed(2) : '',
         clBal > 0 ? '' : clBal.abs().toStringAsFixed(2),
+        clBal > 0 ? clBal.abs().toStringAsFixed(2) : '',
       ],
     ];
   }

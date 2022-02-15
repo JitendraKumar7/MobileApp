@@ -1,81 +1,56 @@
 import 'dart:typed_data';
-import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
 import 'package:tally/modal/modal.dart';
 
 import '../component/component.dart';
 
-Future<Uint8List> getStatementPdf(StatementModal modal) async {
+Future<Uint8List> getAccountPdf(StatementModal modal) async {
   final page = MultiPage(
-    pageFormat: PdfPageFormat.a4,
+    pageTheme: await pageTheme,
     crossAxisAlignment: CrossAxisAlignment.start,
-    header: (Context context) => Column(children: [
-      Container(
-        alignment: Alignment.center,
-        child: Text(
-          modal.company.getName,
-          textAlign: TextAlign.center,
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        padding: const EdgeInsets.only(
-          bottom: 9,
-          right: 18,
-          left: 18,
-          top: 18,
-        ),
-      ),
-      Container(
-        alignment: Alignment.center,
-        child: Text('LEDGER ACCOUNT'),
-        padding: const EdgeInsets.only(
-          bottom: 9,
-          right: 18,
-          left: 18,
-          top: 9,
-        ),
-      ),
-      Container(
-        alignment: Alignment.center,
-        child: Text(
-          modal.name,
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        padding: const EdgeInsets.only(
-          bottom: 9,
-          right: 18,
-          left: 18,
-          top: 9,
-        ),
-      ),
-      Container(
-        alignment: Alignment.center,
-        child: Text(
-          modal.gst,
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        padding: const EdgeInsets.only(
-          bottom: 9,
-          right: 18,
-          left: 18,
-          top: 9,
-        ),
-      ),
-      Container(
-        alignment: Alignment.center,
-        child: Text(
-          modal.period,
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        padding: const EdgeInsets.only(
-          bottom: 18,
-          right: 18,
-          left: 18,
-          top: 9,
-        ),
-      ),
-    ]),
+    header: (Context context) => headerAcc(
+      name: modal.company.getName,
+      label: 'LEDGER ACCOUNT',
+      party: modal.name,
+      gst: modal.gst,
+      period: modal.period,
+    ),
     footer: (Context context) => footer(context, null),
     build: (Context context) => bodyStatement(context, modal),
+  );
+  return create(page);
+}
+
+Future<Uint8List> getReceivablePdf(Outstanding modal) async {
+  final page = MultiPage(
+    pageTheme: await pageTheme,
+    crossAxisAlignment: CrossAxisAlignment.start,
+    header: (Context context) => headerAcc(
+      name: modal.company.getName,
+      period: modal.period,
+      party: modal.name,
+      label: 'RECEIVABLE',
+      gst: modal.gst,
+    ),
+    footer: (Context context) => footer(context, null),
+    build: (Context context) => bodyOutstanding(context, modal),
+  );
+  return create(page);
+}
+
+Future<Uint8List> getPayablePdf(Outstanding modal) async {
+  final page = MultiPage(
+    pageTheme: await pageTheme,
+    crossAxisAlignment: CrossAxisAlignment.start,
+    header: (Context context) => headerAcc(
+      name: modal.company.getName,
+      period: modal.period,
+      party: modal.name,
+      label: 'PAYABLE',
+      gst: modal.gst,
+    ),
+    footer: (Context context) => footer(context, null),
+    build: (Context context) => bodyOutstanding(context, modal),
   );
   return create(page);
 }

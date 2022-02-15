@@ -8,7 +8,7 @@ import '../component/component.dart';
 Future<Uint8List> getDebitPdf(InvoiceModal modal) async {
   var header = HeaderModal.fromInvoice('DEBIT NOTE', modal, 'Document ');
   final page = MultiPage(
-    pageFormat: PdfPageFormat.a4,
+    pageTheme: await pageTheme,
     crossAxisAlignment: CrossAxisAlignment.start,
     build: (Context context) => bodyProduct(context, modal),
     header: (Context context) => headerFrom(modal.company, header),

@@ -23,7 +23,6 @@ class AccountView extends StatelessWidget {
       builder: (StatementModal modal) => ListTile(
         leading: const Leading(reportStatement),
         onTap: () {
-          debugPrint('ACCOUNT STATEMENT ${document.id}');
           modal.setDocument(document.id, document.data());
           var page = ViewStatementPage.page(modal);
           Navigator.push(context, page);

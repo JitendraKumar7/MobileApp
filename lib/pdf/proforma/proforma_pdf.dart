@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
 import 'package:tally/modal/modal.dart';
 
@@ -12,7 +11,7 @@ Future<Uint8List> getProformaPdf(ProformaModal modal) async {
     modal.timestamp,
   );
   final page = MultiPage(
-    pageFormat: PdfPageFormat.a4,
+    pageTheme: await pageTheme,
     crossAxisAlignment: CrossAxisAlignment.start,
     header: (Context context) => headerFrom(modal.company, header),
     footer: (Context context) => footer(context, modal.company.name),

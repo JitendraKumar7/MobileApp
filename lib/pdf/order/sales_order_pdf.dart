@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
 import 'package:tally/modal/modal.dart';
 
@@ -13,7 +12,7 @@ Future<Uint8List> getSalesOrderPdf(OrderModal modal) async {
     'Order No. : ',
   );
   final page = Page(
-    pageFormat: PdfPageFormat.a4,
+    pageTheme: await pageTheme,
     build: (Context context) => Column(
       children: [
         headerTo(modal.company, header),

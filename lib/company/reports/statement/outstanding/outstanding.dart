@@ -15,8 +15,8 @@ class OutstandingView extends StatelessWidget {
       child: Column(children: [
         const TabBar(
           tabs: [
-            Tab(text: 'RECEIVABLE'),
             Tab(text: 'PAYABLE'),
+            Tab(text: 'RECEIVABLE'),
           ],
           labelColor: Colors.blue,
         ),

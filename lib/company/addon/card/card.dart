@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -96,13 +94,7 @@ class _BusinessCardState extends State<BusinessCardPage> {
                 Container(
                   margin: const EdgeInsets.only(left: 9, right: 9),
                   clipBehavior: Clip.hardEdge,
-                  child: modal.companyLogo.isEmpty
-                      ? null
-                      : Image.memory(
-                          Uint8List.fromList(modal.companyLogo),
-                          fit: BoxFit.cover,
-                          height: 48,
-                        ),
+                  child: null,
                   decoration: BoxDecoration(
                     color: Colors.grey[100],
                     borderRadius: BorderRadius.circular(6),
@@ -246,9 +238,9 @@ class EditBusinessCardPage extends StatelessWidget {
             CompanyLogoWidget(
               capture: (List<int> bytes) {
                 debugPrint('Capture ${bytes.length}');
-                modal.companyLogo = bytes;
+                //modal.companyLogo = bytes;
               },
-              bytes: modal.companyLogo,
+              bytes: const [],
             ),
             const SizedBox(height: 24),
             TextFormField(

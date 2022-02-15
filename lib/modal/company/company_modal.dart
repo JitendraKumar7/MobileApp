@@ -13,7 +13,6 @@ class CompanyModal {
   String? startingFrom;
   String? openingBalance;
   String? closingBalance;
-  List<int> companyLogo = [];
 
   CompanyModal();
 
@@ -24,7 +23,6 @@ class CompanyModal {
 
   CompanyModal.fromJson(Map<String, dynamic>? json) {
     if (json == null) return;
-    companyLogo = json['COMPANY_LOGO']?.cast<int>() ?? [];
     openingBalance = json['OPENINGBALANCE'];
     closingBalance = json['CLOSINGBALANCE'];
     startingFrom = json['STARTINGFROM'];
@@ -44,7 +42,6 @@ class CompanyModal {
     data['OPENINGBALANCE'] = openingBalance;
     data['CLOSINGBALANCE'] = closingBalance;
     data['STARTINGFROM'] = startingFrom;
-    data['COMPANY_LOGO'] = companyLogo;
     data['COUNTRYNAME'] = countryName;
     data['BOOKSFROM'] = booksFrom;
     data['STATENAME'] = stateName;

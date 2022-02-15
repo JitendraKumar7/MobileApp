@@ -18,20 +18,13 @@ class ViewStatementPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    for (var e in modal.jsonData.take(1)) {
-      //debugPrint('statement $e');
-      e.forEach((key, value) {
-        debugPrint('key => $key value => $value');
-      });
-    }
     var style = const TextStyle(color: Colors.white);
     var borderWhite = Border.all(color: Colors.white, width: 0.5);
-
     return Scaffold(
       appBar: Toolbar('ACCOUNT STATEMENT', actions: [
         IconButton(
           onPressed: () {
-            var route = ViewStatementPdf.page(modal);
+            var route = ViewAccountPdf.page(modal);
             Navigator.push(context, route);
           },
           icon: const Icon(Icons.picture_as_pdf),
