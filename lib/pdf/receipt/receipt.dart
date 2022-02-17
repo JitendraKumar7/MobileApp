@@ -7,7 +7,6 @@ import '../component/component.dart';
 Future<Uint8List> getReceiptPdf(InvoiceModal modal) async {
   var header = HeaderModal.fromInvoice('RECEIPT', modal, 'Document ');
   final page = Page(
-    pageTheme: await pageTheme,
     build: (Context context) => Column(children: [
       headerFrom(modal.company, header),
       Divider(

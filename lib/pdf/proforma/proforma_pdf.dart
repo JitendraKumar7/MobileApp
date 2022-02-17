@@ -11,11 +11,9 @@ Future<Uint8List> getProformaPdf(ProformaModal modal) async {
     modal.timestamp,
   );
   final page = MultiPage(
-    pageTheme: await pageTheme,
-    crossAxisAlignment: CrossAxisAlignment.start,
+    build: (Context context) => bodyProforma(context, modal),
     header: (Context context) => headerFrom(modal.company, header),
     footer: (Context context) => footer(context, modal.company.name),
-    build: (Context context) => bodyProforma(context, modal),
   );
   return create(page);
 }

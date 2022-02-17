@@ -4,6 +4,7 @@ import 'package:tally/modal/modal.dart';
 
 import '../component/component.dart';
 
+// TODO [QUOTATION PDF BODY]
 Future<Uint8List> getQuotationPdf(QuotationModal modal) async {
   var header = HeaderModal.fromLedger(
     'QUOTATION',
@@ -11,18 +12,17 @@ Future<Uint8List> getQuotationPdf(QuotationModal modal) async {
     modal.timestamp,
   );
   final page = Page(
-    pageTheme: await pageTheme,
     build: (Context context) => Column(
       children: [
         headerFrom(modal.company, header),
-        bodyQuotation(context,modal.data),
+        bodyQuotation(context, modal.data),
         Expanded(child: Text('')),
-        Text('NOTE : '),
+        Text('NOTE : ', style: const TextStyle(fontSize: 12)),
         SizedBox(height: 6),
-        Text('Terms & Conditions', style: const TextStyle(fontSize: 14)),
+        Text('Terms & Conditions', style: const TextStyle(fontSize: 12)),
         SizedBox(height: 9),
-        Text(modal.remark, style: const TextStyle(fontSize: 12)),
-        footer(context,  modal.company.name),
+        Text(modal.remark, style: const TextStyle(fontSize: 11)),
+        footer(context, modal.company.name),
       ],
       crossAxisAlignment: CrossAxisAlignment.start,
     ),

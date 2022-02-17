@@ -42,8 +42,8 @@ class LedgerViewPage extends StatelessWidget {
         CardView('registration', children: [
           RowView(title: 'Parent', value: modal.parent),
           RowView(title: 'GSTIN', value: modal.partyGstin),
-          RowView(title: 'Prior State', value: modal.priorStateName),
-          RowView(title: 'IT Number', value: modal.incomeTexNumber),
+          RowView(title: 'State', value: modal.priorStateName),
+          RowView(title: 'PAN No.', value: modal.incomeTexNumber),
           RowView(
             title: 'GSTIN Type',
             value: modal.gstRegistrationType,

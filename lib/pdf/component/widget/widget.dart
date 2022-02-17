@@ -6,11 +6,34 @@ import '../component.dart';
 
 const colorBlue = PdfColor.fromInt(0xFF64B5F6);
 const colorGray = PdfColor.fromInt(0xFFEFEFEF);
+const colorBlack = PdfColor.fromInt(0x00000000);
 const colorWhite = PdfColor.fromInt(0xFFFFFFFF);
 
-const headerStyle = TextStyle(color: colorWhite);
+const cellStyle = TextStyle(
+  color: colorBlack,
+  fontSize: 10,
+);
+const headerStyle = TextStyle(
+  color: colorWhite,
+  fontSize: 12,
+);
 const headerDecoration = BoxDecoration(color: colorBlue);
 const oddRowDecoration = BoxDecoration(color: colorGray);
+
+const headerSpace = EdgeInsets.only(bottom: 6, top: 6);
+
+TableRow tableRow(String left, String right) {
+  return TableRow(children: [
+    Padding(
+      padding: const EdgeInsets.fromLTRB(0, 3, 3, 3),
+      child: Text(left, style: const TextStyle(fontSize: 11)),
+    ),
+    Padding(
+      padding: const EdgeInsets.fromLTRB(3, 3, 0, 3),
+      child: Text(right, style: const TextStyle(fontSize: 11)),
+    ),
+  ]);
+}
 
 Widget table({
   int headerCount = 1,
@@ -25,6 +48,7 @@ Widget table({
     data: data,
     border: null,
     headers: headers,
+    cellStyle: cellStyle,
     headerCount: headerCount,
     headerStyle: headerStyle,
     columnWidths: columnWidths,
@@ -39,15 +63,15 @@ Widget table({
 Widget footer(Context context, String? text) {
   const margin = EdgeInsets.only(top: 1.0 * PdfPageFormat.cm);
   return Column(children: [
-    Divider(
-      thickness: 9,
-      color: colorBlue,
-    ),
+    Divider(thickness: 9, color: colorBlue),
     if (text != null) ...[
       Container(
         alignment: Alignment.centerRight,
         margin: margin,
-        child: Text(text),
+        child: Text(
+          text,
+          style: const TextStyle(fontSize: 13),
+        ),
       ),
       Container(
         alignment: Alignment.centerRight,
@@ -60,10 +84,21 @@ Widget footer(Context context, String? text) {
     ],
     Container(
       margin: text == null ? margin : EdgeInsets.zero,
-      child: Text(
-        'Page ${context.pageNumber} of ${context.pagesCount}',
-        style: const TextStyle(fontSize: 12),
-      ),
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        SizedBox(),
+        SizedBox(),
+        UrlLink(
+          child: Text(
+            'Powered by TallyKonnect.com',
+            style: const TextStyle(fontSize: 12),
+          ),
+          destination: 'https://tallykonnect.com/',
+        ),
+        Text(
+          'Page ${context.pageNumber} of ${context.pagesCount}',
+          style: const TextStyle(fontSize: 12),
+        ),
+      ]),
     ),
   ]);
 }
@@ -81,62 +116,43 @@ Widget headerAcc({
       child: Text(
         name,
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
       ),
-      padding: const EdgeInsets.only(
-        bottom: 9,
-        right: 18,
-        left: 18,
-        top: 18,
-      ),
+      padding: const EdgeInsets.only(bottom: 6),
     ),
     Container(
       alignment: Alignment.center,
-      child: Text(label),
-      padding: const EdgeInsets.only(
-        bottom: 9,
-        right: 18,
-        left: 18,
-        top: 9,
+      child: Text(
+        label,
+        style: const TextStyle(fontSize: 10),
       ),
+      padding: headerSpace,
     ),
     Container(
       alignment: Alignment.center,
       child: Text(
         party,
-        style: TextStyle(fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
       ),
-      padding: const EdgeInsets.only(
-        bottom: 9,
-        right: 18,
-        left: 18,
-        top: 9,
-      ),
+      padding: headerSpace,
     ),
     Container(
       alignment: Alignment.center,
       child: Text(
         gst,
-        style: TextStyle(fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
       ),
-      padding: const EdgeInsets.only(
-        bottom: 9,
-        right: 18,
-        left: 18,
-        top: 9,
-      ),
+      padding: headerSpace,
     ),
     Container(
       alignment: Alignment.center,
       child: Text(
         period,
-        style: TextStyle(fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
       ),
       padding: const EdgeInsets.only(
-        bottom: 18,
-        right: 18,
-        left: 18,
-        top: 9,
+        bottom: 12,
+        top: 6,
       ),
     ),
   ]);
@@ -147,63 +163,22 @@ Widget headerTo(CompanyModal to, HeaderModal modal) {
     Container(
       width: 19 * PdfPageFormat.cm,
       height: 40,
-      child: Text(modal.getTitle, textScaleFactor: 1.5),
+      child: Text(
+        modal.getTitle,
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+      ),
       alignment: Alignment.topCenter,
     ),
     Table(columnWidths: {
       0: const FlexColumnWidth(1),
       1: const FlexColumnWidth(1),
     }, children: [
-      TableRow(children: [
-        Padding(
-          padding: const EdgeInsets.all(3),
-          child: Text('FROM'),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(3),
-          child: Text('TO'),
-        ),
-      ]),
-      TableRow(children: [
-        Padding(
-          padding: const EdgeInsets.all(3),
-          child: Text(modal.getName),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(3),
-          child: Text(to.getName),
-        ),
-      ]),
-      TableRow(children: [
-        Padding(
-          padding: const EdgeInsets.all(3),
-          child: Text(modal.getAddress),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(3),
-          child: Text(to.getAddress),
-        ),
-      ]),
-      TableRow(children: [
-        Padding(
-          padding: const EdgeInsets.all(3),
-          child: Text(modal.getGstin),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(3),
-          child: Text('GSTIN : ${to.gstin ?? ''}'),
-        ),
-      ]),
-      TableRow(children: [
-        Padding(
-          padding: const EdgeInsets.all(3),
-          child: Text(modal.getInvoiceNo),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(3),
-          child: Text(modal.getDate),
-        ),
-      ]),
+      tableRow('FROM', 'TO'),
+      tableRow(modal.getName, to.getName),
+      tableRow(modal.getAddress, to.getAddress),
+      tableRow(modal.getGstin, 'GSTIN : ${to.gstin ?? ''}'),
+      tableRow(modal.getInvoiceNo, modal.getDate),
     ]),
     SizedBox(height: 18),
   ]);
@@ -214,63 +189,22 @@ Widget headerFrom(CompanyModal from, HeaderModal modal) {
     Container(
       width: 19 * PdfPageFormat.cm,
       height: 40,
-      child: Text(modal.getTitle, textScaleFactor: 1.5),
+      child: Text(
+        modal.getTitle,
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+      ),
       alignment: Alignment.topCenter,
     ),
     Table(columnWidths: {
       0: const FlexColumnWidth(1),
       1: const FlexColumnWidth(1),
     }, children: [
-      TableRow(children: [
-        Padding(
-          padding: const EdgeInsets.all(3),
-          child: Text('FROM'),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(3),
-          child: Text('TO'),
-        ),
-      ]),
-      TableRow(children: [
-        Padding(
-          padding: const EdgeInsets.all(3),
-          child: Text(from.getName),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(3),
-          child: Text(modal.getName),
-        ),
-      ]),
-      TableRow(children: [
-        Padding(
-          padding: const EdgeInsets.all(3),
-          child: Text(from.getAddress),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(3),
-          child: Text(modal.getAddress),
-        ),
-      ]),
-      TableRow(children: [
-        Padding(
-          padding: const EdgeInsets.all(3),
-          child: Text('GSTIN : ${from.gstin ?? ' '}'),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(3),
-          child: Text(modal.getGstin),
-        ),
-      ]),
-      TableRow(children: [
-        Padding(
-          padding: const EdgeInsets.all(3),
-          child: Text(modal.getInvoiceNo),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(3),
-          child: Text(modal.getDate),
-        ),
-      ]),
+      tableRow('FROM', 'TO'),
+      tableRow(from.getName, modal.getName),
+      tableRow(from.getAddress, modal.getAddress),
+      tableRow('GSTIN : ${from.gstin ?? ''}', modal.getGstin),
+      tableRow(modal.getInvoiceNo, modal.getDate),
     ]),
     SizedBox(height: 18),
   ]);

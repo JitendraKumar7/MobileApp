@@ -4,6 +4,7 @@ import 'package:tally/modal/modal.dart';
 
 import '../component/component.dart';
 
+// TODO [PURCHASE PDF BODY]
 Future<Uint8List> getPurchaseOrderPdf(OrderModal modal) async {
   var header = HeaderModal.fromLedger(
     'PURCHASE ORDER',
@@ -12,7 +13,6 @@ Future<Uint8List> getPurchaseOrderPdf(OrderModal modal) async {
     'Order No. : ',
   );
   final page = Page(
-    pageTheme: await pageTheme,
     build: (Context context) => Column(
       children: [
         headerFrom(modal.company, header),

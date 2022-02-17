@@ -19,7 +19,9 @@ class Transaction extends InvoiceModal {
   @override
   String get date => getDateFormat(voucherDate ?? '', '');
 
-  String get amount => balance.abs().toStringAsFixed(2);
+  String get amount => balance.toStringAsFixed(2);
+
+  //String get amount => balance.abs().toStringAsFixed(2);
 
   double get balance => double.tryParse('$totalAmount') ?? 0;
 
@@ -148,16 +150,14 @@ class StatementModal {
 
   Widget data(int i, int j) {
     if (i == 0) {
+      var _opBal = Text(
+        opBal.abs().toStringAsFixed(2),
+        style: const TextStyle(fontWeight: FontWeight.bold),
+      );
       if (opBal < 0 && j == 3) {
-        return Text(
-          opBal.abs().toStringAsFixed(2),
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        );
+        return _opBal;
       } else if (opBal > 0 && j > 3) {
-        return Text(
-          opBal.abs().toStringAsFixed(2),
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        );
+        return _opBal;
       }
 
       if (j == 0) {
@@ -171,16 +171,14 @@ class StatementModal {
     }
 
     if (i > length - 2) {
+      var _clBal = Text(
+        clBal.abs().toStringAsFixed(2),
+        style: const TextStyle(fontWeight: FontWeight.bold),
+      );
       if (clBal < 0 && j == 3) {
-        return Text(
-          clBal.abs().toStringAsFixed(2),
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        );
+        return _clBal;
       } else if (clBal > 0 && j > 3) {
-        return Text(
-          clBal.abs().toStringAsFixed(2),
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        );
+        return _clBal;
       }
 
       if (j == 0) {
@@ -212,8 +210,8 @@ class StatementModal {
         'Opening Bal.',
         '',
         '',
-        opBal > 0 ? '' : opBal.abs().toStringAsFixed(2),
-        opBal > 0 ? opBal.abs().toStringAsFixed(2) : '',
+        opBal > 0 ? '' : opBal.toStringAsFixed(2),
+        opBal > 0 ? opBal.toStringAsFixed(2) : '',
       ],
       ...transaction.map((e) => e.value).toList(),
       [
@@ -221,8 +219,8 @@ class StatementModal {
         'Closing Bal.',
         '',
         '',
-        clBal > 0 ? '' : clBal.abs().toStringAsFixed(2),
-        clBal > 0 ? clBal.abs().toStringAsFixed(2) : '',
+        clBal > 0 ? '' : clBal.toStringAsFixed(2),
+        clBal > 0 ? clBal.toStringAsFixed(2) : '',
       ],
     ];
   }
