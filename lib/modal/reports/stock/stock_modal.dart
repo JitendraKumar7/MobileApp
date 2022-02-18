@@ -2,10 +2,52 @@ import 'dart:convert';
 
 import '../../modal.dart';
 
+class StockItem {
+  dynamic name;
+  dynamic rate;
+  dynamic parent;
+  dynamic amount;
+  dynamic quantity;
+  dynamic category;
+  dynamic openingBalance;
+
+  dynamic isExpanded = false;
+
+  String get getName => name?.toUpperCase() ?? '';
+
+  StockItem();
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['OPENINGBALANCE'] = openingBalance;
+    data['CATEGORY'] = category;
+    data['QUANTITY'] = quantity;
+    data['AMOUNT'] = amount;
+    data['PARENT'] = parent;
+    data['RATE'] = rate;
+    data['NAME'] = name;
+    return data;
+  }
+
+  StockItem.fromJson(Map<String, dynamic>? json) {
+    if (json == null) return;
+    openingBalance = json['OPENINGBALANCE'];
+    category = json['CATEGORY'];
+    quantity = json['QUANTITY'];
+    amount = json['AMOUNT'];
+    parent = json['PARENT'];
+    rate = json['RATE'];
+    name = json['NAME'];
+  }
+
+  @override
+  String toString() => jsonEncode(toJson());
+}
+
 class StockModal {
   dynamic parent;
 
-  List<ItemModal> items = [];
+  List<StockItem> items = [];
 
   StockModal();
 
@@ -22,7 +64,7 @@ class StockModal {
     if (json == null) return;
     parent = json['PARENT'];
     (json['ITEMS'] ?? []).forEach((e) {
-      items.add(ItemModal.fromJson(e));
+      items.add(StockItem.fromJson(e));
     });
   }
 

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:tally/constant/constant.dart';
 import 'package:tally/modal/modal.dart';
 import 'package:tally/widget/widget.dart';
 
-class ViewStockPage extends StatelessWidget {
+class ViewStockPage extends StatefulWidget {
   final StockModal modal;
 
   static Route page(StockModal modal) {
@@ -11,39 +12,53 @@ class ViewStockPage extends StatelessWidget {
 
   const ViewStockPage(this.modal, {Key? key}) : super(key: key);
 
-  Widget itemView(ItemModal modal) {
-    return Card(
-      clipBehavior: Clip.hardEdge,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(6),
-      ),
-      child: ListTile(
-        onTap: () {
-          //var page = MasterItemView.page(modal);
-          //Navigator.push(context, page);
-        },
-        leading: const CircleAvatar(
-          child: Icon(
-            Icons.add_shopping_cart,
-            color: Colors.white,
+  @override
+  State<ViewStockPage> createState() => _ViewStockPageState();
+}
+
+class _ViewStockPageState extends State<ViewStockPage> {
+  ExpansionPanel itemView(StockItem modal) {
+    return ExpansionPanel(
+      body: Table(children: [
+        TableRow(children: [
+          Text('${modal.rate}'),
+          Text('${modal.quantity}'),
+        ]),
+        TableRow(children: [
+          Text('${modal.amount}'),
+          Text('${modal.openingBalance}'),
+        ]),
+      ]),
+      canTapOnHeader: true,
+      isExpanded: modal.isExpanded,
+      headerBuilder: (BuildContext context, bool isExpanded) {
+        return ListTile(
+          leading: const Leading(reportStocks),
+          title: Text(
+            modal.getName,
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-        ),
-        title: Text(
-          modal.getName,
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
-      ),
+        );
+      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        padding: const EdgeInsets.all(12),
-        children: modal.items.map(itemView).toList(),
+      body: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.all(12),
+          child: ExpansionPanelList(
+            expansionCallback: (int index, bool isExpanded) {
+              var item = widget.modal.items[index];
+              setState(() => item.isExpanded = !item.isExpanded);
+            },
+            children: widget.modal.items.map(itemView).toList(),
+          ),
+        ),
       ),
-      appBar: const Toolbar('STOCKS'),
+      appBar: Toolbar(widget.modal.name),
     );
   }
 }

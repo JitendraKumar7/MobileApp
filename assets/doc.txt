@@ -1,6 +1,7 @@
 CI6Ajop6WDXYozpn6vvEQRdl3Yy2 - vijay
 vipkcBNmWFaZYJy57tvZOX6CuNt2 - rakesh
 X2peeIquxjWxmR3SbGFMni6rgqJ3 - meo.rakesh2020@gmail.com
+jitendra7.meo@gmail.com - zX1YV95PmpVhsVez5Q07wox3mGi1
 
 
 https://stackoverflow.com/questions/51845559/generate-sha-1-for-flutter-react-native-android-native-app

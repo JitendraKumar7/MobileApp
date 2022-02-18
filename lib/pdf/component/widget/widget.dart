@@ -17,6 +17,7 @@ const headerStyle = TextStyle(
   color: colorWhite,
   fontSize: 12,
 );
+
 const headerDecoration = BoxDecoration(color: colorBlue);
 const oddRowDecoration = BoxDecoration(color: colorGray);
 
