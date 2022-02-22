@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:tally/widget/widget.dart';
 
@@ -36,7 +36,7 @@ class QueryStreamBuilder<T> extends StatelessWidget {
         return Shimmer.fromColors(
           baseColor: Colors.blue,
           highlightColor: Colors.orange,
-          child: const Center(child: CupertinoActivityIndicator()),
+          child: const Center(child: SpinKitWave(color: Colors.white)),
         );
       },
     );
@@ -114,6 +114,38 @@ class _SearchViewState<T> extends State<SearchView<T>> {
         borderRadius: BorderRadius.circular(6),
       ),
       child: widget.builder(doc.data()),
+    );
+  }
+}
+
+typedef ChildrenLoader<T> = Widget Function(
+    List<QueryDocumentSnapshot<T>> docs);
+
+class StreamLoader<T> extends StatelessWidget {
+  final Stream<QuerySnapshot<T>> stream;
+  final ChildrenLoader<T> loader;
+
+  const StreamLoader({
+    Key? key,
+    required this.loader,
+    required this.stream,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+      stream: stream,
+      builder: (_, AsyncSnapshot<QuerySnapshot<T>> snapshot) {
+        if (snapshot.hasData) {
+          var data = snapshot.data?.docs ?? [];
+          return data.isEmpty ? const EmptyView() : loader(data);
+        }
+        return Shimmer.fromColors(
+          baseColor: Colors.blue,
+          highlightColor: Colors.orange,
+          child: const Center(child: SpinKitWave(color: Colors.white)),
+        );
+      },
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../../modal.dart';
@@ -19,29 +20,10 @@ class Transaction extends InvoiceModal {
   @override
   String get date => getDateFormat(voucherDate ?? '', '');
 
-  String get amount => balance.toStringAsFixed(2);
-
-  //String get amount => balance.abs().toStringAsFixed(2);
+  String get amount => balance.abs().toStringAsFixed(2);
 
   double get balance => double.tryParse('$totalAmount') ?? 0;
 
-  //opening or closing -> dr (-) or cr (+)
-  //
-  // Sales -> dr (-) or cr (+)
-  //
-  // Purchase -> dr (-) or cr (+)
-  //
-  // Receipts -> dr (-) or cr (+)
-  //
-  // Payment -> dr (-) or cr (+)
-  //
-  // Debit Note -> dr (-) or cr (+)
-  //
-  // Credit Note -> dr (-) or cr (+)
-  //
-  // Journal -> dr (-) or cr (+)
-  //
-  // Contra -> dr (-) or cr (+)
   List<String> get value => [
         date,
         balance > 0 ? 'To ' : 'By ',
@@ -74,6 +56,7 @@ class StatementModal {
 
   String session = '';
   var company = CompanyModal();
+  DocumentReference? reference;
 
   StatementModal();
 
@@ -93,7 +76,7 @@ class StatementModal {
     return data;
   }
 
-  StatementModal.fromJson(Map<String, dynamic>? json) {
+  StatementModal.fromJson(Map<String, dynamic>? json, this.reference) {
     if (json == null) return;
 
     _name = json['NAME'];
@@ -210,8 +193,8 @@ class StatementModal {
         'Opening Bal.',
         '',
         '',
-        opBal > 0 ? '' : opBal.toStringAsFixed(2),
-        opBal > 0 ? opBal.toStringAsFixed(2) : '',
+        opBal > 0 ? '' : opBal.abs().toStringAsFixed(2),
+        opBal > 0 ? opBal.abs().toStringAsFixed(2) : '',
       ],
       ...transaction.map((e) => e.value).toList(),
       [
@@ -219,8 +202,8 @@ class StatementModal {
         'Closing Bal.',
         '',
         '',
-        clBal > 0 ? '' : clBal.toStringAsFixed(2),
-        clBal > 0 ? clBal.toStringAsFixed(2) : '',
+        clBal > 0 ? '' : clBal.abs().toStringAsFixed(2),
+        clBal > 0 ? clBal.abs().toStringAsFixed(2) : '',
       ],
     ];
   }
@@ -232,5 +215,9 @@ class StatementModal {
   void setDocument(String id, CompanyModal modal) {
     company = modal;
     session = id;
+  }
+
+  void setTransaction(List<Transaction> list) {
+    transaction.addAll(list);
   }
 }

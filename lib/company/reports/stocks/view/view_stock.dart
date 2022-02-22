@@ -3,7 +3,7 @@ import 'package:tally/constant/constant.dart';
 import 'package:tally/modal/modal.dart';
 import 'package:tally/widget/widget.dart';
 
-class ViewStockPage extends StatefulWidget {
+class ViewStockPage extends StatelessWidget {
   final StockModal modal;
 
   static Route page(StockModal modal) {
@@ -12,53 +12,35 @@ class ViewStockPage extends StatefulWidget {
 
   const ViewStockPage(this.modal, {Key? key}) : super(key: key);
 
-  @override
-  State<ViewStockPage> createState() => _ViewStockPageState();
-}
-
-class _ViewStockPageState extends State<ViewStockPage> {
-  ExpansionPanel itemView(StockItem modal) {
-    return ExpansionPanel(
-      body: Table(children: [
-        TableRow(children: [
-          Text('${modal.rate}'),
-          Text('${modal.quantity}'),
+  Widget itemView(StockItem modal) {
+    return Card(
+      clipBehavior: Clip.hardEdge,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(6),
+      ),
+      child: ListTile(
+        leading: const Leading(reportStocks),
+        title: Text(
+          modal.getName,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+        subtitle:
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          Text('Op Bal. ${modal.openingBalance}'),
+          Text('Cl Bal. ${modal.quantity}'),
         ]),
-        TableRow(children: [
-          Text('${modal.amount}'),
-          Text('${modal.openingBalance}'),
-        ]),
-      ]),
-      canTapOnHeader: true,
-      isExpanded: modal.isExpanded,
-      headerBuilder: (BuildContext context, bool isExpanded) {
-        return ListTile(
-          leading: const Leading(reportStocks),
-          title: Text(
-            modal.getName,
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-        );
-      },
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.all(12),
-          child: ExpansionPanelList(
-            expansionCallback: (int index, bool isExpanded) {
-              var item = widget.modal.items[index];
-              setState(() => item.isExpanded = !item.isExpanded);
-            },
-            children: widget.modal.items.map(itemView).toList(),
-          ),
-        ),
+      body: ListView(
+        padding: const EdgeInsets.all(12),
+        children: modal.items.map(itemView).toList(),
       ),
-      appBar: Toolbar(widget.modal.name),
+      appBar: Toolbar(modal.name),
     );
   }
 }

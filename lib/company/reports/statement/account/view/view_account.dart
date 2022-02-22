@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tally/modal/modal.dart';
+import 'package:tally/modal/modal.dart' as m;
+import 'package:tally/services/services.dart';
 import 'package:tally/widget/widget.dart';
 import 'package:lazy_data_table/lazy_data_table.dart';
 
@@ -10,7 +13,7 @@ class ViewStatementPage extends StatelessWidget {
 
   const ViewStatementPage(this.modal, {Key? key}) : super(key: key);
 
-  static Route page(modal) {
+  static Route page(StatementModal modal) {
     return MaterialPageRoute(
       builder: (_) => ViewStatementPage(modal),
     );
@@ -95,32 +98,37 @@ class ViewStatementPage extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: LazyDataTable(
-            columns: 5,
-            rows: modal.length,
-            tableDimensions: const LazyDataTableDimensions(
-              leftHeaderWidth: 90,
-              topHeaderHeight: 50,
-              cellHeight: 50,
-              cellWidth: 180,
-            ),
-            tableTheme: LazyDataTableTheme(
-              alternateRowHeaderBorder: borderWhite,
-              columnHeaderBorder: borderWhite,
-              rowHeaderBorder: borderWhite,
-              cornerBorder: borderWhite,
-              cellBorder: const Border(),
-              alternateCellBorder: const Border(),
-              alternateColumnHeaderBorder: const Border(),
-            ),
-            topHeaderBuilder: (i) =>
-                Center(child: Text(header[i + 1], style: style)),
-            dataCellBuilder: (i, j) => Center(child: modal.data(i, j)),
-            leftHeaderBuilder: (i) =>
-                Center(child: Text(modal.date(i), style: style)),
-            topLeftCornerWidget: Center(child: Text(header[0], style: style)),
-          ),
-        ),
+            child: StreamLoader(
+          stream: db.getTransactions(modal.reference!, modal.name),
+          loader: (List<QueryDocumentSnapshot<m.Transaction>> docs) {
+            modal.setTransaction(docs.map((e) => e.data()).toList());
+            return LazyDataTable(
+              columns: 5,
+              rows: modal.length,
+              tableDimensions: const LazyDataTableDimensions(
+                leftHeaderWidth: 90,
+                topHeaderHeight: 50,
+                cellHeight: 50,
+                cellWidth: 180,
+              ),
+              tableTheme: LazyDataTableTheme(
+                alternateRowHeaderBorder: borderWhite,
+                columnHeaderBorder: borderWhite,
+                rowHeaderBorder: borderWhite,
+                cornerBorder: borderWhite,
+                cellBorder: const Border(),
+                alternateCellBorder: const Border(),
+                alternateColumnHeaderBorder: const Border(),
+              ),
+              topHeaderBuilder: (i) =>
+                  Center(child: Text(header[i + 1], style: style)),
+              dataCellBuilder: (i, j) => Center(child: modal.data(i, j)),
+              leftHeaderBuilder: (i) =>
+                  Center(child: Text(modal.date(i), style: style)),
+              topLeftCornerWidget: Center(child: Text(header[0], style: style)),
+            );
+          },
+        ))
       ]),
     );
   }

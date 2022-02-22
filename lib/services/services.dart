@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:tally/modal/modal.dart';
+import 'package:tally/modal/modal.dart' as m;
 
 FirebaseFirestore get _instance => FirebaseFirestore.instance;
 
@@ -194,13 +195,25 @@ class FirestoreServices {
         .snapshots();
   }
 
+  Stream<QuerySnapshot<m.Transaction>> getTransactions(
+      DocumentReference reference, String name) {
+    return reference
+        .collection(name)
+        .withConverter<m.Transaction>(
+          fromFirestore: (snapshot, _) =>
+              m.Transaction.fromJson(snapshot.data()),
+          toFirestore: (model, _) => model.toJson(),
+        )
+        .snapshots();
+  }
+
   Stream<QuerySnapshot<StatementModal>> getStatement(
       DocumentReference reference) {
     return reference
         .collection('Account Statement')
         .withConverter<StatementModal>(
           fromFirestore: (snapshot, _) =>
-              StatementModal.fromJson(snapshot.data()),
+              StatementModal.fromJson(snapshot.data(), snapshot.reference),
           toFirestore: (model, _) => model.toJson(),
         )
         .snapshots();

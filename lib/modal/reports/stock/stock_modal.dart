@@ -42,6 +42,8 @@ class StockItem {
 
   @override
   String toString() => jsonEncode(toJson());
+
+  bool any(String value) => name.contains(value);
 }
 
 class StockModal {

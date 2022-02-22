@@ -23,6 +23,10 @@ class StockPage extends StatelessWidget {
         stream: db.getStock(reference),
         filter: (StockModal modal, String value) {
           var name = modal.name.toLowerCase();
+          var exist = modal.items.any((e) {
+            return e.any(value.toLowerCase());
+          });
+          debugPrint('$name => exist $exist');
           return name.contains(value.toLowerCase());
         },
         builder: (StockModal modal) => ListTile(
