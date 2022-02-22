@@ -48,3 +48,45 @@ class ButtonView extends StatelessWidget {
     );
   }
 }
+
+class TextButtonView extends StatelessWidget {
+  final GestureTapCallback? onTap;
+  final Color? color;
+  final String label;
+
+  const TextButtonView({
+    Key? key,
+    this.onTap,
+    this.color,
+    required this.label,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Card(
+        clipBehavior: Clip.hardEdge,
+        child: InkWell(
+          onTap: onTap,
+          child: Container(
+            color: color,
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    label.toUpperCase(),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 15,
+                      color: Colors.indigo,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ]),
+          ),
+        ),
+      ),
+    );
+  }
+}

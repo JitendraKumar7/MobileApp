@@ -119,7 +119,6 @@ class FirestoreServices {
               InvoiceModal.fromJson(snapshot.data()),
           toFirestore: (model, _) => model.toJson(),
         )
-        .orderBy('VOUCHERDATE', descending: true)
         .snapshots();
   }
 
@@ -131,7 +130,6 @@ class FirestoreServices {
               InvoiceModal.fromJson(snapshot.data()),
           toFirestore: (model, _) => model.toJson(),
         )
-        .orderBy('VOUCHERDATE', descending: true)
         .snapshots();
   }
 
@@ -143,7 +141,6 @@ class FirestoreServices {
               InvoiceModal.fromJson(snapshot.data()),
           toFirestore: (model, _) => model.toJson(),
         )
-        .orderBy('VOUCHERDATE', descending: true)
         .snapshots();
   }
 
@@ -155,7 +152,6 @@ class FirestoreServices {
               InvoiceModal.fromJson(snapshot.data()),
           toFirestore: (model, _) => model.toJson(),
         )
-        .orderBy('VOUCHERDATE', descending: true)
         .snapshots();
   }
 
@@ -168,7 +164,6 @@ class FirestoreServices {
               InvoiceModal.fromJson(snapshot.data()),
           toFirestore: (model, _) => model.toJson(),
         )
-        .orderBy('VOUCHERDATE', descending: true)
         .snapshots();
   }
 
@@ -181,7 +176,6 @@ class FirestoreServices {
               InvoiceModal.fromJson(snapshot.data()),
           toFirestore: (model, _) => model.toJson(),
         )
-        .orderBy('VOUCHERDATE', descending: true)
         .snapshots();
   }
 

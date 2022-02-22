@@ -19,6 +19,73 @@ class ReceiptsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
+      body: Column(children: [
+        Expanded(
+          child:
+          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            TextButton(onPressed: () {}, child: const Text('APRIL')),
+            TextButton(onPressed: () {}, child: const Text('MAY')),
+          ]),
+        ),
+        const Divider(),
+        Expanded(
+          child:
+          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            TextButton(onPressed: () {}, child: const Text('JUNE')),
+            TextButton(onPressed: () {}, child: const Text('JULY')),
+          ]),
+        ),
+        const Divider(),
+        Expanded(
+          child:
+          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            TextButton(onPressed: () {}, child: const Text('AUGUST')),
+            TextButton(onPressed: () {}, child: const Text('SEPTEMBER')),
+          ]),
+        ),
+        const Divider(),
+        Expanded(
+          child:
+          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            TextButton(onPressed: () {}, child: const Text('OCTOBER')),
+            TextButton(onPressed: () {}, child: const Text('NOVEMBER')),
+          ]),
+        ),
+        const Divider(),
+        Expanded(
+          child:
+          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            TextButton(onPressed: () {}, child: const Text('DECEMBER')),
+            TextButton(onPressed: () {}, child: const Text('JANUARY')),
+          ]),
+        ),
+        const Divider(),
+        Expanded(
+          child:
+          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            TextButton(onPressed: () {}, child: const Text('FEBRUARY')),
+            TextButton(onPressed: () {}, child: const Text('MARCH')),
+          ]),
+        ),
+        const Divider(),
+      ]),
+      appBar: const Toolbar('RECEIPTS'),
+    );
+  }
+}
+class ReceiptsPage1 extends StatelessWidget {
+  final QueryDocumentSnapshot<CompanyModal> document;
+
+  const ReceiptsPage1(this.document, {Key? key}) : super(key: key);
+
+  static Route page(QueryDocumentSnapshot<CompanyModal> document) {
+    return MaterialPageRoute(builder: (_) => ReceiptsPage(document));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
       body: QueryStreamBuilder(
         stream: db.getReceipts(document.reference),
         filter: (InvoiceModal modal, String value) {

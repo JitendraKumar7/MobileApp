@@ -13,7 +13,6 @@ import 'receipts/receipts.dart';
 import 'purchase/purchase.dart';
 import 'statement/statement.dart';
 
-
 class ReportsView extends StatelessWidget {
   const ReportsView(this.document, {Key? key}) : super(key: key);
 
