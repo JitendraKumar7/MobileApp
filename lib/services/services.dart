@@ -32,6 +32,19 @@ class FirestoreServices {
         );
   }
 
+  Stream<QuerySnapshot<ProfileModal>> profile(String id) {
+    return _instance
+        .collection(id)
+        .doc('Tally Konnect')
+        .collection('Users Info')
+        .withConverter<ProfileModal>(
+          fromFirestore: (snapshot, _) =>
+              ProfileModal.fromJson(snapshot.data()),
+          toFirestore: (model, _) => model.toJson(),
+        )
+        .snapshots();
+  }
+
   Stream<DocumentSnapshot<Map<String, dynamic>>> getCompany(String id) {
     return _instance.collection(id).doc('Tally').snapshots();
   }
@@ -111,66 +124,70 @@ class FirestoreServices {
         .snapshots();
   }
 
-  Stream<QuerySnapshot<InvoiceModal>> getSales(DocumentReference reference) {
+  Stream<QuerySnapshot<MonthModal>> getSales(DocumentReference reference) {
     return reference
         .collection('Sales')
-        .withConverter<InvoiceModal>(
-          fromFirestore: (snapshot, _) =>
-              InvoiceModal.fromJson(snapshot.data()),
+        .withConverter<MonthModal>(
+          fromFirestore: (snapshot, _) => MonthModal.fromJson(snapshot.data()),
           toFirestore: (model, _) => model.toJson(),
         )
         .snapshots();
   }
 
-  Stream<QuerySnapshot<InvoiceModal>> getReceipts(DocumentReference reference) {
+  Stream<QuerySnapshot<MonthModal>> getReceipts(DocumentReference reference) {
     return reference
         .collection('Receipt')
-        .withConverter<InvoiceModal>(
-          fromFirestore: (snapshot, _) =>
-              InvoiceModal.fromJson(snapshot.data()),
+        .withConverter<MonthModal>(
+          fromFirestore: (snapshot, _) => MonthModal.fromJson(snapshot.data()),
           toFirestore: (model, _) => model.toJson(),
         )
         .snapshots();
   }
 
-  Stream<QuerySnapshot<InvoiceModal>> getPayments(DocumentReference reference) {
+  Stream<QuerySnapshot<MonthModal>> getPayments(DocumentReference reference) {
     return reference
         .collection('Payment')
-        .withConverter<InvoiceModal>(
-          fromFirestore: (snapshot, _) =>
-              InvoiceModal.fromJson(snapshot.data()),
+        .withConverter<MonthModal>(
+          fromFirestore: (snapshot, _) => MonthModal.fromJson(snapshot.data()),
           toFirestore: (model, _) => model.toJson(),
         )
         .snapshots();
   }
 
-  Stream<QuerySnapshot<InvoiceModal>> getPurchase(DocumentReference reference) {
+  Stream<QuerySnapshot<MonthModal>> getPurchase(DocumentReference reference) {
     return reference
         .collection('Purchase')
-        .withConverter<InvoiceModal>(
-          fromFirestore: (snapshot, _) =>
-              InvoiceModal.fromJson(snapshot.data()),
+        .withConverter<MonthModal>(
+          fromFirestore: (snapshot, _) => MonthModal.fromJson(snapshot.data()),
           toFirestore: (model, _) => model.toJson(),
         )
         .snapshots();
   }
 
-  Stream<QuerySnapshot<InvoiceModal>> getDebitNote(
-      DocumentReference reference) {
+  Stream<QuerySnapshot<MonthModal>> getDebitNote(DocumentReference reference) {
     return reference
         .collection('Debit Note')
-        .withConverter<InvoiceModal>(
-          fromFirestore: (snapshot, _) =>
-              InvoiceModal.fromJson(snapshot.data()),
+        .withConverter<MonthModal>(
+          fromFirestore: (snapshot, _) => MonthModal.fromJson(snapshot.data()),
           toFirestore: (model, _) => model.toJson(),
         )
         .snapshots();
   }
 
-  Stream<QuerySnapshot<InvoiceModal>> getCreditNote(
-      DocumentReference reference) {
+  Stream<QuerySnapshot<MonthModal>> getCreditNote(DocumentReference reference) {
     return reference
         .collection('Credit Note')
+        .withConverter<MonthModal>(
+          fromFirestore: (snapshot, _) => MonthModal.fromJson(snapshot.data()),
+          toFirestore: (model, _) => model.toJson(),
+        )
+        .snapshots();
+  }
+
+  Stream<QuerySnapshot<InvoiceModal>> getInvoiceByMonth(
+      DocumentReference reference) {
+    return reference
+        .collection('TRANSACTION')
         .withConverter<InvoiceModal>(
           fromFirestore: (snapshot, _) =>
               InvoiceModal.fromJson(snapshot.data()),
@@ -206,8 +223,11 @@ class FirestoreServices {
     return reference
         .collection('Account Statement')
         .withConverter<StatementModal>(
-          fromFirestore: (snapshot, _) =>
-              StatementModal.fromJson(snapshot.data(), snapshot.reference),
+          fromFirestore: (snapshot, _) => StatementModal.fromJson(
+            reference: snapshot.reference,
+            json: snapshot.data(),
+            id: snapshot.id,
+          ),
           toFirestore: (model, _) => model.toJson(),
         )
         .snapshots();

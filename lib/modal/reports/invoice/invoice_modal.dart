@@ -217,7 +217,8 @@ class LedgerDetails {
     return name.contains('sales') || name.contains('purchase');
   }
 
-  LedgerDetails.fromJson(Map<String, dynamic> json) {
+  LedgerDetails.fromJson(Map<String, dynamic>? json) {
+    if (json == null) return;
     vatExpAmount = json['VATEXPAMOUNT'];
     ledgerName = json['LEDGERNAME'];
     amount = json['AMOUNT'];

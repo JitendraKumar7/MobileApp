@@ -54,6 +54,7 @@ class StatementModal {
 
   String get name => _name?.toUpperCase() ?? '';
 
+  String id = '';
   String session = '';
   var company = CompanyModal();
   DocumentReference? reference;
@@ -76,7 +77,11 @@ class StatementModal {
     return data;
   }
 
-  StatementModal.fromJson(Map<String, dynamic>? json, this.reference) {
+  StatementModal.fromJson({
+    Map<String, dynamic>? json,
+    required this.reference,
+    required this.id,
+  }) {
     if (json == null) return;
 
     _name = json['NAME'];
@@ -187,14 +192,16 @@ class StatementModal {
       ];
 
   List<List<String>> get value {
+    var _opBal = opBal.abs().toStringAsFixed(2);
+    var _clBal = clBal.abs().toStringAsFixed(2);
     return [
       [
         startDate,
         'Opening Bal.',
         '',
         '',
-        opBal > 0 ? '' : opBal.abs().toStringAsFixed(2),
-        opBal > 0 ? opBal.abs().toStringAsFixed(2) : '',
+        opBal > 0 ? '' : _opBal,
+        opBal > 0 ? _opBal : '',
       ],
       ...transaction.map((e) => e.value).toList(),
       [
@@ -202,8 +209,8 @@ class StatementModal {
         'Closing Bal.',
         '',
         '',
-        clBal > 0 ? '' : clBal.abs().toStringAsFixed(2),
-        clBal > 0 ? clBal.abs().toStringAsFixed(2) : '',
+        clBal > 0 ? '' : _clBal,
+        clBal > 0 ? _clBal : '',
       ],
     ];
   }

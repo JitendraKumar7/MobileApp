@@ -12,14 +12,16 @@ class NavigatePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       unselectedItemColor: Colors.grey,
-      selectedItemColor: Colors.blue,
+      selectedItemColor: Colors.black,
       showUnselectedLabels: true,
       showSelectedLabels: true,
+      backgroundColor: Colors.blue[200],
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Image.asset(
             reportStatement,
             height: 24,
+            color: index == 0 ? Colors.black : Colors.grey,
           ),
           label: 'ACCOUNT STATEMENT',
         ),
@@ -27,6 +29,7 @@ class NavigatePage extends StatelessWidget {
           icon: Image.asset(
             reportStatement,
             height: 24,
+            color: index == 1 ? Colors.black : Colors.grey,
           ),
           label: 'OUTSTANDING',
         ),

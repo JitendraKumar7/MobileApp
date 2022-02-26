@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../widget.dart';
+
 class ButtonView extends StatelessWidget {
   final GestureTapCallback? onTap;
   final Color? color;
@@ -87,6 +89,91 @@ class TextButtonView extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class MonthGridView extends StatelessWidget {
+  final GestureTapCallback? september;
+  final GestureTapCallback? november;
+  final GestureTapCallback? december;
+  final GestureTapCallback? february;
+  final GestureTapCallback? january;
+  final GestureTapCallback? october;
+  final GestureTapCallback? august;
+  final GestureTapCallback? march;
+  final GestureTapCallback? april;
+  final GestureTapCallback? june;
+  final GestureTapCallback? july;
+  final GestureTapCallback? may;
+
+  final String label;
+
+  const MonthGridView(
+    this.label, {
+    Key? key,
+    this.may,
+    this.june,
+    this.july,
+    this.april,
+    this.march,
+    this.august,
+    this.october,
+    this.january,
+    this.november,
+    this.december,
+    this.february,
+    this.september,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(children: [
+        Expanded(
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            TextButtonView(onTap: april, label: 'APRIL'),
+            TextButtonView(onTap: may, label: 'MAY'),
+          ]),
+        ),
+        Expanded(
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            TextButtonView(onTap: june, label: 'JUNE'),
+            TextButtonView(onTap: june, label: 'JULY'),
+          ]),
+        ),
+        Expanded(
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            TextButtonView(onTap: august, label: 'AUGUST'),
+            TextButtonView(onTap: september, label: 'SEPTEMBER'),
+          ]),
+        ),
+        Expanded(
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            TextButtonView(onTap: october, label: 'OCTOBER'),
+            TextButtonView(onTap: november, label: 'NOVEMBER'),
+          ]),
+        ),
+        Expanded(
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            TextButtonView(onTap: december, label: 'DECEMBER'),
+            TextButtonView(onTap: january, label: 'JANUARY'),
+          ]),
+        ),
+        Expanded(
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            TextButtonView(onTap: february, label: 'FEBRUARY'),
+            TextButtonView(onTap: march, label: 'MARCH'),
+          ]),
+        ),
+      ]),
+      appBar: Toolbar(label),
     );
   }
 }

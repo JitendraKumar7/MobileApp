@@ -19,6 +19,7 @@ class OutstandingView extends StatelessWidget {
             Tab(text: 'RECEIVABLE'),
           ],
           labelColor: Colors.blue,
+          unselectedLabelColor: Colors.grey,
         ),
         Expanded(
           child: TabBarView(

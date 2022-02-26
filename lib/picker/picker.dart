@@ -46,7 +46,7 @@ Future<File?> showImagePicker({
     return null;
   }
 
-  return await ImageCropper.cropImage(
+  return await ImageCropper().cropImage(
     compressQuality: compressQuality,
     sourcePath: xFile.path,
     cropStyle: cropStyle,

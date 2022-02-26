@@ -51,6 +51,14 @@ class Summery {
 
   @override
   String toString() => jsonEncode(toJson());
+
+  int compareTo(inputDate) {
+    try {
+      return overDueDate.compareTo(inputDate);
+    } catch (ignore) {
+      return 0;
+    }
+  }
 }
 
 class Outstanding {
@@ -73,9 +81,9 @@ class Outstanding {
   }
 
   String get endDate {
-    /*if (transaction.isNotEmpty) {
+    if (transaction.isNotEmpty) {
       return transaction.last.date;
-    }*/
+    }
     var date = session.split('-').last.trim();
     return getDateParse('31-Mar-$date');
   }
@@ -86,6 +94,11 @@ class Outstanding {
     }
     var date = session.split('-').first.trim();
     return getDateParse('1-Apr-$date');
+  }
+
+  List<List<String>> get data {
+    transaction.sort((a, b) => b.compareTo(a.overDueDate));
+    return transaction.map((e) => e.data).toList();
   }
 
   Map<String, dynamic> toJson() {
@@ -103,14 +116,9 @@ class Outstanding {
     });
   }
 
-  List<List<String>> get data {
-    transaction.sort((a, b) => b.overDueDate.compareTo(a.overDueDate));
-    return transaction.map((e) => e.data).toList();
-  }
-
-  void setDocument(String id, CompanyModal modal) {
+  void setDocument(String document, CompanyModal modal) {
+    session = document;
     company = modal;
-    session = id;
   }
 
   @override

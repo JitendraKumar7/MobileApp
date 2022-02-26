@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Leading extends StatelessWidget {
@@ -24,4 +25,23 @@ class Leading extends StatelessWidget {
       child: Image.asset(name),
     );
   }
+}
+
+void showAlertDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return CupertinoAlertDialog(
+        title: const Text('ERROR'),
+        content: const Text('NO RECORD AVAILABLE'),
+        actions: <Widget>[
+          CupertinoDialogAction(
+            isDefaultAction: true,
+            onPressed: () => Navigator.pop(context),
+            child: const Text('CANCEL'),
+          ),
+        ],
+      );
+    },
+  );
 }

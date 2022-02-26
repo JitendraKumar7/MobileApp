@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:safe_device/safe_device.dart';
 import 'package:url_strategy/url_strategy.dart';
 
 import 'app/app.dart';
@@ -38,14 +37,6 @@ Future<void> main() async {
       );
     }*/
   }
-
-  // -> profile page
-
-  // forgot password
-  // logo change
-  // feedback submit
-  // about page (web open)
-  // master title dynamic
 
   final repository = AuthenticationRepository();
   await repository.user.first;

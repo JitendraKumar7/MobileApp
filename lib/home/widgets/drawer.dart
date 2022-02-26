@@ -200,7 +200,7 @@ class DrawerLayout extends StatelessWidget {
         ListTile(
           onTap: () {
             Navigator.of(context).pop();
-            var page = ProfilePage.page();
+            var page = ProfilePage.page(user.id);
             Navigator.push(context, page);
           },
           title: const Text(

@@ -81,6 +81,8 @@ class _SearchViewState<T> extends State<SearchView<T>> {
         : widget.snapshot
             .where((doc) => widget.filter(doc.data(), value))
             .toList());
+
+    setState(() => true);
   }
 
   @override

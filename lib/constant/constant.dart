@@ -10,6 +10,7 @@ const String masterItem = 'assets/icons/items.png';
 const String masterGroup = 'assets/icons/group.png';
 const String masterLedger = 'assets/icons/ledger.png';
 
+const String report = 'assets/icons/report.png';
 const String reportSales = 'assets/icons/sales.png';
 const String reportStocks = 'assets/icons/stocks.png';
 const String reportReceipts = 'assets/icons/receipts.png';

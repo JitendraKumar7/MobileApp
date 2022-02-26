@@ -99,7 +99,7 @@ class ViewStatementPage extends StatelessWidget {
         ),
         Expanded(
             child: StreamLoader(
-          stream: db.getTransactions(modal.reference!, modal.name),
+          stream: db.getTransactions(modal.reference!, modal.id),
           loader: (List<QueryDocumentSnapshot<m.Transaction>> docs) {
             modal.setTransaction(docs.map((e) => e.data()).toList());
             return LazyDataTable(
