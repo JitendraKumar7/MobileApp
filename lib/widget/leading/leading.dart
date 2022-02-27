@@ -32,16 +32,15 @@ void showAlertDialog(BuildContext context) {
     context: context,
     builder: (BuildContext context) {
       return CupertinoAlertDialog(
-        title: const Text('ERROR'),
-        content: const Text('NO RECORD AVAILABLE'),
-        actions: <Widget>[
-          CupertinoDialogAction(
-            isDefaultAction: true,
-            onPressed: () => Navigator.pop(context),
-            child: const Text('CANCEL'),
-          ),
-        ],
-      );
+          title: const Text('ERROR'),
+          content: const Text('NO RECORD AVAILABLE'),
+          actions: <Widget>[
+            CupertinoDialogAction(
+              isDefaultAction: true,
+              onPressed: () => Navigator.pop(context),
+              child: const Text('CANCEL'),
+            ),
+          ]);
     },
   );
 }

@@ -33,6 +33,7 @@ class CreditPage extends StatelessWidget {
     else {
       showAlertDialog(context);
     }
+
   }
 
   @override
