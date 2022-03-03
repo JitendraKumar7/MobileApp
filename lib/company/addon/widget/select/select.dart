@@ -51,10 +51,7 @@ class SelectItemPage extends StatelessWidget {
                         backgroundColor: Colors.white,
                       )
                     : const Leading(masterItem),
-                title: Text(
-                  modal.getName,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
+                title: ListTitle(modal.getName),
               ),
             ),
           ),
@@ -89,10 +86,7 @@ class SelectLedgerPage extends StatelessWidget {
         },
         builder: (LedgerModal modal) => ListTile(
           onTap: () => Navigator.pop(context, modal),
-          title: Text(
-            modal.getName,
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
+          title: ListTitle(modal.getName),
           leading: const Leading(masterLedger),
           subtitle: Text(modal.getAddress, maxLines: 1),
         ),

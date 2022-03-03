@@ -4,6 +4,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:tally/widget/widget.dart';
 
+typedef ChildBuilder<T> = Widget Function(List<QueryDocumentSnapshot<T>> docs);
+
 typedef ChildrenFilter<T> = bool Function(T modal, String value);
 
 typedef ChildrenBuilder<T> = Widget Function(T modal);
@@ -65,13 +67,6 @@ class _SearchViewState<T> extends State<SearchView<T>> {
   final List<QueryDocumentSnapshot<T>> documents = [];
   final controller = TextEditingController();
 
-  InputDecoration get decoration {
-    return InputDecoration(
-      hintText: widget.hintText ?? 'Search..',
-      helperText: '',
-    );
-  }
-
   void search() {
     documents.clear();
     String value = controller.text;
@@ -94,11 +89,12 @@ class _SearchViewState<T> extends State<SearchView<T>> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(padding: const EdgeInsets.all(12), children: [
+    return ListView(padding: const EdgeInsets.all(6), children: [
       TextFormField(
         controller: controller,
-        decoration: decoration,
+        decoration: InputDecoration(hintText: widget.hintText ?? 'Search..'),
       ),
+      const SizedBox(height: 9),
       ...documents.map<Widget>(itemView).toList(),
     ]);
   }
@@ -120,34 +116,33 @@ class _SearchViewState<T> extends State<SearchView<T>> {
   }
 }
 
-typedef ChildrenLoader<T> = Widget Function(
-    List<QueryDocumentSnapshot<T>> docs);
-
 class StreamLoader<T> extends StatelessWidget {
   final Stream<QuerySnapshot<T>> stream;
-  final ChildrenLoader<T> loader;
+  final ChildBuilder<T> builder;
 
   const StreamLoader({
     Key? key,
-    required this.loader,
     required this.stream,
+    required this.builder,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: stream,
-      builder: (_, AsyncSnapshot<QuerySnapshot<T>> snapshot) {
-        if (snapshot.hasData) {
-          var data = snapshot.data?.docs ?? [];
-          return data.isEmpty ? const EmptyView() : loader(data);
-        }
-        return Shimmer.fromColors(
-          baseColor: Colors.blue,
-          highlightColor: Colors.orange,
-          child: const Center(child: SpinKitWave(color: Colors.white)),
-        );
-      },
+    return Scaffold(
+      body: StreamBuilder(
+        stream: stream,
+        builder: (_, AsyncSnapshot<QuerySnapshot<T>> snapshot) {
+          if (snapshot.hasData) {
+            var data = snapshot.data?.docs ?? [];
+            return data.isEmpty ? const EmptyView() : builder(data);
+          }
+          return Shimmer.fromColors(
+            baseColor: Colors.blue,
+            highlightColor: Colors.orange,
+            child: const Center(child: SpinKitWave(color: Colors.white)),
+          );
+        },
+      ),
     );
   }
 }

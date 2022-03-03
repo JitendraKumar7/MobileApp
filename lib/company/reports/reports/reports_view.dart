@@ -38,27 +38,10 @@ class ReportsViewPage extends StatelessWidget {
           return name.contains(value.toLowerCase());
         },
         builder: (InvoiceModal modal) => ListTile(
-          onTap: () => callback(modal),
-          title: Text(
-            modal.partyName,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-          subtitle: Row(
-            children: [
-              Text(
-                modal.id,
-                style: const TextStyle(fontSize: 12),
-              ),
-              Text(
-                modal.date,
-                style: const TextStyle(fontSize: 12),
-              ),
-            ],
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          ),
+          subtitle: ListSubTitle(modal.id, modal.date),
+          title: ListTitle(modal.partyName),
           leading: const Leading(report),
+          onTap: () => callback(modal),
         ),
       ),
       appBar: Toolbar(title),

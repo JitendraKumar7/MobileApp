@@ -24,10 +24,7 @@ class MasterGroups extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        title: Text(
-          modal.getName,
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
+        title: ListTitle(modal.getName),
         subtitle: Text(modal.parent?.trim() ?? ''),
       ),
     );

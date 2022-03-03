@@ -24,15 +24,10 @@ class AccountView extends StatelessWidget {
         leading: const Leading(reportStatement),
         onTap: () {
           modal.setDocument(document.id, document.data());
-          var page = ViewStatementPage.page(modal);
+          var page = ViewStatementPage.page(document, modal);
           Navigator.push(context, page);
         },
-        title: Text(
-          modal.name,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
+        title: ListTitle(modal.name),
       ),
     );
   }

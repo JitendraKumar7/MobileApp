@@ -27,12 +27,7 @@ class ReceivableTab extends StatelessWidget {
           var page = ViewReceivable.page(modal);
           Navigator.push(context, page);
         },
-        title: Text(
-          modal.name,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
+        title: ListTitle(modal.name),
       ),
     );
   }

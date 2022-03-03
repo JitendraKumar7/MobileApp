@@ -39,8 +39,7 @@ class SalesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamLoader(
       stream: db.getSales(document.reference),
-      loader: (List<QueryDocumentSnapshot<MonthModal>> docs) {
-        debugPrint('${docs.map((e) => e.id).toList()}');
+      builder: (List<QueryDocumentSnapshot<MonthModal>> docs) {
         return MonthGridView(
           'SALES',
           september: () => onClick(docs, context, 'September'),

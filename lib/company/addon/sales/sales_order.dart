@@ -34,26 +34,10 @@ class SalesPage extends StatelessWidget {
             var route = ViewSalesOrder.page(modal);
             Navigator.push(context, route);
           },
-          title: Text(
-            modal.name,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
+
+          title: ListTitle(modal.name),
           subtitle: Column(children: [
-            Row(
-              children: [
-                Text(
-                  modal.id,
-                  style: const TextStyle(fontSize: 12),
-                ),
-                Text(
-                  modal.date,
-                  style: const TextStyle(fontSize: 12),
-                ),
-              ],
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            ),
+            ListSubTitle(modal.id, modal.date),
             if (modal.message?.isNotEmpty ?? false)
               Text(
                 modal.message ?? '',

@@ -9,14 +9,33 @@ import 'package:lazy_data_table/lazy_data_table.dart';
 import '../pdf/view_pdf.dart';
 
 class ViewStatementPage extends StatelessWidget {
+  final QueryDocumentSnapshot<CompanyModal> document;
   final StatementModal modal;
 
-  const ViewStatementPage(this.modal, {Key? key}) : super(key: key);
+  const ViewStatementPage(this.document, this.modal, {Key? key})
+      : super(key: key);
 
-  static Route page(StatementModal modal) {
+  static Route page(
+    QueryDocumentSnapshot<CompanyModal> document,
+    StatementModal modal,
+  ) {
     return MaterialPageRoute(
-      builder: (_) => ViewStatementPage(modal),
+      builder: (_) => ViewStatementPage(document, modal),
     );
+  }
+
+  void onPressed(BuildContext context, int i) {
+    InvoiceModal invoice = modal.transaction[i];
+    var voucherType = '${invoice.vchType}'.toLowerCase();
+    // Sales
+    if (voucherType == 'sales') {
+      //var page = ViewSalesPage.page(invoice.setLedger(document));
+      //Navigator.push(context, page);
+    }
+    // Receipt
+    if (voucherType == 'receipt') {}
+
+    debugPrint('${invoice.vchType}');
   }
 
   @override
@@ -98,37 +117,46 @@ class ViewStatementPage extends StatelessWidget {
           ),
         ),
         Expanded(
-            child: StreamLoader(
-          stream: db.getTransactions(modal.reference!, modal.id),
-          loader: (List<QueryDocumentSnapshot<m.Transaction>> docs) {
-            modal.setTransaction(docs.map((e) => e.data()).toList());
-            return LazyDataTable(
-              columns: 5,
-              rows: modal.length,
-              tableDimensions: const LazyDataTableDimensions(
-                leftHeaderWidth: 90,
-                topHeaderHeight: 50,
-                cellHeight: 50,
-                cellWidth: 180,
-              ),
-              tableTheme: LazyDataTableTheme(
-                alternateRowHeaderBorder: borderWhite,
-                columnHeaderBorder: borderWhite,
-                rowHeaderBorder: borderWhite,
-                cornerBorder: borderWhite,
-                cellBorder: const Border(),
-                alternateCellBorder: const Border(),
-                alternateColumnHeaderBorder: const Border(),
-              ),
-              topHeaderBuilder: (i) =>
-                  Center(child: Text(header[i + 1], style: style)),
-              dataCellBuilder: (i, j) => Center(child: modal.data(i, j)),
-              leftHeaderBuilder: (i) =>
-                  Center(child: Text(modal.date(i), style: style)),
-              topLeftCornerWidget: Center(child: Text(header[0], style: style)),
-            );
-          },
-        ))
+          child: StreamLoader(
+            stream: db.getTransactions(modal.reference!, modal.id),
+            builder: (List<QueryDocumentSnapshot<m.Transaction>> docs) {
+              modal.setTransaction(docs.map((e) => e.data()).toList());
+              return LazyDataTable(
+                columns: 5,
+                rows: modal.length,
+                tableDimensions: const LazyDataTableDimensions(
+                  leftHeaderWidth: 90,
+                  topHeaderHeight: 50,
+                  cellHeight: 50,
+                  cellWidth: 180,
+                ),
+                tableTheme: LazyDataTableTheme(
+                  alternateRowHeaderBorder: borderWhite,
+                  columnHeaderBorder: borderWhite,
+                  rowHeaderBorder: borderWhite,
+                  cornerBorder: borderWhite,
+                  cellBorder: const Border(),
+                  alternateCellBorder: const Border(),
+                  alternateColumnHeaderBorder: const Border(),
+                ),
+                topHeaderBuilder: (i) =>
+                    Center(child: Text(header[i + 1], style: style)),
+                dataCellBuilder: (i, j) => Center(
+                  child: j == 2
+                      ? TextButton(
+                          child: modal.data(i, j),
+                          onPressed: () => onPressed(context, i - 1),
+                        )
+                      : modal.data(i, j),
+                ),
+                leftHeaderBuilder: (i) =>
+                    Center(child: Text(modal.date(i), style: style)),
+                topLeftCornerWidget:
+                    Center(child: Text(header[0], style: style)),
+              );
+            },
+          ),
+        )
       ]),
     );
   }

@@ -22,17 +22,9 @@ class ReportsView extends StatelessWidget {
       appBar: const Toolbar('BUSINESS REPORTS'),
       body: Column(children: [
         Container(
-          padding: const EdgeInsets.all(18),
           alignment: Alignment.center,
-          child: Text(
-            document.data().getName,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+          padding: const EdgeInsets.all(18),
+          child: ListTitle(document.data().getName),
         ),
         Expanded(
           child: Row(children: [

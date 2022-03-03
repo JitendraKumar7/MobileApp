@@ -5,4 +5,5 @@ export 'toolbar/toolbar.dart';
 export 'leading/leading.dart';
 export 'navigate/cubit.dart';
 export 'design/design.dart';
+export 'title/title.dart';
 export 'empty/empty.dart';

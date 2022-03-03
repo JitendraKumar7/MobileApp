@@ -131,46 +131,58 @@ class MonthGridView extends StatelessWidget {
     return Scaffold(
       body: Column(children: [
         Expanded(
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-            TextButtonView(onTap: april, label: 'APRIL'),
-            TextButtonView(onTap: may, label: 'MAY'),
-          ]),
+          child: Row(
+            children: [
+              TextButtonView(onTap: april, label: 'APRIL'),
+              TextButtonView(onTap: may, label: 'MAY'),
+            ],
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          ),
         ),
         Expanded(
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-            TextButtonView(onTap: june, label: 'JUNE'),
-            TextButtonView(onTap: june, label: 'JULY'),
-          ]),
+          child: Row(
+            children: [
+              TextButtonView(onTap: june, label: 'JUNE'),
+              TextButtonView(onTap: july, label: 'JULY'),
+            ],
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          ),
         ),
         Expanded(
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-            TextButtonView(onTap: august, label: 'AUGUST'),
-            TextButtonView(onTap: september, label: 'SEPTEMBER'),
-          ]),
+          child: Row(
+            children: [
+              TextButtonView(onTap: august, label: 'AUGUST'),
+              TextButtonView(onTap: september, label: 'SEPTEMBER'),
+            ],
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          ),
         ),
         Expanded(
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-            TextButtonView(onTap: october, label: 'OCTOBER'),
-            TextButtonView(onTap: november, label: 'NOVEMBER'),
-          ]),
+          child: Row(
+            children: [
+              TextButtonView(onTap: october, label: 'OCTOBER'),
+              TextButtonView(onTap: november, label: 'NOVEMBER'),
+            ],
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          ),
         ),
         Expanded(
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-            TextButtonView(onTap: december, label: 'DECEMBER'),
-            TextButtonView(onTap: january, label: 'JANUARY'),
-          ]),
+          child: Row(
+            children: [
+              TextButtonView(onTap: december, label: 'DECEMBER'),
+              TextButtonView(onTap: january, label: 'JANUARY'),
+            ],
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          ),
         ),
         Expanded(
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-            TextButtonView(onTap: february, label: 'FEBRUARY'),
-            TextButtonView(onTap: march, label: 'MARCH'),
-          ]),
+          child: Row(
+            children: [
+              TextButtonView(onTap: february, label: 'FEBRUARY'),
+              TextButtonView(onTap: march, label: 'MARCH'),
+            ],
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          ),
         ),
       ]),
       appBar: Toolbar(label),

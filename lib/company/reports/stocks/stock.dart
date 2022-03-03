@@ -35,7 +35,7 @@ class StockPage extends StatelessWidget {
             Navigator.push(context, page);
           },
           leading: const Leading(reportStocks),
-          title: Text(modal.name),
+          title: ListTitle(modal.name),
         ),
       ),
       appBar: const Toolbar('STOCKS'),

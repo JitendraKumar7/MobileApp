@@ -27,12 +27,7 @@ class PayableTab extends StatelessWidget {
           var page = ViewPayable.page(modal);
           Navigator.push(context, page);
         },
-        title: Text(
-          modal.name,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
+        title: ListTitle(modal.name),
       ),
     );
   }

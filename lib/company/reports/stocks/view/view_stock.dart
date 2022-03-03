@@ -20,15 +20,11 @@ class ViewStockPage extends StatelessWidget {
       ),
       child: ListTile(
         leading: const Leading(reportStocks),
-        title: Text(
-          modal.getName,
-          style: const TextStyle(fontWeight: FontWeight.bold),
+        title: ListTitle(modal.getName),
+        subtitle: ListSubTitle(
+          'Op Bal. ${modal.openingBalance}',
+          'Cl Bal. ${modal.quantity}',
         ),
-        subtitle:
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Text('Op Bal. ${modal.openingBalance}'),
-          Text('Cl Bal. ${modal.quantity}'),
-        ]),
       ),
     );
   }
@@ -37,7 +33,7 @@ class ViewStockPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.all(6),
         children: modal.items.map(itemView).toList(),
       ),
       appBar: Toolbar(modal.name),

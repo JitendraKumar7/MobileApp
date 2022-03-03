@@ -33,15 +33,13 @@ class CreditPage extends StatelessWidget {
     else {
       showAlertDialog(context);
     }
-
   }
 
   @override
   Widget build(BuildContext context) {
     return StreamLoader(
       stream: db.getCreditNote(document.reference),
-      loader: (List<QueryDocumentSnapshot<MonthModal>> docs) {
-        debugPrint('${docs.map((e) => e.id).toList()}');
+      builder: (List<QueryDocumentSnapshot<MonthModal>> docs) {
         return MonthGridView(
           'CREDIT NOTE',
           september: () => onClick(docs, context, 'September'),

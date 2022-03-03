@@ -39,8 +39,7 @@ class DebitPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamLoader(
       stream: db.getDebitNote(document.reference),
-      loader: (List<QueryDocumentSnapshot<MonthModal>> docs) {
-        debugPrint('${docs.map((e) => e.id).toList()}');
+      builder: (List<QueryDocumentSnapshot<MonthModal>> docs) {
         return MonthGridView(
           'DEBIT NOTE',
           september: () => onClick(docs, context, 'September'),

@@ -34,26 +34,9 @@ class PurchasePage extends StatelessWidget {
             var route = ViewPurchaseOrder.page(modal);
             Navigator.push(context, route);
           },
-          title: Text(
-            modal.name,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-          subtitle: Row(
-            children: [
-              Text(
-                modal.id,
-                style: const TextStyle(fontSize: 12),
-              ),
-              Text(
-                modal.date,
-                style: const TextStyle(fontSize: 12),
-              ),
-            ],
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          ),
+          title: ListTitle(modal.name),
           leading: const Leading(addonPurchaseOrder),
+          subtitle: ListSubTitle(modal.id, modal.date),
           //subtitle: Text(modal.date),
         ),
       ),
