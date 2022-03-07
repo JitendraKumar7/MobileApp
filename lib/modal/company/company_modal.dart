@@ -19,7 +19,9 @@ class CompanyModal {
   String get getName => name?.toUpperCase() ?? '';
 
   String get getAddress =>
-      '$address $stateName $countryName, $pinCode.'.toUpperCase();
+      '${address ?? ''} ${stateName ?? ''} ${countryName ?? ''} ${pinCode ?? ''}'
+          .toUpperCase()
+          .trim();
 
   CompanyModal.fromJson(Map<String, dynamic>? json) {
     if (json == null) return;

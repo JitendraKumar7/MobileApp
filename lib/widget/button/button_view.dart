@@ -108,9 +108,11 @@ class MonthGridView extends StatelessWidget {
   final GestureTapCallback? may;
 
   final String label;
+  final String name;
 
   const MonthGridView(
-    this.label, {
+    this.label,
+    this.name, {
     Key? key,
     this.may,
     this.june,
@@ -130,6 +132,11 @@ class MonthGridView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(children: [
+        Container(
+          alignment: Alignment.center,
+          padding: const EdgeInsets.all(18),
+          child: ListTitle(name),
+        ),
         Expanded(
           child: Row(
             children: [

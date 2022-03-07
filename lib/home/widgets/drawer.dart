@@ -8,9 +8,9 @@ import 'package:tally/constant/constant.dart';
 import 'package:tally/modal/modal.dart';
 import 'package:tally/profile/profile.dart';
 import 'package:tally/services/services.dart';
-import 'package:tally/web/web_view.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../about/about.dart';
 import 'avatar.dart';
 
 void supportDialog(BuildContext context) {
@@ -187,7 +187,7 @@ class DrawerLayout extends StatelessWidget {
         ListTile(
           onTap: () {
             Navigator.of(context).pop();
-            Navigator.push(context, WebViewPage.page('About App'));
+            Navigator.push(context, AboutPage.page());
           },
           title: const Text(
             'About App',
@@ -294,7 +294,7 @@ class DrawerLayout extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 24),
                 alignment: Alignment.centerRight,
                 child: Text(
-                  '$appName - $version',
+                  '$appName - $version - $buildNumber',
                   style: Theme.of(context).textTheme.subtitle2,
                 ),
               );

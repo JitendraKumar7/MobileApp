@@ -11,6 +11,8 @@ import 'services/options/firebase_options.dart';
 
 //https://apps.apple.com/app/id1601196670
 
+// About App
+// menu check
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (kIsWeb) {
@@ -19,7 +21,7 @@ Future<void> main() async {
   // is mobile device
   else {
     await Firebase.initializeApp();
-   /* bool isSafeDevice = await SafeDevice.isSafeDevice;
+    /* bool isSafeDevice = await SafeDevice.isSafeDevice;
     if (!isSafeDevice) {
       return runApp(
         const MaterialApp(

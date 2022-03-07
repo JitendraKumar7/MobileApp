@@ -27,7 +27,7 @@ class ProformaPage extends StatelessWidget {
             .snapshots(),
         filter: (ProformaModal modal, String value) {
           var name = modal.name.toLowerCase();
-          return name.contains(value.toLowerCase());
+          return name.contains(value);
         },
         builder: (ProformaModal modal) => ListTile(
           onTap: () {

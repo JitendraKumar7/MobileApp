@@ -17,7 +17,10 @@ class LedgerViewPage extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: const Toolbar('ACCOUNT MASTER'),
       body: ListView(padding: const EdgeInsets.all(12), children: <Widget>[
-        ProfileWidget(capture: (bytes) {}),
+        ProfileWidget(
+          capture: (bytes) {},
+          id: '',
+        ),
         Container(
           padding: const EdgeInsets.all(12),
           alignment: Alignment.center,

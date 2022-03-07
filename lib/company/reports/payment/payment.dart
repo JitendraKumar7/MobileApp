@@ -5,7 +5,6 @@ import 'package:tally/services/services.dart';
 import 'package:tally/widget/widget.dart';
 
 import '../reports_view.dart';
-import 'view/view_payment.dart';
 
 class PaymentsPage extends StatelessWidget {
   final QueryDocumentSnapshot<CompanyModal> document;
@@ -23,7 +22,7 @@ class PaymentsPage extends StatelessWidget {
   ) {
     if (docs.any((e) => e.id == month)) {
       var doc = docs.firstWhere((e) => e.id == month);
-      var page = ReportsViewPage.page(doc, (InvoiceModal modal) {
+      var page = ReportsPage.page(doc, (InvoiceModal modal) {
         var page = ViewPaymentPage.page(modal.setLedger(document));
         Navigator.push(context, page);
       });
@@ -42,6 +41,7 @@ class PaymentsPage extends StatelessWidget {
       builder: (List<QueryDocumentSnapshot<MonthModal>> docs) {
         return MonthGridView(
           'PAYMENTS',
+          document.data().getName,
           september: () => onClick(docs, context, 'September'),
           february: () => onClick(docs, context, 'February'),
           december: () => onClick(docs, context, 'December'),

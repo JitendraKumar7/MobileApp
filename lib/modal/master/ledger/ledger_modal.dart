@@ -22,7 +22,8 @@ class LedgerModal {
   String get getName => name?.toUpperCase() ?? '';
 
   String get getAddress =>
-      '$address $ledStateName $countryName, $pinCode.'.toUpperCase();
+      '${address ?? ''} ${ledStateName ?? ''} ${countryName ?? ''} ${pinCode ?? ''}'
+          .toUpperCase().trim();
 
   LedgerModal();
 

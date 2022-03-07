@@ -27,7 +27,7 @@ class QuotationPage extends StatelessWidget {
             .snapshots(),
         filter: (QuotationModal modal, String value) {
           var name = modal.name.toLowerCase();
-          return name.contains(value.toLowerCase());
+          return name.contains(value);
         },
         builder: (QuotationModal modal) => ListTile(
           onTap: () {

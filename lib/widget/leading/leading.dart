@@ -32,7 +32,7 @@ void showAlertDialog(BuildContext context) {
     context: context,
     builder: (BuildContext context) {
       return CupertinoAlertDialog(
-          title: const Text('ERROR'),
+          title: const Text('EMPTY'),
           content: const Text('NO RECORD AVAILABLE'),
           actions: <Widget>[
             CupertinoDialogAction(

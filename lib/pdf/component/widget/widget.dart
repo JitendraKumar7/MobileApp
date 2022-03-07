@@ -85,9 +85,7 @@ Widget footer(Context context, String? text) {
     ],
     Container(
       margin: text == null ? margin : EdgeInsets.zero,
-      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        SizedBox(),
-        SizedBox(),
+      child: Column(children: [
         UrlLink(
           child: Text(
             'Powered by TallyKonnect.com',

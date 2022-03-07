@@ -17,7 +17,7 @@ class MasterLedger extends StatelessWidget {
       stream: db.getLedger(reference),
       filter: (LedgerModal modal, String value) {
         var name = modal.getName.toLowerCase();
-        return name.contains(value.toLowerCase());
+        return name.contains(value);
       },
       builder: (LedgerModal modal) => ListTile(
         onTap: () {
@@ -30,9 +30,8 @@ class MasterLedger extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-
         title: ListTitle(modal.getName),
-        subtitle: Text(modal.getAddress, maxLines: 1),
+        subtitle: ListSubTitle(modal.getAddress, ''),
       ),
     );
   }

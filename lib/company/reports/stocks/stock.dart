@@ -24,10 +24,10 @@ class StockPage extends StatelessWidget {
         filter: (StockModal modal, String value) {
           var name = modal.name.toLowerCase();
           var exist = modal.items.any((e) {
-            return e.any(value.toLowerCase());
+            return e.any(value);
           });
           debugPrint('$name => exist $exist');
-          return name.contains(value.toLowerCase());
+          return name.contains(value);
         },
         builder: (StockModal modal) => ListTile(
           onTap: () {

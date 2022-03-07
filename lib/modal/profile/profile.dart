@@ -4,6 +4,7 @@ class ProfileModal {
   dynamic uid;
   dynamic email;
   dynamic mobile;
+  dynamic profile;
   dynamic userType;
   dynamic password;
   dynamic lastName;
@@ -19,6 +20,7 @@ class ProfileModal {
     data['lastName'] = lastName;
     data['password'] = password;
     data['userType'] = userType;
+    data['profile'] = profile;
     data['mobile'] = mobile;
     data['email'] = email;
     data['uid'] = uid;
@@ -35,8 +37,14 @@ class ProfileModal {
     lastName = json['lastName'];
     password = json['password'];
     userType = json['userType'];
+    profile = json['profile'];
     mobile = json['mobile'];
     email = json['email'];
     uid = json['uid'];
+  }
+
+  ProfileModal setProfile(String url) {
+    profile = url;
+    return this;
   }
 }

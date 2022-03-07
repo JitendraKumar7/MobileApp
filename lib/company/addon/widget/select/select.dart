@@ -25,7 +25,7 @@ class SelectItemPage extends StatelessWidget {
             stream: db.getItems(reference),
             filter: (ItemModal modal, String value) {
               var name = modal.name?.toLowerCase() ?? '';
-              return name.contains(value.toLowerCase());
+              return name.contains(value);
             },
             builder: (ItemModal modal) => StatefulBuilder(
               builder: (_, setState) => ListTile(
@@ -82,13 +82,13 @@ class SelectLedgerPage extends StatelessWidget {
         stream: db.getLedger(reference),
         filter: (LedgerModal modal, String value) {
           var name = modal.getName.toLowerCase();
-          return name.contains(value.toLowerCase());
+          return name.contains(value);
         },
         builder: (LedgerModal modal) => ListTile(
           onTap: () => Navigator.pop(context, modal),
           title: ListTitle(modal.getName),
           leading: const Leading(masterLedger),
-          subtitle: Text(modal.getAddress, maxLines: 1),
+          subtitle: ListSubTitle(modal.getAddress, ''),
         ),
       ),
       appBar: const Toolbar('SELECT LEDGER'),

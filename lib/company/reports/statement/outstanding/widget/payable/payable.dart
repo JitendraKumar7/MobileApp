@@ -18,7 +18,7 @@ class PayableTab extends StatelessWidget {
       stream: db.getPayable(document.reference),
       filter: (Outstanding modal, String value) {
         var name = modal.name.toLowerCase();
-        return name.contains(value.toLowerCase());
+        return name.contains(value);
       },
       builder: (Outstanding modal) => ListTile(
         leading: const Leading(reportStatement),

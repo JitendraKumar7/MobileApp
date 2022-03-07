@@ -17,7 +17,7 @@ class MasterItems extends StatelessWidget {
       stream: db.getItems(reference),
       filter: (ItemModal modal, String value) {
         var name = modal.getName.toLowerCase();
-        return name.contains(value.toLowerCase());
+        return name.contains(value);
       },
       builder: (ItemModal modal) => ListTile(
         onTap: () {

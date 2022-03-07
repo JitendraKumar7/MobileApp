@@ -69,7 +69,7 @@ class _SearchViewState<T> extends State<SearchView<T>> {
 
   void search() {
     documents.clear();
-    String value = controller.text;
+    String value = controller.text.toLowerCase();
 
     documents.addAll(value.isEmpty
         ? widget.snapshot
@@ -119,9 +119,11 @@ class _SearchViewState<T> extends State<SearchView<T>> {
 class StreamLoader<T> extends StatelessWidget {
   final Stream<QuerySnapshot<T>> stream;
   final ChildBuilder<T> builder;
+  final bool empty;
 
   const StreamLoader({
     Key? key,
+    this.empty = false,
     required this.stream,
     required this.builder,
   }) : super(key: key);
@@ -134,7 +136,7 @@ class StreamLoader<T> extends StatelessWidget {
         builder: (_, AsyncSnapshot<QuerySnapshot<T>> snapshot) {
           if (snapshot.hasData) {
             var data = snapshot.data?.docs ?? [];
-            return data.isEmpty ? const EmptyView() : builder(data);
+            return (data.isEmpty && empty) ? const EmptyView() : builder(data);
           }
           return Shimmer.fromColors(
             baseColor: Colors.blue,

@@ -7,11 +7,11 @@ import 'package:tally/widget/widget.dart';
 
 typedef TapCallback<InvoiceModal> = void Function(InvoiceModal modal);
 
-class ReportsViewPage extends StatelessWidget {
+class ReportsPage extends StatelessWidget {
   final QueryDocumentSnapshot<MonthModal> document;
   final TapCallback<InvoiceModal> callback;
 
-  const ReportsViewPage({
+  const ReportsPage({
     Key? key,
     required this.callback,
     required this.document,
@@ -22,7 +22,7 @@ class ReportsViewPage extends StatelessWidget {
     TapCallback<InvoiceModal> callback,
   ) {
     return MaterialPageRoute(
-      builder: (_) => ReportsViewPage(document: document, callback: callback),
+      builder: (_) => ReportsPage(document: document, callback: callback),
     );
   }
 
@@ -35,7 +35,7 @@ class ReportsViewPage extends StatelessWidget {
         stream: db.getInvoiceByMonth(document.reference),
         filter: (InvoiceModal modal, String value) {
           var name = modal.partyName.toLowerCase();
-          return name.contains(value.toLowerCase());
+          return name.contains(value);
         },
         builder: (InvoiceModal modal) => ListTile(
           subtitle: ListSubTitle(modal.id, modal.date),

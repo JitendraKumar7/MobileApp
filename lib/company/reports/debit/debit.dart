@@ -5,7 +5,6 @@ import 'package:tally/services/services.dart';
 import 'package:tally/widget/widget.dart';
 
 import '../reports_view.dart';
-import 'view/view_debit.dart';
 
 class DebitPage extends StatelessWidget {
   final QueryDocumentSnapshot<CompanyModal> document;
@@ -23,7 +22,7 @@ class DebitPage extends StatelessWidget {
   ) {
     if (docs.any((e) => e.id == month)) {
       var doc = docs.firstWhere((e) => e.id == month);
-      var page = ReportsViewPage.page(doc, (InvoiceModal modal) {
+      var page = ReportsPage.page(doc, (InvoiceModal modal) {
         var page = ViewDebitPage.page(modal.setLedger(document));
         Navigator.push(context, page);
       });
@@ -42,6 +41,7 @@ class DebitPage extends StatelessWidget {
       builder: (List<QueryDocumentSnapshot<MonthModal>> docs) {
         return MonthGridView(
           'DEBIT NOTE',
+          document.data().getName,
           september: () => onClick(docs, context, 'September'),
           february: () => onClick(docs, context, 'February'),
           december: () => onClick(docs, context, 'December'),

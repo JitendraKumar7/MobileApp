@@ -38,7 +38,7 @@ class MasterItemView extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(12),
           child: RowView(
-            title: 'PARENT',
+            title: 'GROUP',
             value: modal.parent,
           ),
         ),

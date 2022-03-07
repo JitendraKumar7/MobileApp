@@ -115,7 +115,10 @@ class _BusinessCardState extends State<BusinessCardPage> {
                         Text(
                           modal.mobile ?? '',
                           maxLines: 1,
-                          style: style,
+                          style: style.copyWith(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ]),

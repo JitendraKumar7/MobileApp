@@ -15,7 +15,7 @@ class MasterGroups extends StatelessWidget {
       stream: db.getGroups(reference),
       filter: (GroupModal modal, String value) {
         var name = modal.name?.toLowerCase() ?? '';
-        return name.contains(value.toLowerCase());
+        return name.contains(value);
       },
       builder: (GroupModal modal) => ListTile(
         leading: const CircleAvatar(
@@ -25,7 +25,7 @@ class MasterGroups extends StatelessWidget {
           ),
         ),
         title: ListTitle(modal.getName),
-        subtitle: Text(modal.parent?.trim() ?? ''),
+        subtitle: ListSubTitle(modal.parent?.trim() ?? '', ''),
       ),
     );
   }

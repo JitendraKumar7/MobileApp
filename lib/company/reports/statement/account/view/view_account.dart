@@ -6,6 +6,7 @@ import 'package:tally/services/services.dart';
 import 'package:tally/widget/widget.dart';
 import 'package:lazy_data_table/lazy_data_table.dart';
 
+import '../../../reports_view.dart';
 import '../pdf/view_pdf.dart';
 
 class ViewStatementPage extends StatelessWidget {
@@ -27,13 +28,37 @@ class ViewStatementPage extends StatelessWidget {
   void onPressed(BuildContext context, int i) {
     InvoiceModal invoice = modal.transaction[i];
     var voucherType = '${invoice.vchType}'.toLowerCase();
-    // Sales
-    if (voucherType == 'sales') {
-      //var page = ViewSalesPage.page(invoice.setLedger(document));
-      //Navigator.push(context, page);
+
+    // Credit note
+    if (voucherType == 'credit note') {
+      var page = ViewCreditPage.page(invoice.setLedger(document));
+      Navigator.push(context, page);
+    }
+    // Debit
+    if (voucherType == 'debit note') {
+      var page = ViewDebitPage.page(invoice.setLedger(document));
+      Navigator.push(context, page);
+    }
+    // Purchase
+    if (voucherType == 'purchase') {
+      var page = ViewPurchasePage.page(invoice.setLedger(document));
+      Navigator.push(context, page);
+    }
+    // Payment
+    if (voucherType == 'payment') {
+      var page = ViewPaymentPage.page(invoice.setLedger(document));
+      Navigator.push(context, page);
     }
     // Receipt
-    if (voucherType == 'receipt') {}
+    if (voucherType == 'receipt') {
+      var page = ViewReceiptsPage.page(invoice.setLedger(document));
+      Navigator.push(context, page);
+    }
+    // Sales
+    if (voucherType == 'sales') {
+      var page = ViewSalesPage.page(invoice.setLedger(document));
+      Navigator.push(context, page);
+    }
 
     debugPrint('${invoice.vchType}');
   }

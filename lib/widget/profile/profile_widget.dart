@@ -1,16 +1,19 @@
 import 'dart:typed_data';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:tally/constant/constant.dart';
 import 'package:tally/picker/picker.dart';
 
 class ProfileWidget extends StatefulWidget {
-  final Function(List<int> bytes) capture;
-  final List<int> bytes;
+  final Function(String url) capture;
+  final String url;
+  final String id;
 
   const ProfileWidget({
     Key? key,
-    this.bytes = const [],
+    this.url = '',
+    required this.id,
     required this.capture,
   }) : super(key: key);
 
@@ -19,16 +22,13 @@ class ProfileWidget extends StatefulWidget {
 }
 
 class _ProfileState extends State<ProfileWidget> {
-  Uint8List? bytes;
-
   void onClicked() async {
-    var data = await showImagePicker(context: context);
-    if (data != null) {
-      var int8List = await data.readAsBytes();
-      setState(() {
-        widget.capture(int8List.toList());
-        bytes = int8List;
-      });
+    var file = await showImagePicker(context: context);
+    if (file != null) {
+      var reference = FirebaseStorage.instance.ref('profile');
+      var snapshot = await reference.child(widget.id).putFile(file);
+      var url = await snapshot.ref.getDownloadURL();
+      setState(() => widget.capture(url));
     }
   }
 
@@ -58,7 +58,7 @@ class _ProfileState extends State<ProfileWidget> {
         color: color,
         all: 8,
         child: Icon(
-          widget.bytes.isEmpty ? Icons.add_a_photo : Icons.edit,
+          widget.url.isEmpty ? Icons.add_a_photo : Icons.edit,
           color: Colors.white,
           size: 20,
         ),
@@ -67,14 +67,12 @@ class _ProfileState extends State<ProfileWidget> {
   }
 
   Widget buildImage() {
-    var _bytes = Uint8List.fromList(widget.bytes);
     var boxFit = BoxFit.cover;
 
-    final image = bytes != null
-        ? Image.memory(bytes!, fit: boxFit)
-        : widget.bytes.isEmpty
-            ? Image.asset(person, fit: boxFit)
-            : Image.memory(_bytes, fit: boxFit);
+    final image = widget.url.isEmpty
+        ? Image.asset(person, fit: boxFit)
+        : Image.network(widget.url, fit: boxFit);
+    //: Image.memory(_bytes, fit: boxFit);
 
     return Container(
       width: 128,

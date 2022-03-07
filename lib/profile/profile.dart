@@ -24,7 +24,11 @@ class ProfilePage extends StatelessWidget {
           ProfileModal modal = docs.first.data();
           debugPrint('PROFILE =>  $modal');
           return ListView(padding: const EdgeInsets.all(12), children: <Widget>[
-            ProfileWidget(capture: (bytes) {}),
+            ProfileWidget(
+              capture: (url) => docs.first.reference.set(modal.setProfile(url)),
+              url: modal.profile ?? '',
+              id: id,
+            ),
             Container(
               padding: const EdgeInsets.all(12),
               alignment: Alignment.center,
@@ -37,8 +41,8 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
 
-            // Information
-            CardView('Information', children: [
+            // About
+            CardView('About', children: [
               RowView(title: 'Mobile', value: modal.mobile),
               RowView(title: 'Email Id', value: modal.email),
               RowView(title: 'Password', value: modal.password),
@@ -47,6 +51,7 @@ class ProfilePage extends StatelessWidget {
           ]);
         },
         stream: db.profile(id),
+        empty: true,
       ),
     );
   }

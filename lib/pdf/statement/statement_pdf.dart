@@ -36,7 +36,7 @@ Future<Uint8List> getReceivablePdf(Outstanding modal) async {
 
 Future<Uint8List> getAccountPdf(StatementModal modal) async {
   final page = MultiPage(
-    maxPages: 99,
+    maxPages: 999,
     header: (Context context) => headerAcc(
       name: modal.company.getName,
       label: 'LEDGER ACCOUNT',

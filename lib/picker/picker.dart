@@ -15,7 +15,7 @@ Future<File?> showImagePicker({
   var source = await showDialog(
     context: context,
     builder: (BuildContext context) => Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(9)),
       child: ListView(shrinkWrap: true, children: [
         const SizedBox(height: 9),
         ListTile(

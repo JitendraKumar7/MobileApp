@@ -18,7 +18,7 @@ class AccountView extends StatelessWidget {
       stream: db.getStatement(document.reference),
       filter: (StatementModal modal, String value) {
         var name = modal.name.toLowerCase();
-        return name.contains(value.toLowerCase());
+        return name.contains(value);
       },
       builder: (StatementModal modal) => ListTile(
         leading: const Leading(reportStatement),
