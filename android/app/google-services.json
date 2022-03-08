@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:93429636162:android:f7b998c09c752b35fa61db",
+        "mobilesdk_app_id": "1:93429636162:android:614abbc5cf12a474fa61db",
         "android_client_info": {
-          "package_name": "com.tally.app"
+          "package_name": "tally.mobile.app"
         }
       },
       "oauth_client": [
@@ -30,6 +30,13 @@
             {
               "client_id": "93429636162-tj41r487teld74g63o9ckvnln2sagsea.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "93429636162-8ef231qod6v312h2qd0spqododpt9un5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.tally.app"
+              }
             }
           ]
         }
@@ -37,9 +44,9 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:93429636162:android:f887b3decd26061cfa61db",
+        "mobilesdk_app_id": "1:93429636162:android:164fe52d6a774206fa61db",
         "android_client_info": {
-          "package_name": "com.tally.konnect"
+          "package_name": "tally.mobile.konnect"
         }
       },
       "oauth_client": [
@@ -59,6 +66,13 @@
             {
               "client_id": "93429636162-tj41r487teld74g63o9ckvnln2sagsea.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "93429636162-8ef231qod6v312h2qd0spqododpt9un5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.tally.app"
+              }
             }
           ]
         }

@@ -30,7 +30,7 @@ const String addonProformaInvoice = 'assets/icons/proforma_invoice.png';
 const String iOS = 'https://apps.apple.com/app/id1601196670';
 
 const String android =
-    'https://play.google.com/store/apps/details?id=com.tally.app';
+    'https://play.google.com/store/apps/details?id=tally.mobile.app';
 
 const String shareMessage = 'Hii Download Tally Mobile App \n\n'
     'iOS\n$iOS \n\nAndroid\n$android';
