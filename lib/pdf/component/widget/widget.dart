@@ -89,13 +89,13 @@ Widget footer(Context context, String? text) {
         UrlLink(
           child: Text(
             'Powered by TallyKonnect.com',
-            style: const TextStyle(fontSize: 12),
+            style: const TextStyle(fontSize: 10),
           ),
           destination: 'https://tallykonnect.com/',
         ),
         Text(
           'Page ${context.pageNumber} of ${context.pagesCount}',
-          style: const TextStyle(fontSize: 12),
+          style: const TextStyle(fontSize: 8),
         ),
       ]),
     ),

@@ -42,14 +42,14 @@ class _BusinessCardState extends State<BusinessCardPage> {
   }
 
   Future<bool> onSave() async {
-    var page = EditBusinessCardPage.page(modal);
+    var page = EditBusinessCardPage.page(widget.document);
     var result = await Navigator.push(context, page);
 
     if (result != null) {
       modal = result;
       try {
         debugPrint('Edit Card wait');
-        //await widget.document.reference.set(result);
+        await reference.update(modal.toJson());
         debugPrint('Edit Card done');
       } catch (e) {
         debugPrint('Error $e');
@@ -59,9 +59,10 @@ class _BusinessCardState extends State<BusinessCardPage> {
   }
 
   var style = const TextStyle(
-    fontSize: 15,
     color: Colors.black,
+    fontSize: 15,
   );
+  late DocumentReference reference;
   late CompanyModal modal;
 
   bool takeScreenshot = false;
@@ -71,6 +72,7 @@ class _BusinessCardState extends State<BusinessCardPage> {
   void initState() {
     super.initState();
     modal = widget.document.data();
+    reference = widget.document.reference;
   }
 
   @override
@@ -94,7 +96,14 @@ class _BusinessCardState extends State<BusinessCardPage> {
                 Container(
                   margin: const EdgeInsets.only(left: 9, right: 9),
                   clipBehavior: Clip.hardEdge,
-                  child: null,
+                  child: modal.logo != null
+                      ? Image.network(
+                          modal.logo ?? '',
+                          height: 45,
+                          width: 60,
+                          fit: BoxFit.fill,
+                        )
+                      : null,
                   decoration: BoxDecoration(
                     color: Colors.grey[100],
                     borderRadius: BorderRadius.circular(6),
@@ -181,7 +190,22 @@ class _BusinessCardState extends State<BusinessCardPage> {
             ]),
           ),
         ),
-        const Expanded(child: SizedBox()),
+        Expanded(
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            ImageWidget(
+              capture: (url) async {
+                modal.signature = url;
+                await reference.update({'SIGNATURE': url});
+              },
+              url: modal.signature ?? '',
+              ref: 'signature',
+              id: widget.document.id,
+              shape: BoxShape.rectangle,
+              width: 220,
+            ),
+            const Text('Update Signature'),
+          ]),
+        ),
         StatefulBuilder(builder: builder)
       ]),
     );
@@ -222,28 +246,28 @@ class _BusinessCardState extends State<BusinessCardPage> {
 }
 
 class EditBusinessCardPage extends StatelessWidget {
-  const EditBusinessCardPage(this.modal, {Key? key}) : super(key: key);
+  const EditBusinessCardPage(this.document, {Key? key}) : super(key: key);
 
-  static Route page(CompanyModal modal) {
-    return MaterialPageRoute(builder: (_) => EditBusinessCardPage(modal));
+  final QueryDocumentSnapshot<CompanyModal> document;
+
+  static Route page(QueryDocumentSnapshot<CompanyModal> document) {
+    return MaterialPageRoute(builder: (_) => EditBusinessCardPage(document));
   }
-
-  final CompanyModal modal;
 
   @override
   Widget build(BuildContext context) {
+    var modal = document.data();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: const Toolbar('BUSINESS CARD'),
       body: Column(children: [
         Expanded(
           child: ListView(padding: const EdgeInsets.all(18), children: [
-            CompanyLogoWidget(
-              capture: (List<int> bytes) {
-                debugPrint('Capture ${bytes.length}');
-                //modal.companyLogo = bytes;
-              },
-              bytes: const [],
+            ImageWidget(
+              capture: (url) => modal.logo = url,
+              url: modal.logo ?? '',
+              ref: 'logo',
+              id: document.id,
             ),
             const SizedBox(height: 24),
             TextFormField(

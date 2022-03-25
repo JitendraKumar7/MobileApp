@@ -38,6 +38,7 @@ class AddonView extends StatelessWidget {
             ),
           ),
         ),
+        //const Divider(),
         Expanded(
           child: Row(children: [
             ButtonView(
@@ -99,6 +100,28 @@ class AddonView extends StatelessWidget {
               onTap: () {
                 var page = ProformaPage.page(document);
                 Navigator.push(context, page);
+              },
+            ),
+          ]),
+        ),
+        //const Divider(),
+        Expanded(
+          child: Row(children: [
+            ButtonView(
+              name: report,
+              label: 'M Box',
+              onTap: () {
+                //var page = QuotationPage.page(document);
+                //Navigator.push(context, page);
+              },
+            ),
+            //const VerticalDivider(),
+            ButtonView(
+              name: gst,
+              label: 'Gst Window',
+              onTap: () {
+                //var page = ProformaPage.page(document);
+                //Navigator.push(context, page);
               },
             ),
           ]),

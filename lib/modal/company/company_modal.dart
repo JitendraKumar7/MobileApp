@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 class CompanyModal {
+  String? logo;
   String? name;
   String? email;
   String? gstin;
@@ -8,6 +9,7 @@ class CompanyModal {
   String? address;
   String? pinCode;
   String? stateName;
+  String? signature;
   String? booksFrom;
   String? countryName;
   String? startingFrom;
@@ -31,12 +33,14 @@ class CompanyModal {
     countryName = json['COUNTRYNAME'];
     booksFrom = json['BOOKSFROM'];
     stateName = json['STATENAME'];
+    signature = json['SIGNATURE'];
     address = json['ADDRESS'];
     pinCode = json['PINCODE'];
     mobile = json['MOBILE'];
     gstin = json['GSTIN'];
     email = json['EMAIL'];
     name = json['NAME'];
+    logo = json['LOGO'];
   }
 
   Map<String, dynamic> toJson() {
@@ -47,12 +51,14 @@ class CompanyModal {
     data['COUNTRYNAME'] = countryName;
     data['BOOKSFROM'] = booksFrom;
     data['STATENAME'] = stateName;
+    data['SIGNATURE'] = signature;
     data['ADDRESS'] = address;
     data['PINCODE'] = pinCode;
     data['MOBILE'] = mobile;
     data['GSTIN'] = gstin;
     data['EMAIL'] = email;
     data['NAME'] = name;
+    data['LOGO'] = logo;
     return data;
   }
 

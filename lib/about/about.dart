@@ -15,15 +15,20 @@ class AboutPage extends StatelessWidget {
       body: Container(
         padding: const EdgeInsets.all(18),
         child: RichText(
-          text:
-              const TextSpan(style: TextStyle(color: Colors.black), children: [
-            TextSpan(
-                text:
-                    'MANAGE YOUR BUSINESS  BY MANAGING YOUR  TALLY  ON MOBILE PHONE'),
-            TextSpan(
-                text:
-                    '\n\nTALLY IS  THE MOST  COMMON  ERP USED IN BUSINESS IN INDIA.  ANY BODY USING TALLY CAN  DOWNLOAD THIS APP AND START VIEWING  HIS COMPANY  FINANCIAL DATA ON MOBILE PHONE.'),
-            TextSpan(
+          text: const TextSpan(
+              style: TextStyle(
+                color: Colors.black,
+                letterSpacing: 3,
+                fontSize: 18,
+              ),
+              children: [
+                TextSpan(
+                    text:
+                        'MANAGE YOUR BUSINESS  BY MANAGING YOUR  TALLY  ON MOBILE PHONE'),
+                TextSpan(
+                    text:
+                        '\n\nTALLY IS  THE MOST  COMMON  ERP USED IN BUSINESS IN INDIA.\n\nANY BODY USING TALLY CAN  DOWNLOAD THIS APP AND START VIEWING  HIS COMPANY  FINANCIAL DATA ON MOBILE PHONE.'),
+                /*TextSpan(
                 text: '\n\nHOW TO DO IT', style: TextStyle(color: Colors.blue)),
             TextSpan(text: '\n\nSTEP 1 - ', children: [
               TextSpan(text: 'GO TO WWW.TALLYKONNECT.COM'),
@@ -55,8 +60,8 @@ class AboutPage extends StatelessWidget {
             ]),
             TextSpan(text: '\n\nSTEP 9 - ', children: [
               TextSpan(text: 'VIEW & SELECT  COMPANY IN MOBILE PHONE'),
-            ]),
-          ]),
+            ]),*/
+              ]),
         ),
       ),
     );

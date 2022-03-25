@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tally/modal/modal.dart';
 import 'package:tally/widget/widget.dart';
 
+import '../constant/constant.dart';
 import '../services/services.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -24,9 +25,14 @@ class ProfilePage extends StatelessWidget {
           ProfileModal modal = docs.first.data();
           debugPrint('PROFILE =>  $modal');
           return ListView(padding: const EdgeInsets.all(12), children: <Widget>[
-            ProfileWidget(
-              capture: (url) => docs.first.reference.set(modal.setProfile(url)),
+            ImageWidget(
+              capture: (url) async {
+                var data = modal.setProfile(url);
+                await docs.first.reference.set(data);
+              },
               url: modal.profile ?? '',
+              asset: person,
+              ref: 'profile',
               id: id,
             ),
             Container(

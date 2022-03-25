@@ -1,6 +1,5 @@
-import 'dart:typed_data';
-
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tally/constant/constant.dart';
 import 'package:tally/picker/picker.dart';
@@ -101,36 +100,55 @@ class _ProfileState extends State<ProfileWidget> {
   }
 }
 
-class CompanyLogoWidget extends StatefulWidget {
-  final Function(List<int> bytes) capture;
-  final List<int> bytes;
+class ImageWidget extends StatefulWidget {
+  final Function(String url) capture;
+  final BoxShape shape;
+  final double height;
+  final double width;
+  final String asset;
+  final String ref;
+  final String url;
+  final String id;
 
-  const CompanyLogoWidget({
+  const ImageWidget({
     Key? key,
-    this.bytes = const [],
+    this.url = '',
+    required this.id,
+    required this.ref,
     required this.capture,
+    this.width = 128,
+    this.height = 128,
+    this.asset = logo,
+    this.shape = BoxShape.circle,
   }) : super(key: key);
 
   @override
-  State<CompanyLogoWidget> createState() => _CompanyLogoState();
+  State<ImageWidget> createState() => _ImageWidgetState();
 }
 
-class _CompanyLogoState extends State<CompanyLogoWidget> {
-  Uint8List? bytes;
+class _ImageWidgetState extends State<ImageWidget> {
+  bool uploading = false;
+  String fileUrl = '';
+
+  @override
+  void initState() {
+    super.initState();
+    fileUrl = widget.url;
+  }
 
   void onClicked() async {
-    var data = await showImagePicker(
-      compressQuality: 60,
-      context: context,
-      maxHeight: 120,
-      maxWidth: 180,
-    );
-    if (data != null) {
-      var int8List = await data.readAsBytes();
-      setState(() {
-        widget.capture(int8List.toList());
-        bytes = int8List;
-      });
+    var file = await showImagePicker(context: context);
+    if (file != null) {
+      setState(() => uploading = true);
+      var reference = FirebaseStorage.instance.ref(widget.ref);
+
+      // upload snapshot
+      var snapshot = await reference.child(widget.id).putFile(file);
+      fileUrl = await snapshot.ref.getDownloadURL();
+      widget.capture(fileUrl);
+
+      // update state
+      setState(() => uploading = false);
     }
   }
 
@@ -138,17 +156,23 @@ class _CompanyLogoState extends State<CompanyLogoWidget> {
   Widget build(BuildContext context) {
     final color = Theme.of(context).colorScheme.primary;
     return Center(
-      child: InkWell(
-        onTap: onClicked,
-        child: Stack(children: [
-          buildImage(),
-          Positioned(
-            bottom: 0,
-            right: 4,
-            child: buildEditIcon(color),
-          ),
-        ]),
-      ),
+      child: uploading
+          ? SizedBox(
+              child: const CupertinoActivityIndicator(),
+              height: widget.height,
+              width: widget.width,
+            )
+          : InkWell(
+              onTap: onClicked,
+              child: Stack(children: [
+                buildImage(),
+                Positioned(
+                  bottom: 0,
+                  right: 4,
+                  child: buildEditIcon(color),
+                ),
+              ]),
+            ),
     );
   }
 
@@ -160,7 +184,7 @@ class _CompanyLogoState extends State<CompanyLogoWidget> {
         color: color,
         all: 8,
         child: Icon(
-          widget.bytes.isEmpty ? Icons.add_a_photo : Icons.edit,
+          widget.url.isEmpty ? Icons.add_a_photo : Icons.edit,
           color: Colors.white,
           size: 20,
         ),
@@ -169,22 +193,19 @@ class _CompanyLogoState extends State<CompanyLogoWidget> {
   }
 
   Widget buildImage() {
-    var _bytes = Uint8List.fromList(widget.bytes);
     var boxFit = BoxFit.cover;
 
-    final image = bytes != null
-        ? Image.memory(bytes!, fit: boxFit)
-        : widget.bytes.isEmpty
-            ? Image.asset(logo, fit: boxFit)
-            : Image.memory(_bytes, fit: boxFit);
+    final image = fileUrl.isNotEmpty
+        ? Image.network(fileUrl, fit: boxFit)
+        : Image.asset(widget.asset, fit: boxFit);
 
     return Container(
-      width: 128,
-      height: 128,
+      width: widget.width,
+      height: widget.height,
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
-        shape: BoxShape.circle,
         border: Border.all(color: Colors.blueAccent),
+        shape: widget.shape,
       ),
       child: image,
     );
@@ -192,13 +213,14 @@ class _CompanyLogoState extends State<CompanyLogoWidget> {
 
   Widget buildCircle({
     required Widget child,
-    required double all,
     required Color color,
+    required double all,
   }) {
     return ClipOval(
       child: Container(
+        clipBehavior: Clip.hardEdge,
         padding: EdgeInsets.all(all),
-        color: color,
+        decoration: BoxDecoration(color: color),
         child: child,
       ),
     );
