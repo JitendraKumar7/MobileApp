@@ -8,7 +8,6 @@ import 'package:tally/constant/constant.dart';
 import 'package:tally/modal/modal.dart';
 import 'package:tally/widget/widget.dart';
 
-//size of 1,048,576 bytes
 class BusinessCardPage extends StatefulWidget {
   const BusinessCardPage(this.document, {Key? key}) : super(key: key);
 
@@ -25,7 +24,7 @@ class BusinessCardPage extends StatefulWidget {
 class _BusinessCardState extends State<BusinessCardPage> {
   final controller = ScreenshotController();
 
-  Future<bool> onShare() async {
+  Future<void> onShare() async {
     final directory = (await getTemporaryDirectory()).path;
     final imagePath = await controller.captureAndSave(
       '$directory/screenshot',
@@ -38,30 +37,29 @@ class _BusinessCardState extends State<BusinessCardPage> {
         text: 'Hy download the tally mobile app',
       );
     }
-    return true;
+    setState(() => takeScreenshot = false);
   }
 
-  Future<bool> onSave() async {
+  Future<void> onSave() async {
     var page = EditBusinessCardPage.page(widget.document);
     var result = await Navigator.push(context, page);
 
     if (result != null) {
-      modal = result;
       try {
-        debugPrint('Edit Card wait');
+        modal = result;
         await reference.update(modal.toJson());
-        debugPrint('Edit Card done');
       } catch (e) {
         debugPrint('Error $e');
       }
     }
-    return true;
+    Navigator.popUntil(context, ModalRoute.withName('/index'));
   }
 
   var style = const TextStyle(
     color: Colors.black,
     fontSize: 15,
   );
+
   late DocumentReference reference;
   late CompanyModal modal;
 
@@ -196,12 +194,14 @@ class _BusinessCardState extends State<BusinessCardPage> {
               capture: (url) async {
                 modal.signature = url;
                 await reference.update({'SIGNATURE': url});
+                Navigator.popUntil(context, ModalRoute.withName('/index'));
               },
               url: modal.signature ?? '',
               ref: 'signature',
               id: widget.document.id,
               shape: BoxShape.rectangle,
-              width: 220,
+              height: 60,
+              width: 120,
             ),
             const Text('Update Signature'),
           ]),
@@ -211,15 +211,14 @@ class _BusinessCardState extends State<BusinessCardPage> {
     );
   }
 
-  Widget builder(context, setState1) {
+  Widget builder(context, setState) {
     return Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
       TextButton.icon(
         onPressed: uploading
             ? null
             : () async {
-                setState1(() => uploading = true);
+                setState(() => uploading = true);
                 await onSave();
-                setState(() => uploading = false);
               },
         icon: uploading
             ? const CupertinoActivityIndicator()
@@ -230,9 +229,8 @@ class _BusinessCardState extends State<BusinessCardPage> {
         onPressed: takeScreenshot
             ? null
             : () async {
-                setState1(() => takeScreenshot = true);
+                setState(() => takeScreenshot = true);
                 await onShare();
-                setState(() => takeScreenshot = false);
               },
         icon: takeScreenshot
             ? const CupertinoActivityIndicator()

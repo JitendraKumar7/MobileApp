@@ -13,7 +13,10 @@ import 'package:tally/widget/widget.dart';
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
-  static Page page() => const MaterialPage<void>(child: HomePage());
+  static Page page() => const MaterialPage<void>(
+        child: HomePage(),
+        name: '/index',
+      );
 
   @override
   Widget build(BuildContext context) {
