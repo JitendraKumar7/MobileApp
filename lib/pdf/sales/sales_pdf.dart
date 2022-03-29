@@ -7,6 +7,7 @@ import '../component/component.dart';
 Future<Uint8List> getSalesPdf(InvoiceModal modal) async {
   var header = HeaderModal.fromInvoice('SALES INVOICE', modal);
   final page = MultiPage(
+    pageTheme: await theme(modal.company),
     build: (Context context) => bodyProduct(context, modal),
     header: (Context context) => headerFrom(modal.company, header),
     footer: (Context context) => footer(context, modal.company.name),

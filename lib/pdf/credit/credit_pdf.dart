@@ -8,6 +8,7 @@ Future<Uint8List> getCreditPdf(InvoiceModal modal) async {
   var header = HeaderModal.fromInvoice('CREDIT NOTE', modal, 'Document ');
 
   final page = MultiPage(
+    pageTheme: await theme(modal.company),
     build: (Context context) => bodyProduct(context, modal),
     header: (Context context) => headerFrom(modal.company, header),
     footer: (Context context) => footer(context, modal.company.name),

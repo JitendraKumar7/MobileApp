@@ -7,6 +7,7 @@ import '../component/component.dart';
 Future<Uint8List> getPaymentPdf(InvoiceModal modal) async {
   var header = HeaderModal.fromInvoice('PAYMENT', modal, 'Document ');
   final page = Page(
+    pageTheme: await theme(modal.company),
     build: (Context context) => Column(children: [
       headerFrom(modal.company, header),
       Divider(thickness: 9, color: colorBlue),

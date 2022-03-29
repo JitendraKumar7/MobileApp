@@ -12,6 +12,7 @@ Future<Uint8List> getQuotationPdf(QuotationModal modal) async {
     modal.timestamp,
   );
   final page = Page(
+    pageTheme: await theme(modal.company),
     build: (Context context) => Column(
       children: [
         headerFrom(modal.company, header),

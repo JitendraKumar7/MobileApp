@@ -19,7 +19,12 @@ class ReportsView extends StatelessWidget {
   Widget build(BuildContext context) {
     var reference = document.reference;
     return Scaffold(
-      appBar: const Toolbar('BUSINESS REPORTS'),
+      appBar: Toolbar('BUSINESS REPORTS', actions: [
+        TextButton(
+          onPressed: null,
+          child: Text(document.id),
+        ),
+      ]),
       body: Column(children: [
         Container(
           alignment: Alignment.center,

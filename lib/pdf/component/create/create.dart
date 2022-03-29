@@ -1,6 +1,9 @@
 import 'dart:typed_data';
 import 'package:flutter/services.dart';
 import 'package:pdf/widgets.dart';
+import 'package:tally/modal/modal.dart';
+
+import '../../../widget/widget.dart';
 
 //https://gist.github.com/JAICHANGPARK/be56df4464ad469e37af9099a82addfe
 Future<Uint8List> create(Page page) async {
@@ -8,6 +11,33 @@ Future<Uint8List> create(Page page) async {
   pdf.addPage(page);
 
   return await pdf.save();
+}
+
+Future<PageTheme> theme(CompanyModal modal, [bool from = true]) async {
+  var signature = await int8List(modal.signature);
+  var logo = await int8List(modal.logo);
+  return PageTheme(
+    buildBackground: signature != null
+        ? (_) => Align(
+              child: Image(
+                MemoryImage(signature),
+                height: 60,
+                width: 120,
+              ),
+              alignment: const Alignment(.95, -.95),
+            )
+        : null,
+    buildForeground: logo != null
+        ? (_) => Align(
+              child: Image(
+                MemoryImage(logo),
+                width: 40,
+                height: 40,
+              ),
+              alignment: Alignment(from ? -1 : 1, 1),
+            )
+        : null,
+  );
 }
 
 Future<PageTheme> get pageTheme async {
