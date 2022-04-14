@@ -22,7 +22,7 @@ class SelectItemPage extends StatelessWidget {
       body: Column(children: [
         Expanded(
           child: QueryStreamBuilder(
-            stream: db.getItems(reference),
+            stream: db.getShowItems(reference),
             filter: (ItemModal modal, String value) {
               var name = modal.name?.toLowerCase() ?? '';
               return name.contains(value);

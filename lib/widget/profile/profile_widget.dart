@@ -230,7 +230,11 @@ class _ImageWidgetState extends State<ImageWidget> {
 }
 
 Future<Uint8List?> int8List(String? url) async {
-  if (url == null) return null;
-  var reference = FirebaseStorage.instance;
-  return reference.refFromURL(url).getData();
+  try {
+    if (url == null) return null;
+    var reference = FirebaseStorage.instance;
+    return reference.refFromURL(url).getData();
+  } catch (ignore) {
+    return null;
+  }
 }

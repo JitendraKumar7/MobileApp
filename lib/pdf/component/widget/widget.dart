@@ -11,11 +11,11 @@ const colorWhite = PdfColor.fromInt(0xFFFFFFFF);
 
 const cellStyle = TextStyle(
   color: colorBlack,
-  fontSize: 10,
+  fontSize: 8,
 );
 const headerStyle = TextStyle(
   color: colorWhite,
-  fontSize: 12,
+  fontSize: 9,
 );
 
 const headerDecoration = BoxDecoration(color: colorBlue);
@@ -27,11 +27,11 @@ TableRow tableRow(String left, String right) {
   return TableRow(children: [
     Padding(
       padding: const EdgeInsets.fromLTRB(0, 3, 3, 3),
-      child: Text(left, style: const TextStyle(fontSize: 11)),
+      child: Text(left, style: const TextStyle(fontSize: 8)),
     ),
     Padding(
       padding: const EdgeInsets.fromLTRB(3, 3, 0, 3),
-      child: Text(right, style: const TextStyle(fontSize: 11)),
+      child: Text(right, style: const TextStyle(fontSize: 8)),
     ),
   ]);
 }
@@ -71,7 +71,7 @@ Widget footer(Context context, String? text) {
         margin: margin,
         child: Text(
           text,
-          style: const TextStyle(fontSize: 13),
+          style: const TextStyle(fontSize: 9),
         ),
       ),
       Container(
@@ -79,7 +79,7 @@ Widget footer(Context context, String? text) {
         margin: const EdgeInsets.only(top: 0.5 * PdfPageFormat.cm),
         child: Text(
           'Auth Signatory',
-          style: const TextStyle(fontSize: 12),
+          style: const TextStyle(fontSize: 8),
         ),
       ),
     ],
@@ -88,20 +88,23 @@ Widget footer(Context context, String? text) {
       child: Column(children: [
         UrlLink(
           child: Text(
-            'Powered by TallyKonnect.com',
-            style: const TextStyle(fontSize: 10),
+            'powered by tallykonnect.com',
+            style: const TextStyle(
+              fontSize: 8,
+            ),
           ),
           destination: 'https://tallykonnect.com/',
         ),
         Text(
-          'Page ${context.pageNumber} of ${context.pagesCount}',
-          style: const TextStyle(fontSize: 8),
+          'page ${context.pageNumber} of ${context.pagesCount}',
+          style: const TextStyle(fontSize: 6),
         ),
       ]),
     ),
   ]);
 }
 
+// Header for Statement
 Widget headerAcc({
   required String gst,
   required String name,
@@ -115,7 +118,7 @@ Widget headerAcc({
       child: Text(
         name,
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
       ),
       padding: const EdgeInsets.only(bottom: 6),
     ),
@@ -123,7 +126,7 @@ Widget headerAcc({
       alignment: Alignment.center,
       child: Text(
         label,
-        style: const TextStyle(fontSize: 10),
+        style: const TextStyle(fontSize: 8),
       ),
       padding: headerSpace,
     ),
@@ -131,7 +134,7 @@ Widget headerAcc({
       alignment: Alignment.center,
       child: Text(
         party,
-        style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
       ),
       padding: headerSpace,
     ),
@@ -139,7 +142,7 @@ Widget headerAcc({
       alignment: Alignment.center,
       child: Text(
         gst,
-        style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold),
       ),
       padding: headerSpace,
     ),
@@ -147,7 +150,7 @@ Widget headerAcc({
       alignment: Alignment.center,
       child: Text(
         period,
-        style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold),
       ),
       padding: const EdgeInsets.only(
         bottom: 12,
@@ -165,7 +168,7 @@ Widget headerTo(CompanyModal to, HeaderModal modal) {
       child: Text(
         modal.getTitle,
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
       ),
       alignment: Alignment.topCenter,
     ),

@@ -10,6 +10,7 @@ class ItemModal {
 
   String get getName => name?.toUpperCase() ?? '';
 
+  bool isShow = true;
   bool isSelected = false;
 
   var stockDetails = StockDetails();
@@ -29,6 +30,7 @@ class ItemModal {
     data['TAXDETAILS'] = taxDetails.map((v) => v.toJson()).toList();
     data['STOCKDETAILS'] = stockDetails.toJson();
     data['PARENT'] = parent;
+    data['SHOW'] = isShow;
     data['RATE'] = rate;
     data['NAME'] = name;
     data['GUID'] = guid;
@@ -43,6 +45,7 @@ class ItemModal {
     (json['TAXDETAILS'] ?? []).forEach((v) {
       taxDetails.add(TaxDetails.fromJson(v));
     });
+    isShow = json['SHOW'] ?? true;
     parent = json['PARENT'];
     rate = json['RATE'];
     name = json['NAME'];

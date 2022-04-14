@@ -75,6 +75,18 @@ class FirestoreServices {
         .snapshots();
   }
 
+  Stream<QuerySnapshot<ItemModal>> getShowItems(DocumentReference reference) {
+    return reference
+        .collection('Item Master')
+        .withConverter<ItemModal>(
+          fromFirestore: (snapshot, _) => ItemModal.fromJson(snapshot.data()),
+          toFirestore: (model, _) => model.toJson(),
+        )
+        .orderBy('NAME')
+        .where('SHOW', isEqualTo: true)
+        .snapshots();
+  }
+
   Stream<QuerySnapshot<GroupModal>> getGroups(DocumentReference reference) {
     return reference
         .collection('Groups')
@@ -193,6 +205,21 @@ class FirestoreServices {
               InvoiceModal.fromJson(snapshot.data()),
           toFirestore: (model, _) => model.toJson(),
         )
+        .snapshots();
+  }
+
+  Stream<QuerySnapshot<InvoiceModal>> getInvoiceByQuery(
+    DocumentReference reference,
+    String? name,
+  ) {
+    return reference
+        .collection('TRANSACTION')
+        .withConverter<InvoiceModal>(
+          fromFirestore: (snapshot, _) =>
+              InvoiceModal.fromJson(snapshot.data()),
+          toFirestore: (model, _) => model.toJson(),
+        )
+        .where('PARTYLEDGERNAME', isEqualTo: name)
         .snapshots();
   }
 

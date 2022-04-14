@@ -83,75 +83,50 @@ class Company extends StatelessWidget {
               leading: Container(
                 width: 48,
                 clipBehavior: Clip.hardEdge,
-                child: Image.asset(logo),
+                child: modal.logo == null
+                    ? Image.asset(logo)
+                    : Image.network(
+                        modal.logo!,
+                        fit: BoxFit.fill,
+                      ),
                 decoration: BoxDecoration(
                   color: Colors.grey[100],
                   shape: BoxShape.circle,
                 ),
               ),
-              subtitle: Column(mainAxisSize: MainAxisSize.min, children: [
-                const SizedBox(height: 6),
-                Row(children: [
-                  Image.asset(
-                    gst,
-                    height: 20,
-                    width: 20,
+              subtitle: DropdownButtonFormField(
+                value: document,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      style: BorderStyle.none,
+                      width: 0,
+                    ),
                   ),
-                  Text(
-                    modal.gstin?.toUpperCase() ?? '',
-                    style: Theme.of(context).textTheme.subtitle2,
-                  ),
-                ]),
-                Row(children: [
-                  Image.asset(
-                    calendar,
-                    height: 24,
-                    width: 24,
-                  ),
-                  Expanded(
+                ),
+                onChanged: (QueryDocumentSnapshot<CompanyModal>? value) {
+                  if (value != null) {
+                    setState(() => document = value);
+                  }
+                },
+                items: docs.map((value) {
+                  return DropdownMenuItem(
+                    value: value,
                     child: Text(
-                      modal.booksFrom?.toUpperCase() ?? '',
+                      value.id,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.subtitle2,
                     ),
-                  ),
-                  SizedBox(
-                    width: 120,
-                    child: DropdownButtonFormField(
-                      value: document,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            style: BorderStyle.none,
-                            width: 0,
-                          ),
-                        ),
-                      ),
-                      onChanged: (QueryDocumentSnapshot<CompanyModal>? value) {
-                        if (value != null) {
-                          setState(() => document = value);
-                        }
-                      },
-                      items: docs.map((value) {
-                        return DropdownMenuItem(
-                          value: value,
-                          child: Text(
-                            value.id,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.subtitle2,
-                          ),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                ]),
-              ]),
+                  );
+                }).toList(),
+              ),
             ),
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
               TextButton(
                 style: style,
                 onPressed: () {
-                  var page = MasterView.page(document.reference);
+                  var page = MasterView.page(document);
                   Navigator.push(context, page);
                 },
                 child: const Text('MASTERS'),
@@ -159,7 +134,7 @@ class Company extends StatelessWidget {
               TextButton(
                 style: style,
                 onPressed: () {
-                  var page = ReportsView.page(document);
+                  var page = ReportsView.page(docs);
                   Navigator.push(context, page);
                 },
                 child: const Text('REPORTS'),

@@ -1,29 +1,63 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
 import 'package:tally/constant/constant.dart';
-import 'package:tally/modal/modal.dart';
 import 'package:tally/widget/widget.dart';
+import 'package:tally/modal/modal.dart';
 
 import '../reports_view.dart';
 
 class ReportsView extends StatelessWidget {
-  const ReportsView(this.document, {Key? key}) : super(key: key);
+  const ReportsView(this.docs, {Key? key}) : super(key: key);
 
-  static Route page(QueryDocumentSnapshot<CompanyModal> document) {
-    return MaterialPageRoute(builder: (_) => ReportsView(document));
+  static Route page(List<QueryDocumentSnapshot<CompanyModal>> docs) {
+    return MaterialPageRoute(builder: (_) => ReportsView(docs));
   }
 
-  final QueryDocumentSnapshot<CompanyModal> document;
+  final List<QueryDocumentSnapshot<CompanyModal>> docs;
 
   @override
   Widget build(BuildContext context) {
-    var reference = document.reference;
+    QueryDocumentSnapshot<CompanyModal> document = docs.first;
     return Scaffold(
       appBar: Toolbar('BUSINESS REPORTS', actions: [
-        TextButton(
-          onPressed: null,
-          child: Text(document.id),
-        ),
+        SizedBox(
+          width: 110,
+          child: StatefulBuilder(builder: (context, setState) {
+            return DropdownButtonFormField(
+              value: document,
+              dropdownColor: Colors.grey,
+              iconEnabledColor: Colors.white,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    style: BorderStyle.none,
+                    width: 0,
+                  ),
+                ),
+              ),
+              onChanged: (QueryDocumentSnapshot<CompanyModal>? value) {
+                if (value != null) {
+                  setState(() => document = value);
+                }
+              },
+              items: docs.map((value) {
+                return DropdownMenuItem(
+                  value: value,
+                  child: Text(
+                    value.id,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 10,
+                    ),
+                  ),
+                );
+              }).toList(),
+            );
+          }),
+        )
       ]),
       body: Column(children: [
         Container(
@@ -103,7 +137,7 @@ class ReportsView extends StatelessWidget {
               name: reportStocks,
               label: 'Stocks',
               onTap: () {
-                var page = StockPage.page(reference);
+                var page = StockPage.page(document.reference);
                 Navigator.push(context, page);
               },
             ),

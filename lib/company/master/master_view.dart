@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tally/modal/company/company_modal.dart';
 import 'package:tally/widget/widget.dart';
 
 import 'widget/bar.dart';
@@ -9,22 +10,22 @@ import 'groups/master_groups.dart';
 import 'ledger/master_ledger.dart';
 
 class MasterView extends StatelessWidget {
-  const MasterView(this.reference, {Key? key}) : super(key: key);
+  final QueryDocumentSnapshot<CompanyModal> document;
 
-  static Route page(DocumentReference reference) {
-    return MaterialPageRoute(builder: (_) => MasterView(reference));
+  const MasterView(this.document, {Key? key}) : super(key: key);
+
+  static Route page(QueryDocumentSnapshot<CompanyModal> document) {
+    return MaterialPageRoute(builder: (_) => MasterView(document));
   }
-
-  final DocumentReference reference;
 
   Widget body(int index) {
     switch (index) {
       case 0:
-        return MasterLedger(reference);
+        return MasterLedger(document);
       case 1:
-        return MasterItems(reference);
+        return MasterItems(document.reference);
       case 2:
-        return MasterGroups(reference);
+        return MasterGroups(document.reference);
       default:
         return Center(child: Text('Error $index'));
     }

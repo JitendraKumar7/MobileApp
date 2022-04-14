@@ -130,6 +130,7 @@ class StreamLoader<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     return Scaffold(
       body: StreamBuilder(
         stream: stream,
@@ -141,7 +142,12 @@ class StreamLoader<T> extends StatelessWidget {
           return Shimmer.fromColors(
             baseColor: Colors.blue,
             highlightColor: Colors.orange,
-            child: const Center(child: SpinKitWave(color: Colors.white)),
+            child: Container(
+              child: const SpinKitWave(color: Colors.white),
+              alignment: Alignment.center,
+              height: size.height,
+              width: size.width,
+            ),
           );
         },
       ),

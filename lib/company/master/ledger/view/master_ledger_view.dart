@@ -1,14 +1,24 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:tally/constant/constant.dart';
+
 import 'package:tally/modal/modal.dart';
 import 'package:tally/widget/widget.dart';
+import 'package:tally/services/services.dart';
+
+import '../../../reports/reports_view.dart';
 
 class LedgerViewPage extends StatelessWidget {
+  final QueryDocumentSnapshot<CompanyModal> document;
   final LedgerModal modal;
 
-  const LedgerViewPage(this.modal, {Key? key}) : super(key: key);
+  const LedgerViewPage(this.document, this.modal, {Key? key}) : super(key: key);
 
-  static Route page(LedgerModal modal) {
-    return MaterialPageRoute(builder: (_) => LedgerViewPage(modal));
+  static Route page(
+    QueryDocumentSnapshot<CompanyModal> document,
+    LedgerModal modal,
+  ) {
+    return MaterialPageRoute(builder: (_) => LedgerViewPage(document, modal));
   }
 
   @override
@@ -64,13 +74,174 @@ class LedgerViewPage extends StatelessWidget {
             value: '₹${modal.closingBalance ?? '0.00'}',
           ),
         ]),
+
         //Account Info
         CardView('Banking Info', children: [
           RowView(title: 'Bank Name', value: modal.bankName),
           RowView(title: 'IFSC Code', value: modal.ifscCode),
           RowView(title: 'Acc. Number', value: modal.accountNumber),
-        ])
+        ]),
+
+        //Account Reports
+        CardView('Account Reports', children: [
+          InkWell(
+            onTap: () {
+              var page = LedgerSalesPage.page(document, modal.name);
+              Navigator.push(context, page);
+            },
+            child: const Text(
+              'SALES INVOICE',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.blue,
+              ),
+            ),
+          ),
+          InkWell(
+            onTap: () {
+              var page = LedgerPurchasePage.page(document, modal.name);
+              Navigator.push(context, page);
+            },
+            child: const Text(
+              'PURCHASE INVOICE',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.blue,
+              ),
+            ),
+          ),
+        ]),
       ]),
+    );
+  }
+}
+
+class LedgerSalesPage extends StatelessWidget {
+  final QueryDocumentSnapshot<CompanyModal> document;
+  final String? partyName;
+
+  const LedgerSalesPage(this.document, this.partyName, {Key? key})
+      : super(key: key);
+
+  static Route page(
+    QueryDocumentSnapshot<CompanyModal> document,
+    String? partyName,
+  ) {
+    return MaterialPageRoute(
+      builder: (_) => LedgerSalesPage(document, partyName),
+    );
+  }
+
+  Widget getByMonth(QueryDocumentSnapshot<MonthModal> document) {
+    return StreamBuilder(
+      stream: db.getInvoiceByQuery(document.reference, partyName),
+      builder: (BuildContext context,
+          AsyncSnapshot<QuerySnapshot<InvoiceModal>> snapshot) {
+        if (snapshot.hasData) {
+          var data = snapshot.data?.docs ?? [];
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: data.map((e) {
+              var modal = e.data();
+              return Card(
+                clipBehavior: Clip.hardEdge,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: ListTile(
+                  subtitle: ListSubTitle(modal.id, modal.date),
+                  title: ListTitle(modal.partyName),
+                  leading: const Leading(report),
+                  onTap: () {
+                    var page =
+                        ViewSalesPage.page(modal.setLedger(this.document));
+                    Navigator.push(context, page);
+                  },
+                ),
+              );
+            }).toList(),
+          );
+        }
+        return const SizedBox.shrink();
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: const Toolbar('SALES INVOICE'),
+      body: StreamLoader(
+        stream: db.getSales(document.reference),
+        builder: (List<QueryDocumentSnapshot<MonthModal>> docs) {
+          return ListView(children: docs.map(getByMonth).toList());
+        },
+      ),
+    );
+  }
+}
+
+class LedgerPurchasePage extends StatelessWidget {
+  final QueryDocumentSnapshot<CompanyModal> document;
+  final String? partyName;
+
+  const LedgerPurchasePage(this.document, this.partyName, {Key? key})
+      : super(key: key);
+
+  static Route page(
+    QueryDocumentSnapshot<CompanyModal> document,
+    String? partyName,
+  ) {
+    return MaterialPageRoute(
+      builder: (_) => LedgerPurchasePage(document, partyName),
+    );
+  }
+
+  Widget getByMonth(QueryDocumentSnapshot<MonthModal> document) {
+    return StreamBuilder(
+      stream: db.getInvoiceByQuery(document.reference, partyName),
+      builder: (BuildContext context,
+          AsyncSnapshot<QuerySnapshot<InvoiceModal>> snapshot) {
+        if (snapshot.hasData) {
+          var data = snapshot.data?.docs ?? [];
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: data.map((e) {
+              var modal = e.data();
+              return Card(
+                clipBehavior: Clip.hardEdge,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: ListTile(
+                  subtitle: ListSubTitle(modal.id, modal.date),
+                  title: ListTitle(modal.partyName),
+                  leading: const Leading(report),
+                  onTap: () {
+                    var page =
+                        ViewPurchasePage.page(modal.setLedger(this.document));
+                    Navigator.push(context, page);
+                  },
+                ),
+              );
+            }).toList(),
+          );
+        }
+        return const SizedBox.shrink();
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: const Toolbar('PURCHASE INVOICE'),
+      body: StreamLoader(
+        stream: db.getPurchase(document.reference),
+        builder: (List<QueryDocumentSnapshot<MonthModal>> docs) {
+          return ListView(children: docs.map(getByMonth).toList());
+        },
+      ),
     );
   }
 }

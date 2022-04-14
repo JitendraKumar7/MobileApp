@@ -14,6 +14,7 @@ Future<Uint8List> create(Page page) async {
 }
 
 Future<PageTheme> theme(CompanyModal modal, [bool from = true]) async {
+  //return const PageTheme();
   var signature = await int8List(modal.signature);
   var logo = await int8List(modal.logo);
   return PageTheme(
