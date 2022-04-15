@@ -34,7 +34,8 @@ class _BusinessCardState extends State<BusinessCardPage> {
       await Share.shareFiles(
         [imagePath],
         subject: 'BUSINESS CARD',
-        text: 'Hy download the tally mobile app',
+        text: 'Start managing your business by managing tally on mobile app.'
+        '\n\n Click: tallykonnect.com',
       );
     }
     setState(() => takeScreenshot = false);

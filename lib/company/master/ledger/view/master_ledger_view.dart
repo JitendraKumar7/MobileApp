@@ -83,9 +83,9 @@ class LedgerViewPage extends StatelessWidget {
         ]),
 
         //Account Reports
-        CardView('Account Reports', children: [
-          InkWell(
-            onTap: () {
+        CardView('Transaction', children: [
+          TextButton(
+            onPressed: () {
               var page = LedgerSalesPage.page(document, modal.name);
               Navigator.push(context, page);
             },
@@ -97,8 +97,8 @@ class LedgerViewPage extends StatelessWidget {
               ),
             ),
           ),
-          InkWell(
-            onTap: () {
+          TextButton(
+            onPressed: () {
               var page = LedgerPurchasePage.page(document, modal.name);
               Navigator.push(context, page);
             },

@@ -32,8 +32,8 @@ const String iOS = 'https://apps.apple.com/app/id1601196670';
 const String android =
     'https://play.google.com/store/apps/details?id=tally.mobile.app';
 
-const String shareMessage = 'Hii Download Tally Mobile App \n\n'
-    'iOS\n$iOS \n\nAndroid\n$android';
+const String shareMessage = 'Remain connected with your business'
+    '\n\nGet Tally on mobile\n\nDownload\n'
+    'TallyKonnect - Tally on mobile app\n'
+    '\niOS\n$iOS \n\nAndroid\n$android';
 
-//id1601196670
-//

@@ -11,8 +11,7 @@ import 'services/options/firebase_options.dart';
 
 //https://apps.apple.com/app/id1601196670
 
-// About App
-// menu check
+// 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
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (kIsWeb) {
