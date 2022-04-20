@@ -27,14 +27,14 @@ apply plugin: 'com.google.firebase.appdistribution'
 apply plugin: 'com.google.gms.google-services'
 
 android {
-    /*signingConfigs {
+    signingConfigs {
         release {
             storeFile file('E:\\Users\\AndroidStudioProjects\\TallyKonnect\\app\\android\\keys\\tallykonnect.jks')
             storePassword 'tallykonnect'
             keyAlias 'tallykonnect'
             keyPassword 'tallykonnect'
         }
-    }*/
+    }
     compileSdkVersion 31
 
     compileOptions {
@@ -48,12 +48,12 @@ android {
         targetSdkVersion 31
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
-        signingConfig signingConfigs.debug
+        signingConfig signingConfigs.release
     }
 
     buildTypes {
         release {
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             applicationIdSuffix '.app'
             proguardFiles
         }

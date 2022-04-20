@@ -12,18 +12,57 @@ import 'quotation/quotation.dart';
 import 'purchase/purchase_order.dart';
 
 class AddonView extends StatelessWidget {
-  const AddonView(this.document, {Key? key}) : super(key: key);
+  const AddonView(this.docs, {Key? key}) : super(key: key);
 
-  static Route page(QueryDocumentSnapshot<CompanyModal> document) {
-    return MaterialPageRoute(builder: (_) => AddonView(document));
+  static Route page(List<QueryDocumentSnapshot<CompanyModal>> docs) {
+    return MaterialPageRoute(builder: (_) => AddonView(docs));
   }
 
-  final QueryDocumentSnapshot<CompanyModal> document;
+  final List<QueryDocumentSnapshot<CompanyModal>> docs;
 
   @override
   Widget build(BuildContext context) {
+    QueryDocumentSnapshot<CompanyModal> document = docs.first;
     return Scaffold(
-      appBar: const Toolbar('BUSINESS ADDONS'),
+        appBar: Toolbar('BUSINESS ADDONS', actions: [
+          SizedBox(
+            width: 110,
+            child: StatefulBuilder(builder: (context, setState) {
+              return DropdownButtonFormField(
+                value: document,
+                dropdownColor: Colors.grey,
+                iconEnabledColor: Colors.white,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      style: BorderStyle.none,
+                      width: 0,
+                    ),
+                  ),
+                ),
+                onChanged: (QueryDocumentSnapshot<CompanyModal>? value) {
+                  if (value != null) {
+                    setState(() => document = value);
+                  }
+                },
+                items: docs.map((value) {
+                  return DropdownMenuItem(
+                    value: value,
+                    child: Text(
+                      value.id,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
+                      ),
+                    ),
+                  );
+                }).toList(),
+              );
+            }),
+          )
+        ]),
       body: Column(children: [
         Container(
           padding: const EdgeInsets.all(18),

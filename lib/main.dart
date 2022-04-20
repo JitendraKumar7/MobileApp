@@ -10,8 +10,19 @@ import 'app/app.dart';
 import 'services/options/firebase_options.dart';
 
 //https://apps.apple.com/app/id1601196670
+//All month reports in a single list
+//
+// Sales Purchase TextButton to ElevatedButton in party master (Ledger)
+//
+// Sales Purchase reports month view then show reports
+//
+//
+// bank details of require ds -> name, account number, bank ifsc code, branch name
+//
+// gst window task -> party master (verify) ElevatedButton
+//
+// ---------------------------------------------------------------------------
 
-// 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
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (kIsWeb) {

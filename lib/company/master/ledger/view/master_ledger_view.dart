@@ -84,31 +84,19 @@ class LedgerViewPage extends StatelessWidget {
 
         //Account Reports
         CardView('Transaction', children: [
-          TextButton(
+          ElevatedButton(
             onPressed: () {
               var page = LedgerSalesPage.page(document, modal.name);
               Navigator.push(context, page);
             },
-            child: const Text(
-              'SALES INVOICE',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.blue,
-              ),
-            ),
+            child: const Text('SALES INVOICE'),
           ),
-          TextButton(
+          ElevatedButton(
             onPressed: () {
               var page = LedgerPurchasePage.page(document, modal.name);
               Navigator.push(context, page);
             },
-            child: const Text(
-              'PURCHASE INVOICE',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.blue,
-              ),
-            ),
+            child: const Text('PURCHASE INVOICE'),
           ),
         ]),
       ]),

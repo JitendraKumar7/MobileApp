@@ -5,7 +5,7 @@ import 'package:tally/modal/modal.dart';
 import '../component/component.dart';
 
 Future<Uint8List> getPurchasePdf(InvoiceModal modal) async {
-  var header = HeaderModal.fromInvoice('PURCHASE INVOICE', modal);
+  var header = HeaderModal.fromInvoice('TAX INVOICE', modal);
   final page = MultiPage(
     pageTheme: await theme(modal.company, false),
     build: (Context context) => bodyProduct(context, modal),
