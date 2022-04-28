@@ -76,7 +76,7 @@ class InvoiceModal {
   dynamic partyLedgerName;
   dynamic productTotalAmount;
 
-  String get id => 'No. : $reference';
+  String get id => 'No. : ${reference ?? voucherNumber}';
 
   String get partyName => partyLedgerName ?? '';
 

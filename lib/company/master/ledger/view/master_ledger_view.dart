@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:tally/constant/constant.dart';
 
 import 'package:tally/modal/modal.dart';
 import 'package:tally/widget/widget.dart';
+import 'package:tally/constant/constant.dart';
 import 'package:tally/services/services.dart';
 
 import '../../../reports/reports_view.dart';
@@ -54,7 +54,21 @@ class LedgerViewPage extends StatelessWidget {
         //Registration
         CardView('registration', children: [
           RowView(title: 'Parent', value: modal.parent),
-          RowView(title: 'GSTIN', value: modal.partyGstin),
+          //RowView(title: 'GSTIN', value: modal.partyGstin),
+          Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            SizedBox(
+              width: MediaQuery.of(context).size.width / 3.5,
+              child: const Text(
+                'GSTIN',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            Expanded(child: Text(modal.partyGstin ?? '')),
+            ElevatedButton(
+              onPressed: () {},
+              child: const Text('Verify'),
+            ),
+          ]),
           RowView(title: 'State', value: modal.priorStateName),
           RowView(title: 'PAN No.', value: modal.incomeTexNumber),
           RowView(
@@ -67,11 +81,11 @@ class LedgerViewPage extends StatelessWidget {
         CardView('Account Balance', children: [
           RowView(
             title: 'Opening Bal.',
-            value: '₹${modal.openingBalance ?? '0.00'}',
+            value: '₹${modal.openingBal}',
           ),
           RowView(
             title: 'Closing Bal.',
-            value: '₹${modal.closingBalance ?? '0.00'}',
+            value: '₹${modal.closingBal}',
           ),
         ]),
 
@@ -84,20 +98,22 @@ class LedgerViewPage extends StatelessWidget {
 
         //Account Reports
         CardView('Transaction', children: [
-          ElevatedButton(
-            onPressed: () {
-              var page = LedgerSalesPage.page(document, modal.name);
-              Navigator.push(context, page);
-            },
-            child: const Text('SALES INVOICE'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              var page = LedgerPurchasePage.page(document, modal.name);
-              Navigator.push(context, page);
-            },
-            child: const Text('PURCHASE INVOICE'),
-          ),
+          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            ElevatedButton(
+              onPressed: () {
+                var page = LedgerSalesPage.page(document, modal.name);
+                Navigator.push(context, page);
+              },
+              child: const Text('SALES INVOICE'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                var page = LedgerPurchasePage.page(document, modal.name);
+                Navigator.push(context, page);
+              },
+              child: const Text('PURCHASE INVOICE'),
+            ),
+          ]),
         ]),
       ]),
     );

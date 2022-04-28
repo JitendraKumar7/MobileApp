@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+
 class LedgerModal {
   String? name;
   String? parent;
@@ -19,11 +20,16 @@ class LedgerModal {
   String? isEBankingEnabled;
   String? gstRegistrationType;
 
+  String get closingBal => remove(closingBalance);
+
+  String get openingBal => remove(openingBalance);
+
   String get getName => name?.toUpperCase() ?? '';
 
   String get getAddress =>
       '${address ?? ''} ${ledStateName ?? ''} ${countryName ?? ''} ${pinCode ?? ''}'
-          .toUpperCase().trim();
+          .toUpperCase()
+          .trim();
 
   LedgerModal();
 
@@ -72,4 +78,12 @@ class LedgerModal {
 
   @override
   String toString() => jsonEncode(toJson());
+}
+
+String remove(input) {
+  try {
+    return input?.replaceFirst('-', '') ?? '0.00';
+  } catch (error) {
+    return '${input ?? '0.00'}'.replaceFirst('-', '');
+  }
 }

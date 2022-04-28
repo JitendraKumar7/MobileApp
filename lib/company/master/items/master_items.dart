@@ -17,8 +17,8 @@ class MasterItems extends StatelessWidget {
       child: Column(children: [
         const TabBar(
           tabs: [
-            Tab(text: 'ALL ITEMS'),
             Tab(text: 'GROUP ITEMS'),
+            Tab(text: 'ALL ITEMS'),
           ],
           labelColor: Colors.blue,
           unselectedLabelColor: Colors.grey,
@@ -26,7 +26,6 @@ class MasterItems extends StatelessWidget {
         Expanded(
           child: TabBarView(
             children: [
-              MasterAllItems(reference),
               StreamLoader(
                 stream: db.getItems(reference),
                 builder: (List<QueryDocumentSnapshot<ItemModal>> docs) {
@@ -73,9 +72,10 @@ class MasterItems extends StatelessWidget {
                     }).toList(),
                   );
                 },
-              )
+              ),
+              MasterAllItems(reference),
             ],
-            physics: const NeverScrollableScrollPhysics(),
+            //physics: const NeverScrollableScrollPhysics(),
           ),
         ),
       ]),

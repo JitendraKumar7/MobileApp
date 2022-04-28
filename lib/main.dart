@@ -9,8 +9,8 @@ import 'package:url_strategy/url_strategy.dart';
 import 'app/app.dart';
 import 'services/options/firebase_options.dart';
 
-//https://apps.apple.com/app/id1601196670
-//All month reports in a single list
+// https://apps.apple.com/app/id1601196670
+// All month reports in a single list
 //
 // Sales Purchase TextButton to ElevatedButton in party master (Ledger)
 //

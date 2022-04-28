@@ -1,20 +1,14 @@
 import 'dart:typed_data';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:pdf/widgets.dart';
 import 'package:tally/modal/modal.dart';
+import 'package:pdf/widgets.dart';
 
 import '../../../widget/widget.dart';
 
-//https://gist.github.com/JAICHANGPARK/be56df4464ad469e37af9099a82addfe
-Future<Uint8List> create(Page page) async {
-  final pdf = Document();
-  pdf.addPage(page);
-
-  return await pdf.save();
-}
-
-Future<PageTheme> theme(CompanyModal modal, [bool from = true]) async {
-  //return const PageTheme();
+//https://gist.github.com/JAICHANGPARK/be56df4464ad469e37af9099a82addfesse
+Future<PageTheme> theme(CompanyModal modal) async {
+  if (kIsWeb) return const PageTheme();
   var signature = await int8List(modal.signature);
   var logo = await int8List(modal.logo);
   return PageTheme(
@@ -35,10 +29,17 @@ Future<PageTheme> theme(CompanyModal modal, [bool from = true]) async {
                 width: 40,
                 height: 40,
               ),
-              alignment: Alignment(from ? -1 : 1, 1),
+              alignment: const Alignment(-1, 1),
             )
         : null,
   );
+}
+
+Future<Uint8List> create(Page page) async {
+  final pdf = Document();
+  pdf.addPage(page);
+
+  return await pdf.save();
 }
 
 Future<PageTheme> get pageTheme async {

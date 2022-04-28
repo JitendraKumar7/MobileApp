@@ -91,7 +91,7 @@ class AddonView extends StatelessWidget {
             //const VerticalDivider(),
             ButtonView(
               name: addonLinkUser,
-              label: 'Link User',
+              label: 'QR Code',
               onTap: () {
                 var page = UserPage.page(document.reference);
                 Navigator.push(context, page);

@@ -1,8 +1,9 @@
 import 'dart:typed_data';
 
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:tally/constant/constant.dart';
 import 'package:tally/picker/picker.dart';
 
@@ -160,7 +161,11 @@ class _ImageWidgetState extends State<ImageWidget> {
     return Center(
       child: uploading
           ? SizedBox(
-              child: const CupertinoActivityIndicator(),
+              child: Shimmer.fromColors(
+                baseColor: Colors.blue,
+                highlightColor: Colors.orange,
+                child: const SpinKitWave(color: Colors.white),
+              ),
               height: widget.height,
               width: widget.width,
             )

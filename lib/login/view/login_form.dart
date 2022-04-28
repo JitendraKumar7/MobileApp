@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:package_info/package_info.dart';
 import 'package:formz/formz.dart';
 import 'package:tally/app/app.dart';
 import 'package:tally/constant/constant.dart';
@@ -62,6 +63,29 @@ class LoginForm extends StatelessWidget {
                   child: const Text('Forgot Password?'),
                 )),
             FadeAnimation(2, _LoginButton()),
+            const SizedBox(height: 80),
+            FutureBuilder(
+              future: PackageInfo.fromPlatform(),
+              builder: (_, AsyncSnapshot<PackageInfo> snapshot) {
+                if (snapshot.hasData) {
+                  var packageInfo = snapshot.data;
+                  var appName = packageInfo?.appName;
+                  var version = packageInfo?.version;
+                  var packageName = packageInfo?.packageName;
+                  var buildNumber = packageInfo?.buildNumber;
+                  debugPrint('$packageName $buildNumber');
+                  return Container(
+                    padding: const EdgeInsets.only(right: 24),
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      '$appName - $version',
+                      style: Theme.of(context).textTheme.subtitle2,
+                    ),
+                  );
+                }
+                return const SizedBox();
+              },
+            ),
           ]),
         ),
       ),
@@ -104,29 +128,38 @@ class _EmailInput extends StatelessWidget {
 class _PasswordInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var obscureText = true;
     return BlocBuilder<LoginCubit, LoginState>(
       buildWhen: (previous, current) => previous.password != current.password,
       builder: (context, state) {
         return Padding(
           padding: const EdgeInsets.only(left: 24, right: 24),
-          child: TextField(
-            onChanged: (password) =>
-                context.read<LoginCubit>().passwordChanged(password),
-            obscureText: true,
-            decoration: InputDecoration(
-              labelText: 'PASSWORD',
-              helperText: '',
-              filled: true,
-              fillColor: Colors.grey[200],
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(),
+          child: StatefulBuilder(builder: (context, setState) {
+            return TextField(
+              onChanged: (password) =>
+                  context.read<LoginCubit>().passwordChanged(password),
+              obscureText: obscureText,
+              decoration: InputDecoration(
+                labelText: 'PASSWORD',
+                helperText: '',
+                filled: true,
+                fillColor: Colors.grey[200],
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: const BorderSide(),
+                ),
+                suffixIcon: IconButton(
+                  icon: Icon(
+                      obscureText ? Icons.visibility_off : Icons.visibility),
+                  onPressed: () {
+                    setState(() => obscureText = !obscureText);
+                  },
+                ),
+                labelStyle: const TextStyle(fontSize: 18),
+                errorText: state.password.invalid ? 'invalid password' : null,
               ),
-              suffixIcon: const Icon(Icons.lock),
-              labelStyle: const TextStyle(fontSize: 18),
-              errorText: state.password.invalid ? 'invalid password' : null,
-            ),
-          ),
+            );
+          }),
         );
       },
     );

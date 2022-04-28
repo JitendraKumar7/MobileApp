@@ -13,7 +13,7 @@ Future<Uint8List> getSalesOrderPdf(OrderModal modal) async {
     'Order No. : ',
   );
   final page = Page(
-    pageTheme: await theme(modal.company, false),
+    pageTheme: await theme(modal.company),
     build: (Context context) => Column(
       children: [
         headerTo(modal.company, header),

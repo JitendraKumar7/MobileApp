@@ -10,6 +10,8 @@ import 'package:tally/company/company.dart';
 import 'package:tally/services/services.dart';
 import 'package:tally/widget/widget.dart';
 
+import '../../modal/modal.dart';
+
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -32,9 +34,11 @@ class HomePage extends StatelessWidget {
             var data = snapshot.data;
             if (data == null) return const EmptyView();
 
-            List<String> names = [];
+            List<CompanyModal> names = [];
             try {
-              names = data.get('companyName').cast<String>();
+              data.get('companyName').map((e) {
+                names.add(CompanyModal.fromJson(e));
+              });
             } catch (ex) {
               debugPrint('$ex');
             }

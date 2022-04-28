@@ -9,6 +9,7 @@ import 'package:tally/modal/modal.dart';
 import 'package:tally/profile/profile.dart';
 import 'package:tally/services/services.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 
 import '../../about/about.dart';
 import 'avatar.dart';
@@ -212,12 +213,22 @@ class DrawerLayout extends StatelessWidget {
         ),
         const Divider(),
         ListTile(
-          onTap: () {
+          onTap: () async {
             Navigator.of(context).pop();
             Share.share(
               shareMessage,
               subject: 'App Share',
             );
+            final dynamicLinkParams = DynamicLinkParameters(
+              link: Uri.parse('https://tally-konnect-55ffb.web.app/'),
+              uriPrefix: 'https://tally-konnect-55ffb.web.app/link',
+              androidParameters:
+                  const AndroidParameters(packageName: 'tally.mobile.app'),
+              iosParameters: const IOSParameters(bundleId: 'tally.mobile.app'),
+            );
+            final dynamicLink = await FirebaseDynamicLinks.instance
+                .buildShortLink(dynamicLinkParams);
+            debugPrint('dynamicLink $dynamicLink');
           },
           title: const Text(
             'Share App',
@@ -294,14 +305,14 @@ class DrawerLayout extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 24),
                 alignment: Alignment.centerRight,
                 child: Text(
-                  '$appName - $version - $buildNumber',
+                  '$appName - $version',
                   style: Theme.of(context).textTheme.subtitle2,
                 ),
               );
             }
             return const SizedBox();
           },
-        )
+        ),
       ]),
     );
   }

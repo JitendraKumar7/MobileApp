@@ -40,5 +40,13 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-5873006816499362~8389060050"/>
+        <!-- tally mobile banner
+        ca-app-pub-5873006816499362/5828746838
+        -->
+
     </application>
 </manifest>
