@@ -65,43 +65,7 @@ class _MasterViewState extends State<MasterView> {
       child: BlocBuilder<NavigateCubit, int>(
         builder: (_, index) => Scaffold(
           bottomNavigationBar: NavigatePage(index),
-          appBar: Toolbar(title(index), actions: [
-            SizedBox(
-              width: 110,
-              child: DropdownButtonFormField(
-                value: document,
-                dropdownColor: Colors.grey,
-                iconEnabledColor: Colors.white,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      style: BorderStyle.none,
-                      width: 0,
-                    ),
-                  ),
-                ),
-                onChanged: (QueryDocumentSnapshot<CompanyModal>? value) {
-                  if (value != null) {
-                    setState(() => document = value);
-                  }
-                },
-                items: widget.docs.map((value) {
-                  return DropdownMenuItem(
-                    value: value,
-                    child: Text(
-                      value.id,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 10,
-                      ),
-                    ),
-                  );
-                }).toList(),
-              ),
-            )
-          ]),
+          appBar: Toolbar(title(index)),
           body: body(index),
         ),
       ),

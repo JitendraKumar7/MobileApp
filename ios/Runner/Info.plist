@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>TallyKonnect</string>
+	<string>Tally Konnect</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -21,11 +21,13 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>TallyKonnect - Tally on mobile requires access your camera because our app required to update profile picture so that user can change there profile photo</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>TallyKonnect - Tally on mobile requires access your microphone permision to working properly</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>TallyKonnect - Tally on mobile requires access your gallery because our app required to update profile picture so that user can change there profile photo</string>
 	<key>UILaunchStoryboardName</key>
@@ -39,9 +41,6 @@
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>

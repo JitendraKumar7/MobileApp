@@ -11,7 +11,6 @@ Future<File?> showImagePicker({
   required BuildContext context,
   cropStyle = CropStyle.rectangle,
 }) async {
-
   var source = await showDialog(
     context: context,
     builder: (BuildContext context) => Dialog(
@@ -46,11 +45,15 @@ Future<File?> showImagePicker({
     return null;
   }
 
-  return await ImageCropper().cropImage(
+  var croppedFile = await ImageCropper().cropImage(
     compressQuality: compressQuality,
     sourcePath: xFile.path,
     cropStyle: cropStyle,
     maxHeight: maxHeight,
     maxWidth: maxWidth,
   );
+  if (croppedFile == null) {
+    return null;
+  }
+  return File(croppedFile.path);
 }
