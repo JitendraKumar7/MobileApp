@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:tally/widget/widget.dart';
 
 class UserPage extends StatelessWidget {
-  const UserPage(this.reference, {Key? key}) : super(key: key);
-
   final DocumentReference reference;
 
   static Route page(DocumentReference reference) {
     return MaterialPageRoute(builder: (_) => UserPage(reference));
   }
+
+  const UserPage(this.reference, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

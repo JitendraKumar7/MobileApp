@@ -46,15 +46,22 @@ class MasterItemView extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(12),
           child: RowView(
-            title: 'PRICE',
-            value: modal.rate?.split('/').first,
+            title: 'MRP',
+            value: modal.mrp?.split('/').first,
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.all(12),
+          child: RowView(
+            title: 'TRADE PRICE',
+            value: modal.standardPrice?.split('/').first,
           ),
         ),
         Container(
           padding: const EdgeInsets.all(12),
           child: RowView(
             title: 'UNIT',
-            value: modal.rate?.split('/').last,
+            value: modal.mrp?.split('/').last,
           ),
         ),
 

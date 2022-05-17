@@ -8,14 +8,14 @@ import 'package:tally/widget/widget.dart';
 import 'view/view_account.dart';
 
 class AccountView extends StatelessWidget {
-  final QueryDocumentSnapshot<CompanyModal> document;
+  final DocumentReference reference;
 
-  const AccountView(this.document, {Key? key}) : super(key: key);
+  const AccountView(this.reference, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return QueryStreamBuilder(
-      stream: db.getStatement(document.reference),
+      stream: db.getStatement(reference),
       filter: (StatementModal modal, String value) {
         var name = modal.name.toLowerCase();
         return name.contains(value);
@@ -23,8 +23,7 @@ class AccountView extends StatelessWidget {
       builder: (StatementModal modal) => ListTile(
         leading: const Leading(reportStatement),
         onTap: () {
-          modal.setDocument(document.id, document.data());
-          var page = ViewStatementPage.page(document, modal);
+          var page = ViewStatementPage.page(reference, modal);
           Navigator.push(context, page);
         },
         title: ListTitle(modal.name),

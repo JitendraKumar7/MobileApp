@@ -35,11 +35,7 @@ class QueryStreamBuilder<T> extends StatelessWidget {
               ? const EmptyView()
               : SearchView(data, filter, builder);
         }
-        return Shimmer.fromColors(
-          baseColor: Colors.blue,
-          highlightColor: Colors.orange,
-          child: const Center(child: SpinKitWave(color: Colors.white)),
-        );
+        return const LoaderPage();
       },
     );
   }

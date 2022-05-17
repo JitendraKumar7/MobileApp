@@ -1,24 +1,25 @@
 import 'dart:convert';
 
-
 class LedgerModal {
-  String? name;
-  String? parent;
-  String? address;
-  String? pinCode;
-  String? bankName;
-  String? ifscCode;
-  String? partyGstin;
-  String? countryName;
-  String? mailingName;
-  String? ledStateName;
-  String? accountNumber;
-  String? closingBalance;
-  String? openingBalance;
-  String? priorStateName;
-  String? incomeTexNumber;
-  String? isEBankingEnabled;
-  String? gstRegistrationType;
+  dynamic name;
+  dynamic email;
+  dynamic mobile;
+  dynamic parent;
+  dynamic address;
+  dynamic pinCode;
+  dynamic bankName;
+  dynamic ifscCode;
+  dynamic partyGstin;
+  dynamic countryName;
+  dynamic mailingName;
+  dynamic ledStateName;
+  dynamic accountNumber;
+  dynamic closingBalance;
+  dynamic openingBalance;
+  dynamic priorStateName;
+  dynamic incomeTexNumber;
+  dynamic isEBankingEnabled;
+  dynamic gstRegistrationType;
 
   String get closingBal => remove(closingBalance);
 
@@ -51,6 +52,8 @@ class LedgerModal {
     data['ADDRESS'] = address;
     data['PINCODE'] = pinCode;
     data['PARENT'] = parent;
+    data['MOBILE'] = mobile;
+    data['EMAIL'] = email;
     data['NAME'] = name;
     return data;
   }
@@ -73,6 +76,8 @@ class LedgerModal {
     address = json['ADDRESS'];
     pinCode = json['PINCODE'];
     parent = json['PARENT'];
+    mobile = json['MOBILE'];
+    email = json['EMAIL'];
     name = json['NAME'];
   }
 

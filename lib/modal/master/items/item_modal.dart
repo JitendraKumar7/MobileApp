@@ -1,12 +1,16 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+
 import '../../modal.dart';
 
 class ItemModal {
+  String? mrp;
   String? guid;
   String? name;
-  String? rate;
   String? parent;
+  String? standardCost;
+  String? standardPrice;
 
   String get getName => name?.toUpperCase() ?? '';
 
@@ -29,11 +33,13 @@ class ItemModal {
 
     data['TAXDETAILS'] = taxDetails.map((v) => v.toJson()).toList();
     data['STOCKDETAILS'] = stockDetails.toJson();
+    data['STANDARDPRICE'] = standardPrice;
+    data['STANDARDCOST'] = standardCost;
     data['PARENT'] = parent;
     data['SHOW'] = isShow;
-    data['RATE'] = rate;
     data['NAME'] = name;
     data['GUID'] = guid;
+    data['MRP'] = mrp;
     return data;
   }
 
@@ -45,11 +51,19 @@ class ItemModal {
     (json['TAXDETAILS'] ?? []).forEach((v) {
       taxDetails.add(TaxDetails.fromJson(v));
     });
-    isShow = json['SHOW'] ?? true;
+    if (json['SHOW'] == true || json['SHOW'] == 'true') {
+      isShow = true;
+    }
+    // print
+    else {
+      debugPrint('${json['NAME']} => ${json['SHOW']}');
+    }
+    standardPrice = json['STANDARDPRICE'];
+    standardCost = json['STANDARDCOST'];
     parent = json['PARENT'];
-    rate = json['RATE'];
     name = json['NAME'];
     guid = json['GUID'];
+    mrp = json['MRP'];
   }
 
   @override
@@ -59,8 +73,8 @@ class ItemModal {
     return ProductModal(
       hsn: stockDetails.hsnCode ?? '',
       gst: gstRate ?? '',
-      rate: rate ?? '',
       name: name ?? '',
+      mrp: mrp ?? '',
     );
   }
 }

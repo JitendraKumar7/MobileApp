@@ -5,20 +5,22 @@ import 'package:tally/modal/modal.dart';
 import 'package:tally/widget/widget.dart';
 import 'package:tally/constant/constant.dart';
 import 'package:tally/services/services.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../reports/reports_view.dart';
 
 class LedgerViewPage extends StatelessWidget {
-  final QueryDocumentSnapshot<CompanyModal> document;
+  final DocumentReference reference;
   final LedgerModal modal;
 
-  const LedgerViewPage(this.document, this.modal, {Key? key}) : super(key: key);
+  const LedgerViewPage(this.reference, this.modal, {Key? key})
+      : super(key: key);
 
   static Route page(
-    QueryDocumentSnapshot<CompanyModal> document,
+    DocumentReference reference,
     LedgerModal modal,
   ) {
-    return MaterialPageRoute(builder: (_) => LedgerViewPage(document, modal));
+    return MaterialPageRoute(builder: (_) => LedgerViewPage(reference, modal));
   }
 
   @override
@@ -54,21 +56,14 @@ class LedgerViewPage extends StatelessWidget {
         //Registration
         CardView('registration', children: [
           RowView(title: 'Parent', value: modal.parent),
-          //RowView(title: 'GSTIN', value: modal.partyGstin),
-          Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            SizedBox(
-              width: MediaQuery.of(context).size.width / 3.5,
-              child: const Text(
-                'GSTIN',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ),
-            Expanded(child: Text(modal.partyGstin ?? '')),
-            ElevatedButton(
-              onPressed: () {},
+          RowView(
+            title: 'GSTIN',
+            value: modal.partyGstin,
+            button: ElevatedButton(
               child: const Text('Verify'),
+              onPressed: () {},
             ),
-          ]),
+          ),
           RowView(title: 'State', value: modal.priorStateName),
           RowView(title: 'PAN No.', value: modal.incomeTexNumber),
           RowView(
@@ -77,6 +72,37 @@ class LedgerViewPage extends StatelessWidget {
           ),
         ]),
 
+        //Contact
+        CardView('Contact', children: [
+          RowView(
+            title: 'Email Id',
+            value: modal.email ?? '',
+            button: IconButton(
+              icon: const Icon(Icons.mail),
+              onPressed: () async {
+                var url = Uri.tryParse('mailto:${modal.email}');
+                debugPrint('Email Id url ==> $url');
+                if (url != null) {
+                  launchUrl(url);
+                }
+              },
+            ),
+          ),
+          RowView(
+            title: 'Phone No.',
+            value: modal.mobile ?? '',
+            button: IconButton(
+              icon: const Icon(Icons.call),
+              onPressed: () async {
+                var url = Uri.tryParse('tel:${modal.mobile}');
+                debugPrint('Phone No. url ==> $url');
+                if (url != null) {
+                  launchUrl(url);
+                }
+              },
+            ),
+          ),
+        ]),
         //Account Balance
         CardView('Account Balance', children: [
           RowView(
@@ -101,14 +127,14 @@ class LedgerViewPage extends StatelessWidget {
           Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
             ElevatedButton(
               onPressed: () {
-                var page = LedgerSalesPage.page(document, modal.name);
+                var page = LedgerSalesPage.page(reference, modal.name);
                 Navigator.push(context, page);
               },
               child: const Text('SALES INVOICE'),
             ),
             ElevatedButton(
               onPressed: () {
-                var page = LedgerPurchasePage.page(document, modal.name);
+                var page = LedgerPurchasePage.page(reference, modal.name);
                 Navigator.push(context, page);
               },
               child: const Text('PURCHASE INVOICE'),
@@ -120,54 +146,88 @@ class LedgerViewPage extends StatelessWidget {
   }
 }
 
-class LedgerSalesPage extends StatelessWidget {
-  final QueryDocumentSnapshot<CompanyModal> document;
+class LedgerSalesPage extends SalesPage {
   final String? partyName;
 
-  const LedgerSalesPage(this.document, this.partyName, {Key? key})
-      : super(key: key);
+  const LedgerSalesPage(reference, this.partyName, {Key? key})
+      : super(reference, key: key);
 
-  static Route page(
-    QueryDocumentSnapshot<CompanyModal> document,
-    String? partyName,
-  ) {
+  static Route page(DocumentReference reference, String? partyName) {
     return MaterialPageRoute(
-      builder: (_) => LedgerSalesPage(document, partyName),
+      builder: (_) => LedgerSalesPage(reference, partyName),
     );
   }
 
-  Widget getByMonth(QueryDocumentSnapshot<MonthModal> document) {
-    return StreamBuilder(
-      stream: db.getInvoiceByQuery(document.reference, partyName),
-      builder: (BuildContext context,
-          AsyncSnapshot<QuerySnapshot<InvoiceModal>> snapshot) {
-        if (snapshot.hasData) {
-          var data = snapshot.data?.docs ?? [];
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: data.map((e) {
-              var modal = e.data();
-              return Card(
-                clipBehavior: Clip.hardEdge,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: ListTile(
-                  subtitle: ListSubTitle(modal.id, modal.date),
-                  title: ListTitle(modal.partyName),
-                  leading: const Leading(report),
-                  onTap: () {
-                    var page =
-                        ViewSalesPage.page(modal.setLedger(this.document));
-                    Navigator.push(context, page);
-                  },
-                ),
-              );
-            }).toList(),
-          );
-        }
-        return const SizedBox.shrink();
-      },
+  @override
+  void onClick(
+    List<QueryDocumentSnapshot<MonthModal>> docs,
+    BuildContext context,
+    String month,
+  ) {
+    if (docs.any((e) => e.id == month)) {
+      var doc = docs.firstWhere((e) => e.id == month);
+      var page = LedgerSalesListPage.page(doc, (InvoiceModal modal) {
+        var page = ViewSalesPage.page(modal.setLedger(reference));
+        Navigator.push(context, page);
+      }, partyName);
+      Navigator.push(context, page);
+    }
+    // No Records
+    else {
+      showAlertDialog(context);
+    }
+  }
+}
+
+class LedgerPurchasePage extends PurchasePage {
+  final String? partyName;
+
+  const LedgerPurchasePage(reference, this.partyName, {Key? key})
+      : super(reference, key: key);
+
+  static Route page(DocumentReference reference, String? partyName) {
+    return MaterialPageRoute(
+      builder: (_) => LedgerPurchasePage(reference, partyName),
+    );
+  }
+
+  @override
+  void onClick(
+    List<QueryDocumentSnapshot<MonthModal>> docs,
+    BuildContext context,
+    String month,
+  ) {
+    if (docs.any((e) => e.id == month)) {
+      var doc = docs.firstWhere((e) => e.id == month);
+      var page = LedgerPurchaseListPage.page(doc, (InvoiceModal modal) {
+        var page = ViewPurchasePage.page(modal.setLedger(reference));
+        Navigator.push(context, page);
+      }, partyName);
+      Navigator.push(context, page);
+    }
+    // No Records
+    else {
+      showAlertDialog(context);
+    }
+  }
+}
+
+class LedgerSalesListPage extends StatelessWidget {
+  final QueryDocumentSnapshot<MonthModal> document;
+  final TapCallback<InvoiceModal> callback;
+  final String? partyName;
+
+  const LedgerSalesListPage(this.document, this.callback, this.partyName,
+      {Key? key})
+      : super(key: key);
+
+  static Route page(
+    QueryDocumentSnapshot<MonthModal> document,
+    TapCallback<InvoiceModal> callback,
+    String? partyName,
+  ) {
+    return MaterialPageRoute(
+      builder: (_) => LedgerSalesListPage(document, callback, partyName),
     );
   }
 
@@ -175,64 +235,55 @@ class LedgerSalesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const Toolbar('SALES INVOICE'),
-      body: StreamLoader(
-        stream: db.getSales(document.reference),
-        builder: (List<QueryDocumentSnapshot<MonthModal>> docs) {
-          return ListView(children: docs.map(getByMonth).toList());
+      body: StreamBuilder(
+        stream: db.getInvoiceByQuery(document.reference, partyName),
+        builder: (_, AsyncSnapshot<QuerySnapshot<InvoiceModal>> snapshot) {
+          if (snapshot.hasData) {
+            var data = snapshot.data?.docs ?? [];
+            if (data.isEmpty) return const EmptyView();
+            data.sort((a, b) => b.data().date.compareTo(a.data().date));
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: data.map((e) {
+                var modal = e.data();
+                return Card(
+                  clipBehavior: Clip.hardEdge,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: ListTile(
+                    subtitle: ListSubTitle(modal.id, modal.date),
+                    title: ListTitle(modal.partyName),
+                    leading: const Leading(report),
+                    onTap: () => callback(modal),
+                  ),
+                );
+              }).toList(),
+            );
+          }
+          return const EmptyView();
         },
       ),
     );
   }
 }
 
-class LedgerPurchasePage extends StatelessWidget {
-  final QueryDocumentSnapshot<CompanyModal> document;
+class LedgerPurchaseListPage extends StatelessWidget {
+  final QueryDocumentSnapshot<MonthModal> document;
+  final TapCallback<InvoiceModal> callback;
   final String? partyName;
 
-  const LedgerPurchasePage(this.document, this.partyName, {Key? key})
+  const LedgerPurchaseListPage(this.document, this.callback, this.partyName,
+      {Key? key})
       : super(key: key);
 
   static Route page(
-    QueryDocumentSnapshot<CompanyModal> document,
+    QueryDocumentSnapshot<MonthModal> document,
+    TapCallback<InvoiceModal> callback,
     String? partyName,
   ) {
     return MaterialPageRoute(
-      builder: (_) => LedgerPurchasePage(document, partyName),
-    );
-  }
-
-  Widget getByMonth(QueryDocumentSnapshot<MonthModal> document) {
-    return StreamBuilder(
-      stream: db.getInvoiceByQuery(document.reference, partyName),
-      builder: (BuildContext context,
-          AsyncSnapshot<QuerySnapshot<InvoiceModal>> snapshot) {
-        if (snapshot.hasData) {
-          var data = snapshot.data?.docs ?? [];
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: data.map((e) {
-              var modal = e.data();
-              return Card(
-                clipBehavior: Clip.hardEdge,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: ListTile(
-                  subtitle: ListSubTitle(modal.id, modal.date),
-                  title: ListTitle(modal.partyName),
-                  leading: const Leading(report),
-                  onTap: () {
-                    var page =
-                        ViewPurchasePage.page(modal.setLedger(this.document));
-                    Navigator.push(context, page);
-                  },
-                ),
-              );
-            }).toList(),
-          );
-        }
-        return const SizedBox.shrink();
-      },
+      builder: (_) => LedgerPurchaseListPage(document, callback, partyName),
     );
   }
 
@@ -240,10 +291,33 @@ class LedgerPurchasePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const Toolbar('PURCHASE INVOICE'),
-      body: StreamLoader(
-        stream: db.getPurchase(document.reference),
-        builder: (List<QueryDocumentSnapshot<MonthModal>> docs) {
-          return ListView(children: docs.map(getByMonth).toList());
+      body: StreamBuilder(
+        stream: db.getInvoiceByQuery(document.reference, partyName),
+        builder: (_, AsyncSnapshot<QuerySnapshot<InvoiceModal>> snapshot) {
+          if (snapshot.hasData) {
+            var data = snapshot.data?.docs ?? [];
+            if (data.isEmpty) return const EmptyView();
+            data.sort((a, b) => b.data().date.compareTo(a.data().date));
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: data.map((e) {
+                var modal = e.data();
+                return Card(
+                  clipBehavior: Clip.hardEdge,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: ListTile(
+                    subtitle: ListSubTitle(modal.id, modal.date),
+                    title: ListTitle(modal.partyName),
+                    leading: const Leading(report),
+                    onTap: () => callback(modal),
+                  ),
+                );
+              }).toList(),
+            );
+          }
+          return const EmptyView();
         },
       ),
     );

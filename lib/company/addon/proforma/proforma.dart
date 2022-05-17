@@ -9,20 +9,20 @@ import 'add/add_proforma.dart';
 import 'view/view_proforma.dart';
 
 class ProformaPage extends StatelessWidget {
-  final QueryDocumentSnapshot<CompanyModal> document;
+  final DocumentReference reference;
 
-  const ProformaPage(this.document, {Key? key}) : super(key: key);
-
-  static Route page(QueryDocumentSnapshot<CompanyModal> document) {
-    return MaterialPageRoute(builder: (_) => ProformaPage(document));
+  static Route page(DocumentReference reference) {
+    return MaterialPageRoute(builder: (_) => ProformaPage(reference));
   }
+
+  const ProformaPage(this.reference, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: QueryStreamBuilder(
         stream: db
-            .proformaInvoice(document.reference)
+            .proformaInvoice(reference)
             .orderBy('TIMESTAMP', descending: true)
             .snapshots(),
         filter: (ProformaModal modal, String value) {
@@ -31,7 +31,7 @@ class ProformaPage extends StatelessWidget {
         },
         builder: (ProformaModal modal) => ListTile(
           onTap: () {
-            var route = ViewProformaInvoice.page(modal);
+            var route = ViewProformaInvoice.page(reference, modal);
             Navigator.push(context, route);
           },
           title: ListTitle(modal.name),
@@ -44,7 +44,7 @@ class ProformaPage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {
-          var route = AddProformaInvoicePage.page(document);
+          var route = AddProformaInvoicePage.page(reference);
           Navigator.push(context, route);
         },
       ),

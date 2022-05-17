@@ -1,48 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tally/modal/modal.dart';
 import 'package:tally/widget/widget.dart';
 
 import 'widget/bar.dart';
 import 'account/account.dart';
 import 'outstanding/outstanding.dart';
 
-//_-_ ==> 1.) ACCOUNT STATEMENT
-//_-_ ==> 2.) OUTSTANDING
-//_-_ ==> 2.1) RECEIVABLES
-//_-_ ==> 2.2) PAYABLE
-
 class StatementPage extends StatelessWidget {
-  final QueryDocumentSnapshot<CompanyModal> document;
+  final DocumentReference reference;
 
-  const StatementPage(this.document, {Key? key}) : super(key: key);
+  const StatementPage(this.reference, {Key? key}) : super(key: key);
 
-  static Route page(QueryDocumentSnapshot<CompanyModal> document) {
-    return MaterialPageRoute(builder: (_) => StatementPage(document));
+  static Route page(DocumentReference reference) {
+    return MaterialPageRoute(builder: (_) => StatementPage(reference));
   }
 
-  Widget body(int index) {
-    switch (index) {
-      case 0:
-        return AccountView(document);
-      case 1:
-        return OutstandingView(document);
-      default:
-        return Center(child: Text('Error $index'));
-    }
-  }
+  Widget body(bool account) =>
+      account ? AccountView(reference) : OutstandingView(reference);
 
-  String title(int index) {
-    switch (index) {
-      case 0:
-        return 'ACCOUNT STATEMENT';
-      case 1:
-        return 'OUTSTANDING';
-      default:
-        return 'STATEMENT';
-    }
-  }
+  String title(bool account) => account ? 'ACCOUNT STATEMENT' : 'OUTSTANDING';
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +28,8 @@ class StatementPage extends StatelessWidget {
       child: BlocBuilder<NavigateCubit, int>(
         builder: (_, index) => Scaffold(
           bottomNavigationBar: NavigatePage(index),
-          appBar: Toolbar(title(index)),
-          body: body(index),
+          appBar: Toolbar(title(index == 0)),
+          body: body(index == 0),
         ),
       ),
     );

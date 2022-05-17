@@ -8,14 +8,14 @@ import 'package:tally/widget/widget.dart';
 import 'view/view_payable.dart';
 
 class PayableTab extends StatelessWidget {
-  final QueryDocumentSnapshot<CompanyModal> document;
+  final DocumentReference reference;
 
-  const PayableTab(this.document, {Key? key}) : super(key: key);
+  const PayableTab(this.reference, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return QueryStreamBuilder(
-      stream: db.getPayable(document.reference),
+      stream: db.getPayable(reference),
       filter: (Outstanding modal, String value) {
         var name = modal.name.toLowerCase();
         return name.contains(value);
@@ -23,8 +23,7 @@ class PayableTab extends StatelessWidget {
       builder: (Outstanding modal) => ListTile(
         leading: const Leading(reportStatement),
         onTap: () {
-          modal.setDocument(document.id, document.data());
-          var page = ViewPayable.page(modal);
+          var page = ViewPayable.page(reference, modal);
           Navigator.push(context, page);
         },
         title: ListTitle(modal.name),

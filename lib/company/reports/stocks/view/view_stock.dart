@@ -32,10 +32,12 @@ class ViewStockPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        padding: const EdgeInsets.all(6),
-        children: modal.items.map(itemView).toList(),
-      ),
+      body: modal.items.isEmpty
+          ? const EmptyView()
+          : ListView(
+              padding: const EdgeInsets.all(6),
+              children: modal.items.map(itemView).toList(),
+            ),
       appBar: Toolbar(modal.name),
     );
   }

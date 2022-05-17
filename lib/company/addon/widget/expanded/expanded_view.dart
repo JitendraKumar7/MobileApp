@@ -19,7 +19,7 @@ class ItemView extends StatelessWidget {
 
   Widget _showQuantity() {
     return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-      Text('₹${modal.rate}'),
+      Text('₹${modal.mrp}'),
       SizedBox(
         width: 80,
         child: TextFormField(
@@ -81,14 +81,14 @@ class ItemView extends StatelessWidget {
 }
 
 class ExpandedView extends StatefulWidget {
-  final QueryDocumentSnapshot<CompanyModal> document;
+  final DocumentReference reference;
   final Function(bool value)? tax;
   final bool description;
   final BaseModal modal;
   final String header;
 
   const ExpandedView(
-    this.document, {
+    this.reference, {
     Key? key,
     this.tax,
     required this.modal,
@@ -101,17 +101,14 @@ class ExpandedView extends StatefulWidget {
 }
 
 class _ExpandedViewState extends State<ExpandedView> {
-  late DocumentReference<CompanyModal> reference;
   bool integratedTax = true;
 
   @override
   void initState() {
     super.initState();
-    reference = widget.document.reference;
-    widget.modal.company = widget.document.data();
-
+    //widget.modal.company = widget.document.data();
     Future.delayed(Duration.zero, () async {
-      var reference = widget.document.reference;
+      var reference = widget.reference;
       var pageLedger = SelectLedgerPage.page(reference);
       var ledger = await Navigator.push(context, pageLedger);
 
@@ -125,7 +122,7 @@ class _ExpandedViewState extends State<ExpandedView> {
   }
 
   void onPressed() async {
-    var page = SelectItemPage.page(reference);
+    var page = SelectItemPage.page(widget.reference);
     var result = await Navigator.push(context, page);
 
     widget.modal.setItems(result);

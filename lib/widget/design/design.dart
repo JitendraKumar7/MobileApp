@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
 class RowView extends StatelessWidget {
+  final Widget? button;
   final String? value;
   final String title;
 
   const RowView({
     Key? key,
     this.value,
+    this.button,
     required this.title,
   }) : super(key: key);
 
@@ -21,6 +23,7 @@ class RowView extends StatelessWidget {
           ),
         ),
         Expanded(child: Text(value ?? '')),
+        if (button != null) button!,
       ]);
 }
 

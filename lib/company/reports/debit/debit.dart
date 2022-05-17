@@ -7,12 +7,12 @@ import 'package:tally/widget/widget.dart';
 import '../reports_view.dart';
 
 class DebitPage extends StatelessWidget {
-  final QueryDocumentSnapshot<CompanyModal> document;
+  final DocumentReference reference;
 
-  const DebitPage(this.document, {Key? key}) : super(key: key);
+  const DebitPage(this.reference, {Key? key}) : super(key: key);
 
-  static Route page(QueryDocumentSnapshot<CompanyModal> document) {
-    return MaterialPageRoute(builder: (_) => DebitPage(document));
+  static Route page(DocumentReference reference) {
+    return MaterialPageRoute(builder: (_) => DebitPage(reference));
   }
 
   void onClick(
@@ -23,7 +23,7 @@ class DebitPage extends StatelessWidget {
     if (docs.any((e) => e.id == month)) {
       var doc = docs.firstWhere((e) => e.id == month);
       var page = ReportsPage.page(doc, (InvoiceModal modal) {
-        var page = ViewDebitPage.page(modal.setLedger(document));
+        var page = ViewDebitPage.page(modal.setLedger(reference));
         Navigator.push(context, page);
       });
       Navigator.push(context, page);
@@ -37,11 +37,11 @@ class DebitPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamLoader(
-      stream: db.getDebitNote(document.reference),
+      stream: db.getDebitNote(reference),
       builder: (List<QueryDocumentSnapshot<MonthModal>> docs) {
         return MonthGridView(
           'DEBIT NOTE',
-          document.data().getName,
+          reference.parent.id,
           september: () => onClick(docs, context, 'September'),
           february: () => onClick(docs, context, 'February'),
           december: () => onClick(docs, context, 'December'),

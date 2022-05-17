@@ -8,32 +8,31 @@ import 'package:tally/modal/modal.dart';
 import '../reports_view.dart';
 
 class ReportsView extends StatelessWidget {
-  const ReportsView(this.docs, {Key? key}) : super(key: key);
+  const ReportsView(this.reference, {Key? key}) : super(key: key);
 
-  static Route page(List<QueryDocumentSnapshot<CompanyModal>> docs) {
-    return MaterialPageRoute(builder: (_) => ReportsView(docs));
+  static Route page(DocumentReference reference) {
+    return MaterialPageRoute(builder: (_) => ReportsView(reference));
   }
 
-  final List<QueryDocumentSnapshot<CompanyModal>> docs;
+  final DocumentReference reference;
 
   @override
   Widget build(BuildContext context) {
-    QueryDocumentSnapshot<CompanyModal> document = docs.first;
     return Scaffold(
       appBar: const Toolbar('BUSINESS REPORTS'),
       body: Column(children: [
-        Container(
+        /*Container(
           alignment: Alignment.center,
           padding: const EdgeInsets.all(18),
           child: ListTitle(document.data().getName),
-        ),
+        ),*/
         Expanded(
           child: Row(children: [
             ButtonView(
               name: reportSales,
               label: 'Sales',
               onTap: () {
-                var page = SalesPage.page(document);
+                var page = SalesPage.page(reference);
                 Navigator.push(context, page);
               },
             ),
@@ -42,7 +41,7 @@ class ReportsView extends StatelessWidget {
               name: reportPurchase,
               label: 'Purchase',
               onTap: () {
-                var page = PurchasePage.page(document);
+                var page = PurchasePage.page(reference);
                 Navigator.push(context, page);
               },
             ),
@@ -55,7 +54,7 @@ class ReportsView extends StatelessWidget {
               name: reportReceipts,
               label: 'Receipts',
               onTap: () {
-                var page = ReceiptsPage.page(document);
+                var page = ReceiptsPage.page(reference);
                 Navigator.push(context, page);
               },
             ),
@@ -64,7 +63,7 @@ class ReportsView extends StatelessWidget {
               name: reportPayments,
               label: 'Payments',
               onTap: () {
-                var page = PaymentsPage.page(document);
+                var page = PaymentsPage.page(reference);
                 Navigator.push(context, page);
               },
             ),
@@ -77,7 +76,7 @@ class ReportsView extends StatelessWidget {
               name: reportDebitNotes,
               label: 'Debit Notes',
               onTap: () {
-                var page = DebitPage.page(document);
+                var page = DebitPage.page(reference);
                 Navigator.push(context, page);
               },
             ),
@@ -86,7 +85,7 @@ class ReportsView extends StatelessWidget {
               name: reportCreditNotes,
               label: 'Credit Notes',
               onTap: () {
-                var page = CreditPage.page(document);
+                var page = CreditPage.page(reference);
                 Navigator.push(context, page);
               },
             ),
@@ -99,7 +98,7 @@ class ReportsView extends StatelessWidget {
               name: reportStocks,
               label: 'Stocks',
               onTap: () {
-                var page = StockPage.page(document.reference);
+                var page = StockPage.page(reference);
                 Navigator.push(context, page);
               },
             ),
@@ -108,7 +107,7 @@ class ReportsView extends StatelessWidget {
               name: reportStatement,
               label: 'Statements',
               onTap: () {
-                var page = StatementPage.page(document);
+                var page = StatementPage.page(reference);
                 Navigator.push(context, page);
               },
             ),

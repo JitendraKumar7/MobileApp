@@ -8,14 +8,16 @@ import 'package:tally/constant/constant.dart';
 import 'package:tally/modal/modal.dart';
 import 'package:tally/widget/widget.dart';
 
+import '../../../services/services.dart';
+
 class BusinessCardPage extends StatefulWidget {
-  const BusinessCardPage(this.document, {Key? key}) : super(key: key);
+  final DocumentReference reference;
 
-  final QueryDocumentSnapshot<CompanyModal> document;
-
-  static Route page(QueryDocumentSnapshot<CompanyModal> document) {
-    return MaterialPageRoute(builder: (_) => BusinessCardPage(document));
+  static Route page(DocumentReference reference) {
+    return MaterialPageRoute(builder: (_) => BusinessCardPage(reference));
   }
+
+  const BusinessCardPage(this.reference, {Key? key}) : super(key: key);
 
   @override
   State<BusinessCardPage> createState() => _BusinessCardState();
@@ -35,20 +37,20 @@ class _BusinessCardState extends State<BusinessCardPage> {
         [imagePath],
         subject: 'BUSINESS CARD',
         text: 'Start managing your business by managing tally on mobile app.'
-        '\n\n Click: tallykonnect.com',
+            '\n\n Click: tallykonnect.com',
       );
     }
     setState(() => takeScreenshot = false);
   }
 
-  Future<void> onSave() async {
-    var page = EditBusinessCardPage.page(widget.document);
+  Future<void> onSave(DocumentSnapshot<CompanyModal> document) async {
+    var page = EditBusinessCardPage.page(document);
     var result = await Navigator.push(context, page);
 
     if (result != null) {
       try {
-        modal = result;
-        await reference.update(modal.toJson());
+        var data = (result as CompanyModal).toJson();
+        await document.reference.update({'$id': data});
       } catch (e) {
         debugPrint('Error $e');
       }
@@ -61,8 +63,9 @@ class _BusinessCardState extends State<BusinessCardPage> {
     fontSize: 15,
   );
 
-  late DocumentReference reference;
-  late CompanyModal modal;
+  DocumentReference? reference;
+  CompanyModal? modal;
+  String? id;
 
   bool takeScreenshot = false;
   bool uploading = false;
@@ -70,8 +73,7 @@ class _BusinessCardState extends State<BusinessCardPage> {
   @override
   void initState() {
     super.initState();
-    modal = widget.document.data();
-    reference = widget.document.reference;
+    id = widget.reference.parent.id;
   }
 
   @override
@@ -79,183 +81,206 @@ class _BusinessCardState extends State<BusinessCardPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: const Toolbar('BUSINESS CARD'),
-      body: Column(children: [
-        Screenshot(
-          controller: controller,
-          child: Container(
-            padding: const EdgeInsets.fromLTRB(18, 24, 18, 36),
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: ExactAssetImage(cardBack),
-                fit: BoxFit.fill,
-              ),
-            ),
-            child: Column(children: [
-              Row(children: [
-                Container(
-                  margin: const EdgeInsets.only(left: 9, right: 9),
-                  clipBehavior: Clip.hardEdge,
-                  child: modal.logo != null
-                      ? Image.network(
-                          modal.logo ?? '',
-                          height: 45,
-                          width: 60,
-                          fit: BoxFit.fill,
-                        )
-                      : null,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[100],
-                    borderRadius: BorderRadius.circular(6),
+      body: FutureBuilder(
+          future: db.getCompanyQuery(widget.reference.parent),
+          builder: (_, AsyncSnapshot<DocumentSnapshot<CompanyModal>> snapshot) {
+            if (snapshot.hasData) {
+              modal = snapshot.data?.data();
+              reference = snapshot.data?.reference;
+
+              return Column(children: [
+                Screenshot(
+                  controller: controller,
+                  child: Container(
+                    padding: const EdgeInsets.fromLTRB(18, 24, 18, 36),
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: ExactAssetImage(cardBack),
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                    child: Column(children: [
+                      Row(children: [
+                        Container(
+                          margin: const EdgeInsets.only(left: 9, right: 9),
+                          clipBehavior: Clip.hardEdge,
+                          child: modal?.logo != null
+                              ? Image.network(
+                                  modal!.logo ?? '',
+                                  height: 45,
+                                  width: 60,
+                                  fit: BoxFit.fill,
+                                )
+                              : null,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[100],
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                        ),
+                        Expanded(
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  modal!.getName,
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  modal!.mobile ?? '',
+                                  maxLines: 1,
+                                  style: style.copyWith(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ]),
+                        ),
+                      ]),
+                      const SizedBox(height: 18),
+                      Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              width: 36,
+                              child: Icon(
+                                Icons.email,
+                                color: Colors.blue,
+                              ),
+                            ),
+                            Expanded(
+                              child: Text(
+                                modal!.email ?? '',
+                                maxLines: 2,
+                                style: style,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ]),
+                      const SizedBox(height: 12),
+                      Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              width: 36,
+                              child: Icon(
+                                Icons.business,
+                                color: Colors.blue,
+                              ),
+                            ),
+                            Expanded(
+                              child: Text(
+                                modal!.gstin ?? '',
+                                maxLines: 1,
+                                style: style,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ]),
+                      const SizedBox(height: 12),
+                      Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              width: 36,
+                              child: Icon(
+                                Icons.location_on,
+                                color: Colors.blue,
+                              ),
+                            ),
+                            Expanded(
+                              child: Text(
+                                modal!.getAddress,
+                                maxLines: 3,
+                                style: style,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ]),
+                    ]),
                   ),
                 ),
                 Expanded(
                   child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          modal.getName,
-                          style: const TextStyle(
-                            fontSize: 18,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        ImageWidget(
+                          capture: (url) async {
+                            modal!.signature = url;
+                            await reference!.update({'$id.SIGNATURE': url});
+                            Navigator.popUntil(
+                              context,
+                              ModalRoute.withName('/index'),
+                            );
+                          },
+                          id: '$id',
+                          ref: 'signature',
+                          url: modal!.signature ?? '',
+                          shape: BoxShape.rectangle,
+                          height: 60,
+                          width: 120,
                         ),
-                        Text(
-                          modal.mobile ?? '',
-                          maxLines: 1,
-                          style: style.copyWith(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                        const Text('Update Signature'),
                       ]),
                 ),
-              ]),
-              const SizedBox(height: 18),
-              Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                const SizedBox(
-                  width: 36,
-                  child: Icon(
-                    Icons.email,
-                    color: Colors.blue,
-                  ),
-                ),
-                Expanded(
-                  child: Text(
-                    modal.email ?? '',
-                    maxLines: 2,
-                    style: style,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ]),
-              const SizedBox(height: 12),
-              Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                const SizedBox(
-                  width: 36,
-                  child: Icon(
-                    Icons.business,
-                    color: Colors.blue,
-                  ),
-                ),
-                Expanded(
-                  child: Text(
-                    modal.gstin ?? '',
-                    maxLines: 1,
-                    style: style,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ]),
-              const SizedBox(height: 12),
-              Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                const SizedBox(
-                  width: 36,
-                  child: Icon(
-                    Icons.location_on,
-                    color: Colors.blue,
-                  ),
-                ),
-                Expanded(
-                  child: Text(
-                    modal.getAddress,
-                    maxLines: 3,
-                    style: style,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ]),
-            ]),
-          ),
-        ),
-        Expanded(
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            ImageWidget(
-              capture: (url) async {
-                modal.signature = url;
-                await reference.update({'SIGNATURE': url});
-                Navigator.popUntil(context, ModalRoute.withName('/index'));
-              },
-              url: modal.signature ?? '',
-              ref: 'signature',
-              id: widget.document.id,
-              shape: BoxShape.rectangle,
-              height: 60,
-              width: 120,
-            ),
-            const Text('Update Signature'),
-          ]),
-        ),
-        StatefulBuilder(builder: builder)
-      ]),
+                StatefulBuilder(builder: (context, setState) {
+                  return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        TextButton.icon(
+                          onPressed: uploading
+                              ? null
+                              : () async {
+                                  setState(() => uploading = true);
+                                  await onSave(snapshot.data!);
+                                },
+                          icon: uploading
+                              ? const CupertinoActivityIndicator()
+                              : const Icon(Icons.edit),
+                          label: uploading
+                              ? const Text('Uploading...')
+                              : const Text('EDIT CARD'),
+                        ),
+                        TextButton.icon(
+                          onPressed: takeScreenshot
+                              ? null
+                              : () async {
+                                  setState(() => takeScreenshot = true);
+                                  await onShare();
+                                },
+                          icon: takeScreenshot
+                              ? const CupertinoActivityIndicator()
+                              : const Icon(Icons.share),
+                          label: takeScreenshot
+                              ? const Text('Loading...')
+                              : const Text('SHARE CARD'),
+                        ),
+                      ]);
+                })
+              ]);
+            }
+            return const LoaderPage();
+          }),
     );
-  }
-
-  Widget builder(context, setState) {
-    return Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-      TextButton.icon(
-        onPressed: uploading
-            ? null
-            : () async {
-                setState(() => uploading = true);
-                await onSave();
-              },
-        icon: uploading
-            ? const CupertinoActivityIndicator()
-            : const Icon(Icons.edit),
-        label: uploading ? const Text('Uploading...') : const Text('EDIT CARD'),
-      ),
-      TextButton.icon(
-        onPressed: takeScreenshot
-            ? null
-            : () async {
-                setState(() => takeScreenshot = true);
-                await onShare();
-              },
-        icon: takeScreenshot
-            ? const CupertinoActivityIndicator()
-            : const Icon(Icons.share),
-        label: takeScreenshot
-            ? const Text('Loading...')
-            : const Text('SHARE CARD'),
-      ),
-    ]);
   }
 }
 
 class EditBusinessCardPage extends StatelessWidget {
   const EditBusinessCardPage(this.document, {Key? key}) : super(key: key);
 
-  final QueryDocumentSnapshot<CompanyModal> document;
-
-  static Route page(QueryDocumentSnapshot<CompanyModal> document) {
+  static Route page(DocumentSnapshot<CompanyModal> document) {
     return MaterialPageRoute(builder: (_) => EditBusinessCardPage(document));
   }
 
+  final DocumentSnapshot<CompanyModal> document;
+
   @override
   Widget build(BuildContext context) {
-    var modal = document.data();
+    var modal = document.data() ?? CompanyModal();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: const Toolbar('BUSINESS CARD'),
@@ -274,8 +299,8 @@ class EditBusinessCardPage extends StatelessWidget {
                 labelText: 'Company Name',
                 helperText: '',
               ),
-              onChanged: (value) => modal.name = value,
-              controller: TextEditingController(text: modal.name),
+              onChanged: (value) => modal.selectedCompany = value,
+              controller: TextEditingController(text: modal.selectedCompany),
             ),
             TextFormField(
               decoration: const InputDecoration(

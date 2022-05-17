@@ -69,8 +69,8 @@ class BaseModal {
 class ProductModal {
   String hsn = '';
   String gst = '';
+  String mrp = '';
   String name = '';
-  String rate = '';
 
   // for order
   String quantity = '1';
@@ -81,7 +81,7 @@ class ProductModal {
   ProductModal({
     required this.hsn,
     required this.gst,
-    required this.rate,
+    required this.mrp,
     required this.name,
   });
 
@@ -89,7 +89,7 @@ class ProductModal {
 
   double get q => double.tryParse(quantity) ?? 1;
 
-  double get p => double.tryParse(rate.split('/').first) ?? 0;
+  double get p => double.tryParse(mrp.split('/').first) ?? 0;
 
   double get beforeTax => (q * p);
 
@@ -98,15 +98,15 @@ class ProductModal {
   double get totalAmount => beforeTax + taxAmount;
 
   List<String> get order {
-    return [name, rate, quantity];
+    return [name, mrp, quantity];
   }
 
   List<String> get proforma {
-    return [name, hsn, rate, gst, quantity, totalAmount.toStringAsFixed(2)];
+    return [name, hsn, mrp, gst, quantity, totalAmount.toStringAsFixed(2)];
   }
 
   List<String> get quotation {
-    return [name, hsn, rate, gst, description];
+    return [name, hsn, mrp, gst, description];
   }
 
   Map<String, dynamic> toJson() {
@@ -114,8 +114,8 @@ class ProductModal {
     data['DESCRIPTION'] = description;
     data['QUANTITY'] = quantity;
     data['NAME'] = name;
-    data['RATE'] = rate;
     data['GSTIN'] = gst;
+    data['MRP'] = mrp;
     data['HSN'] = hsn;
     return data;
   }
@@ -125,8 +125,8 @@ class ProductModal {
     description = json['DESCRIPTION'];
     quantity = json['QUANTITY'];
     name = json['NAME'];
-    rate = json['RATE'];
     gst = json['GSTIN'];
+    mrp = json['MRP'];
     hsn = json['HSN'];
   }
 

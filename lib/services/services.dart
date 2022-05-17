@@ -49,18 +49,20 @@ class FirestoreServices {
     return _instance.collection(id).doc('Tally').snapshots();
   }
 
-  Stream<QuerySnapshot<CompanyModal>> getCompanyDoc(
-    DocumentReference reference,
-    String name,
-  ) {
-    return reference
-        .collection(name)
+  Stream<QuerySnapshot> getCompanyDoc(
+      DocumentReference reference, String name) {
+    return reference.collection(name).snapshots();
+  }
+
+  Future<DocumentSnapshot<CompanyModal>> getCompanyQuery(
+      CollectionReference reference) {
+    return reference.parent!
         .withConverter<CompanyModal>(
           fromFirestore: (snapshot, _) =>
-              CompanyModal.fromJson(snapshot.data()),
+              CompanyModal.fromJson(snapshot.data()?[reference.id]),
           toFirestore: (model, _) => model.toJson(),
         )
-        .snapshots();
+        .get();
   }
 
   /* Master <Start> */
@@ -205,6 +207,7 @@ class FirestoreServices {
               InvoiceModal.fromJson(snapshot.data()),
           toFirestore: (model, _) => model.toJson(),
         )
+        .orderBy('VOUCHERDATE', descending: true)
         .snapshots();
   }
 
@@ -219,6 +222,7 @@ class FirestoreServices {
               InvoiceModal.fromJson(snapshot.data()),
           toFirestore: (model, _) => model.toJson(),
         )
+        //.orderBy('VOUCHERDATE', descending: true)
         .where('PARTYLEDGERNAME', isEqualTo: name)
         .snapshots();
   }

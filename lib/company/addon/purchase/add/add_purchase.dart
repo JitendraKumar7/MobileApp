@@ -8,13 +8,13 @@ import '../../widget/widget.dart';
 import '../view/view_purchase.dart';
 
 class AddPurchaseOrderPage extends StatelessWidget {
-  final QueryDocumentSnapshot<CompanyModal> document;
+  final DocumentReference reference;
   final modal = OrderModal();
 
-  AddPurchaseOrderPage(this.document, {Key? key}) : super(key: key);
+  AddPurchaseOrderPage(this.reference, {Key? key}) : super(key: key);
 
-  static Route page(QueryDocumentSnapshot<CompanyModal> document) {
-    return MaterialPageRoute(builder: (_) => AddPurchaseOrderPage(document));
+  static Route page(DocumentReference reference) {
+    return MaterialPageRoute(builder: (_) => AddPurchaseOrderPage(reference));
   }
 
   @override
@@ -23,22 +23,19 @@ class AddPurchaseOrderPage extends StatelessWidget {
       appBar: Toolbar('ADD PURCHASE ORDER', actions: [
         IconButton(
           onPressed: () {
-            var route = ViewPurchaseOrder.page(modal);
+            var route = ViewPurchaseOrder.page(reference, modal);
             Navigator.push(context, route);
           },
           icon: const Icon(Icons.picture_as_pdf),
         ),
       ]),
       body: Column(children: [
-        ExpandedView(document, modal: modal),
+        ExpandedView(reference, modal: modal),
         ElevatedButton(
           style: ElevatedButton.styleFrom(minimumSize: const Size(180, 45)),
           onPressed: () async {
             if (modal.items.isNotEmpty) {
-              db
-                  .purchaseOrder(document.reference)
-                  .doc(modal.document)
-                  .set(modal);
+              db.purchaseOrder(reference).doc(modal.document).set(modal);
               Navigator.pop(context, true);
             }
           },

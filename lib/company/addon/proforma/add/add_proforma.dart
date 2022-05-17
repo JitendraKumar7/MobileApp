@@ -8,13 +8,13 @@ import '../../widget/widget.dart';
 import '../view/view_proforma.dart';
 
 class AddProformaInvoicePage extends StatelessWidget {
-  final QueryDocumentSnapshot<CompanyModal> document;
+  final DocumentReference reference;
   final modal = ProformaModal();
 
-  AddProformaInvoicePage(this.document, {Key? key}) : super(key: key);
+  AddProformaInvoicePage(this.reference, {Key? key}) : super(key: key);
 
-  static Route page(QueryDocumentSnapshot<CompanyModal> document) {
-    return MaterialPageRoute(builder: (_) => AddProformaInvoicePage(document));
+  static Route page(DocumentReference reference) {
+    return MaterialPageRoute(builder: (_) => AddProformaInvoicePage(reference));
   }
 
   @override
@@ -23,7 +23,7 @@ class AddProformaInvoicePage extends StatelessWidget {
       appBar: Toolbar('ADD PROFORMA INVOICE', actions: [
         IconButton(
           onPressed: () {
-            var route = ViewProformaInvoice.page(modal);
+            var route = ViewProformaInvoice.page(reference, modal);
             Navigator.push(context, route);
           },
           icon: const Icon(Icons.picture_as_pdf),
@@ -31,7 +31,7 @@ class AddProformaInvoicePage extends StatelessWidget {
       ]),
       body: Column(children: [
         ExpandedView(
-          document,
+          reference,
           modal: modal,
           tax: (bool integratedTax) {
             modal.integratedTax = integratedTax;
@@ -41,10 +41,7 @@ class AddProformaInvoicePage extends StatelessWidget {
           style: ElevatedButton.styleFrom(minimumSize: const Size(180, 45)),
           onPressed: () async {
             if (modal.items.isNotEmpty) {
-              db
-                  .proformaInvoice(document.reference)
-                  .doc(modal.document)
-                  .set(modal);
+              db.proformaInvoice(reference).doc(modal.document).set(modal);
               Navigator.pop(context, true);
             }
           },

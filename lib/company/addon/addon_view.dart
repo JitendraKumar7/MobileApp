@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tally/constant/constant.dart';
-import 'package:tally/modal/modal.dart';
 import 'package:tally/widget/widget.dart';
 
 import 'card/card.dart';
@@ -12,41 +11,26 @@ import 'quotation/quotation.dart';
 import 'purchase/purchase_order.dart';
 
 class AddonView extends StatelessWidget {
-  const AddonView(this.docs, {Key? key}) : super(key: key);
+  const AddonView(this.reference, {Key? key}) : super(key: key);
 
-  static Route page(List<QueryDocumentSnapshot<CompanyModal>> docs) {
-    return MaterialPageRoute(builder: (_) => AddonView(docs));
+  static Route page(DocumentReference reference) {
+    return MaterialPageRoute(builder: (_) => AddonView(reference));
   }
 
-  final List<QueryDocumentSnapshot<CompanyModal>> docs;
+  final DocumentReference reference;
 
   @override
   Widget build(BuildContext context) {
-    QueryDocumentSnapshot<CompanyModal> document = docs.first;
     return Scaffold(
       appBar: const Toolbar('BUSINESS ADDONS'),
       body: Column(children: [
-        Container(
-          padding: const EdgeInsets.all(18),
-          alignment: Alignment.center,
-          child: Text(
-            document.data().getName,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        //const Divider(),
         Expanded(
           child: Row(children: [
             ButtonView(
               name: addonCard,
               label: 'Business Card',
               onTap: () {
-                var page = BusinessCardPage.page(document);
+                var page = BusinessCardPage.page(reference);
                 Navigator.push(context, page);
               },
             ),
@@ -55,7 +39,7 @@ class AddonView extends StatelessWidget {
               name: addonLinkUser,
               label: 'QR Code',
               onTap: () {
-                var page = UserPage.page(document.reference);
+                var page = UserPage.page(reference);
                 Navigator.push(context, page);
               },
             ),
@@ -68,7 +52,7 @@ class AddonView extends StatelessWidget {
               name: addonSalesOrder,
               label: 'Sales Order',
               onTap: () {
-                var page = SalesPage.page(document);
+                var page = SalesPage.page(reference);
                 Navigator.push(context, page);
               },
             ),
@@ -77,7 +61,7 @@ class AddonView extends StatelessWidget {
               name: addonPurchaseOrder,
               label: 'Purchase Order',
               onTap: () {
-                var page = PurchasePage.page(document);
+                var page = PurchasePage.page(reference);
                 Navigator.push(context, page);
               },
             ),
@@ -90,7 +74,7 @@ class AddonView extends StatelessWidget {
               name: addonQuotation,
               label: 'Quotations',
               onTap: () {
-                var page = QuotationPage.page(document);
+                var page = QuotationPage.page(reference);
                 Navigator.push(context, page);
               },
             ),
@@ -99,7 +83,7 @@ class AddonView extends StatelessWidget {
               name: addonProformaInvoice,
               label: 'Proforma Invoice',
               onTap: () {
-                var page = ProformaPage.page(document);
+                var page = ProformaPage.page(reference);
                 Navigator.push(context, page);
               },
             ),
@@ -112,7 +96,7 @@ class AddonView extends StatelessWidget {
               name: report,
               label: 'M Box',
               onTap: () {
-                //var page = QuotationPage.page(document);
+                //var page = QuotationPage.page(reference);
                 //Navigator.push(context, page);
               },
             ),
@@ -121,7 +105,7 @@ class AddonView extends StatelessWidget {
               name: gst,
               label: 'Gst Window',
               onTap: () {
-                //var page = ProformaPage.page(document);
+                //var page = ProformaPage.page(reference);
                 //Navigator.push(context, page);
               },
             ),

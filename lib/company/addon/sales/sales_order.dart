@@ -9,20 +9,20 @@ import 'add/add_sales.dart';
 import 'view/view_sales.dart';
 
 class SalesPage extends StatelessWidget {
-  final QueryDocumentSnapshot<CompanyModal> document;
+  final DocumentReference reference;
 
-  const SalesPage(this.document, {Key? key}) : super(key: key);
-
-  static Route page(QueryDocumentSnapshot<CompanyModal> document) {
-    return MaterialPageRoute(builder: (_) => SalesPage(document));
+  static Route page(DocumentReference reference) {
+    return MaterialPageRoute(builder: (_) => SalesPage(reference));
   }
+
+  const SalesPage(this.reference, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: QueryStreamBuilder(
         stream: db
-            .salesOrder(document.reference)
+            .salesOrder(reference)
             .orderBy('TIMESTAMP', descending: true)
             .snapshots(),
         filter: (OrderModal modal, String value) {
@@ -31,10 +31,9 @@ class SalesPage extends StatelessWidget {
         },
         builder: (OrderModal modal) => ListTile(
           onTap: () {
-            var route = ViewSalesOrder.page(modal);
+            var route = ViewSalesOrder.page(reference, modal);
             Navigator.push(context, route);
           },
-
           title: ListTitle(modal.name),
           subtitle: Column(children: [
             ListSubTitle(modal.id, modal.date),
@@ -64,7 +63,7 @@ class SalesPage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {
-          var route = AddSalesOrderPage.page(document);
+          var route = AddSalesOrderPage.page(reference);
           Navigator.push(context, route);
         },
       ),
@@ -157,7 +156,7 @@ class SalesPage extends StatelessWidget {
               TextButton(
                 onPressed: () {
                   db
-                      .salesOrder(document.reference)
+                      .salesOrder(reference)
                       .doc(modal.document)
                       .update(modal.doc);
 

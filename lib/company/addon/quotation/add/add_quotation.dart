@@ -8,13 +8,13 @@ import '../../widget/widget.dart';
 import '../view/view_quotation.dart';
 
 class AddQuotationPage extends StatelessWidget {
-  final QueryDocumentSnapshot<CompanyModal> document;
+  final DocumentReference reference;
   final modal = QuotationModal();
 
-  AddQuotationPage(this.document, {Key? key}) : super(key: key);
+  AddQuotationPage(this.reference, {Key? key}) : super(key: key);
 
-  static Route page(QueryDocumentSnapshot<CompanyModal> document) {
-    return MaterialPageRoute(builder: (_) => AddQuotationPage(document));
+  static Route page(DocumentReference reference) {
+    return MaterialPageRoute(builder: (_) => AddQuotationPage(reference));
   }
 
   @override
@@ -23,7 +23,7 @@ class AddQuotationPage extends StatelessWidget {
       appBar: Toolbar('ADD SALES QUOTATION', actions: [
         IconButton(
           onPressed: () {
-            var route = ViewQuotation.page(modal);
+            var route = ViewQuotation.page(reference, modal);
             Navigator.push(context, route);
           },
           icon: const Icon(Icons.picture_as_pdf),
@@ -31,7 +31,7 @@ class AddQuotationPage extends StatelessWidget {
       ]),
       body: Column(children: [
         ExpandedView(
-          document,
+          reference,
           modal: modal,
           description: true,
         ),
@@ -39,7 +39,7 @@ class AddQuotationPage extends StatelessWidget {
           style: ElevatedButton.styleFrom(minimumSize: const Size(180, 45)),
           onPressed: () async {
             if (modal.items.isNotEmpty) {
-              db.quotation(document.reference).doc(modal.document).set(modal);
+              db.quotation(reference).doc(modal.document).set(modal);
               Navigator.pop(context, true);
             }
           },

@@ -10,11 +10,11 @@ import 'view/view_stock.dart';
 class StockPage extends StatelessWidget {
   final DocumentReference reference;
 
+  const StockPage(this.reference, {Key? key}) : super(key: key);
+
   static Route page(DocumentReference reference) {
     return MaterialPageRoute(builder: (_) => StockPage(reference));
   }
-
-  const StockPage(this.reference, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

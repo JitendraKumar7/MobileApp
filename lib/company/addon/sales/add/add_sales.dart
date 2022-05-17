@@ -8,13 +8,13 @@ import '../view/view_sales.dart';
 import '../../widget/widget.dart';
 
 class AddSalesOrderPage extends StatelessWidget {
-  final QueryDocumentSnapshot<CompanyModal> document;
+  final DocumentReference reference;
   final modal = OrderModal();
 
-  AddSalesOrderPage(this.document, {Key? key}) : super(key: key);
+  AddSalesOrderPage(this.reference, {Key? key}) : super(key: key);
 
-  static Route page(QueryDocumentSnapshot<CompanyModal> document) {
-    return MaterialPageRoute(builder: (_) => AddSalesOrderPage(document));
+  static Route page(DocumentReference reference) {
+    return MaterialPageRoute(builder: (_) => AddSalesOrderPage(reference));
   }
 
   @override
@@ -23,7 +23,7 @@ class AddSalesOrderPage extends StatelessWidget {
       appBar: Toolbar('ADD SALES ORDER', actions: [
         IconButton(
           onPressed: () {
-            var route = ViewSalesOrder.page(modal);
+            var route = ViewSalesOrder.page(reference, modal);
             Navigator.push(context, route);
           },
           icon: const Icon(Icons.picture_as_pdf),
@@ -31,7 +31,7 @@ class AddSalesOrderPage extends StatelessWidget {
       ]),
       body: Column(children: [
         ExpandedView(
-          document,
+          reference,
           modal: modal,
           header: 'YOUR CART',
         ),
@@ -39,7 +39,7 @@ class AddSalesOrderPage extends StatelessWidget {
           style: ElevatedButton.styleFrom(minimumSize: const Size(180, 45)),
           onPressed: () async {
             if (modal.items.isNotEmpty) {
-              db.salesOrder(document.reference).doc(modal.document).set(modal);
+              db.salesOrder(reference).doc(modal.document).set(modal);
               Navigator.pop(context, true);
             }
           },

@@ -195,15 +195,20 @@ class InvoiceModal {
   LedgerModal? ledger;
 
   Future<InvoiceModal> setLedger(
-    QueryDocumentSnapshot<CompanyModal> document,
+    final DocumentReference reference,
   ) async {
     try {
-      var query = await db.getLedgerQuery(document.reference, partyName);
+      var query = await db.getLedgerQuery(reference, partyName);
       ledger = query.data();
     } catch (ex) {
       debugPrint('$ex');
     }
-    company = document.data();
+    try {
+      var document = await db.getCompanyQuery(reference.parent);
+      company = document.data() ?? CompanyModal();
+    } catch (ex) {
+      debugPrint('$ex');
+    }
     return this;
   }
 }

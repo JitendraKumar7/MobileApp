@@ -9,20 +9,20 @@ import 'add/add_purchase.dart';
 import 'view/view_purchase.dart';
 
 class PurchasePage extends StatelessWidget {
-  final QueryDocumentSnapshot<CompanyModal> document;
+  final DocumentReference reference;
 
-  const PurchasePage(this.document, {Key? key}) : super(key: key);
-
-  static Route page(QueryDocumentSnapshot<CompanyModal> document) {
-    return MaterialPageRoute(builder: (_) => PurchasePage(document));
+  static Route page(DocumentReference reference) {
+    return MaterialPageRoute(builder: (_) => PurchasePage(reference));
   }
+
+  const PurchasePage(this.reference, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: QueryStreamBuilder(
         stream: db
-            .purchaseOrder(document.reference)
+            .purchaseOrder(reference)
             .orderBy('TIMESTAMP', descending: true)
             .snapshots(),
         filter: (OrderModal modal, String value) {
@@ -31,7 +31,7 @@ class PurchasePage extends StatelessWidget {
         },
         builder: (OrderModal modal) => ListTile(
           onTap: () {
-            var route = ViewPurchaseOrder.page(modal);
+            var route = ViewPurchaseOrder.page(reference, modal);
             Navigator.push(context, route);
           },
           title: ListTitle(modal.name),
@@ -44,7 +44,7 @@ class PurchasePage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {
-          var route = AddPurchaseOrderPage.page(document);
+          var route = AddPurchaseOrderPage.page(reference);
           Navigator.push(context, route);
         },
       ),

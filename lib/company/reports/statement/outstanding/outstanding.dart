@@ -5,9 +5,9 @@ import 'package:tally/modal/modal.dart';
 import 'widget/widget.dart';
 
 class OutstandingView extends StatelessWidget {
-  final QueryDocumentSnapshot<CompanyModal> document;
+  final DocumentReference reference;
 
-  const OutstandingView(this.document, {Key? key}) : super(key: key);
+  const OutstandingView(this.reference, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +24,8 @@ class OutstandingView extends StatelessWidget {
         Expanded(
           child: TabBarView(
             children: [
-              PayableTab(document),
-              ReceivableTab(document),
+              PayableTab(reference),
+              ReceivableTab(reference),
             ],
             physics: const NeverScrollableScrollPhysics(),
           ),

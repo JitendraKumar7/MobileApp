@@ -9,20 +9,20 @@ import 'add/add_quotation.dart';
 import 'view/view_quotation.dart';
 
 class QuotationPage extends StatelessWidget {
-  final QueryDocumentSnapshot<CompanyModal> document;
+  final DocumentReference reference;
 
-  const QuotationPage(this.document, {Key? key}) : super(key: key);
-
-  static Route page(QueryDocumentSnapshot<CompanyModal> document) {
-    return MaterialPageRoute(builder: (_) => QuotationPage(document));
+  static Route page(DocumentReference reference) {
+    return MaterialPageRoute(builder: (_) => QuotationPage(reference));
   }
+
+  const QuotationPage(this.reference, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: QueryStreamBuilder(
         stream: db
-            .quotation(document.reference)
+            .quotation(reference)
             .orderBy('TIMESTAMP', descending: true)
             .snapshots(),
         filter: (QuotationModal modal, String value) {
@@ -31,7 +31,7 @@ class QuotationPage extends StatelessWidget {
         },
         builder: (QuotationModal modal) => ListTile(
           onTap: () {
-            var route = ViewQuotation.page(modal);
+            var route = ViewQuotation.page(reference, modal);
             Navigator.push(context, route);
           },
           title: ListTitle(modal.name),
@@ -44,7 +44,7 @@ class QuotationPage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {
-          var route = AddQuotationPage.page(document);
+          var route = AddQuotationPage.page(reference);
           Navigator.push(context, route);
         },
       ),

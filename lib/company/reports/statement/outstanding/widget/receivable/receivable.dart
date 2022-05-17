@@ -8,14 +8,14 @@ import 'package:tally/widget/widget.dart';
 import 'view/view_receivable.dart';
 
 class ReceivableTab extends StatelessWidget {
-  final QueryDocumentSnapshot<CompanyModal> document;
+  final DocumentReference reference;
 
-  const ReceivableTab(this.document, {Key? key}) : super(key: key);
+  const ReceivableTab(this.reference, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return QueryStreamBuilder(
-      stream: db.getReceivable(document.reference),
+      stream: db.getReceivable(reference),
       filter: (Outstanding modal, String value) {
         var name = modal.name.toLowerCase();
         return name.contains(value);
@@ -23,8 +23,7 @@ class ReceivableTab extends StatelessWidget {
       builder: (Outstanding modal) => ListTile(
         leading: const Leading(reportStatement),
         onTap: () {
-          modal.setDocument(document.id, document.data());
-          var page = ViewReceivable.page(modal);
+          var page = ViewReceivable.page(reference, modal);
           Navigator.push(context, page);
         },
         title: ListTitle(modal.name),

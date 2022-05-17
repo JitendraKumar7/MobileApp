@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tally/modal/company/company_modal.dart';
 import 'package:tally/widget/widget.dart';
 
 import 'widget/bar.dart';
@@ -9,31 +8,23 @@ import 'items/master_items.dart';
 import 'groups/master_groups.dart';
 import 'ledger/master_ledger.dart';
 
-class MasterView extends StatefulWidget {
-  const MasterView(this.docs, {Key? key}) : super(key: key);
+class MasterView extends StatelessWidget {
+  const MasterView(this.reference, {Key? key}) : super(key: key);
 
-  static Route page(List<QueryDocumentSnapshot<CompanyModal>> docs) {
-    return MaterialPageRoute(builder: (_) => MasterView(docs));
+  static Route page(DocumentReference reference) {
+    return MaterialPageRoute(builder: (_) => MasterView(reference));
   }
 
-  final List<QueryDocumentSnapshot<CompanyModal>> docs;
-
-  @override
-  State<MasterView> createState() => _MasterViewState();
-}
-
-class _MasterViewState extends State<MasterView> {
-  QueryDocumentSnapshot<CompanyModal>? document;
+  final DocumentReference reference;
 
   Widget body(int index) {
-    var doc = document ?? widget.docs.first;
     switch (index) {
       case 0:
-        return MasterLedger(doc);
+        return MasterLedger(reference);
       case 1:
-        return MasterItems(doc.reference);
+        return MasterItems(reference);
       case 2:
-        return MasterGroups(doc.reference);
+        return MasterGroups(reference);
       default:
         return Center(child: Text('Error $index'));
     }
@@ -50,12 +41,6 @@ class _MasterViewState extends State<MasterView> {
       default:
         return 'MASTERS';
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    document = widget.docs.first;
   }
 
   @override
