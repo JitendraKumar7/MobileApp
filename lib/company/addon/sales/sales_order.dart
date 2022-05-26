@@ -5,6 +5,7 @@ import 'package:tally/modal/modal.dart';
 import 'package:tally/services/services.dart';
 import 'package:tally/widget/widget.dart';
 
+import '../../reports/statement/account/view/view_account.dart';
 import 'add/add_sales.dart';
 import 'view/view_sales.dart';
 
@@ -36,7 +37,24 @@ class SalesPage extends StatelessWidget {
           },
           title: ListTitle(modal.name),
           subtitle: Column(children: [
+            const SizedBox(height: 9),
             ListSubTitle(modal.id, modal.date),
+            InkWell(
+              onTap: () {
+                var page = SalesStatementPage.page(
+                  reference,
+                  modal.ledger.name,
+                );
+                Navigator.push(context, page);
+              },
+              child: const Padding(
+                padding: EdgeInsets.all(6),
+                child: Text(
+                  'Account Statement',
+                  style: TextStyle(fontSize: 11),
+                ),
+              ),
+            ),
             if (modal.message?.isNotEmpty ?? false)
               Text(
                 modal.message ?? '',
@@ -56,7 +74,6 @@ class SalesPage extends StatelessWidget {
             ),
           ),
           leading: const Leading(addonSalesOrder),
-          //subtitle: Text(modal.date),
         ),
       ),
       appBar: const Toolbar('SALES ORDER'),
@@ -75,9 +92,14 @@ class SalesPage extends StatelessWidget {
     return showDialog(
       context: context,
       builder: (context) => Dialog(
+        shape: shape,
+        clipBehavior: Clip.hardEdge,
         child: StatefulBuilder(builder: (context, setState) {
           return Column(mainAxisSize: MainAxisSize.min, children: [
             Container(
+              height: 55,
+              color: Colors.blueGrey,
+              alignment: Alignment.center,
               child: const Text(
                 'ORDER STATUS',
                 style: TextStyle(
@@ -85,9 +107,6 @@ class SalesPage extends StatelessWidget {
                   color: Colors.white,
                 ),
               ),
-              alignment: Alignment.center,
-              color: Colors.blueGrey,
-              height: 55,
             ),
             RadioListTile(
               value: hold,
@@ -167,8 +186,47 @@ class SalesPage extends StatelessWidget {
             ]),
           ]);
         }),
-        clipBehavior: Clip.hardEdge,
-        shape: shape,
+      ),
+    );
+  }
+}
+
+class SalesStatementPage extends StatelessWidget {
+  final DocumentReference reference;
+  final String? name;
+
+  static Route page(DocumentReference reference, String? name) {
+    return MaterialPageRoute(
+        builder: (_) => SalesStatementPage(reference, name));
+  }
+
+  const SalesStatementPage(this.reference, this.name, {Key? key})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: StreamBuilder(
+        stream: db.getStatementByQuery(reference, name),
+        builder: (_, AsyncSnapshot<QuerySnapshot<StatementModal>> snapshot) {
+          if (snapshot.hasData) {
+            var data = snapshot.data?.docs ?? [];
+            if (data.isEmpty) {
+              return const Scaffold(
+                appBar: Toolbar('ACCOUNT STATEMENT'),
+                body: EmptyView(),
+              );
+            }
+            return ViewStatementPage(
+              reference,
+              data.first.data(),
+            );
+          }
+          return const Scaffold(
+            appBar: Toolbar('ACCOUNT STATEMENT'),
+            body: LoaderPage(),
+          );
+        },
       ),
     );
   }

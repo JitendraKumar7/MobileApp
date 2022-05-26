@@ -264,6 +264,24 @@ class FirestoreServices {
         .snapshots();
   }
 
+  Stream<QuerySnapshot<StatementModal>> getStatementByQuery(
+    DocumentReference reference,
+    String? name,
+  ) {
+    return reference
+        .collection('Account Statement')
+        .withConverter<StatementModal>(
+          fromFirestore: (snapshot, _) => StatementModal.fromJson(
+            reference: snapshot.reference,
+            json: snapshot.data(),
+            id: snapshot.id,
+          ),
+          toFirestore: (model, _) => model.toJson(),
+        )
+        .where('NAME', isEqualTo: name)
+        .snapshots();
+  }
+
   Stream<QuerySnapshot<Outstanding>> getReceivable(
       DocumentReference reference) {
     return reference

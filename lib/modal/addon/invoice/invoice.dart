@@ -26,12 +26,12 @@ class ProformaModal extends BaseModal {
       ['', 'BEFORE TAX', beforeTax.toStringAsFixed(2)],
       ...integratedTax
           ? [
-        ['', 'IGST', taxCentral]
-      ]
+              ['', 'IGST', taxCentral]
+            ]
           : [
-        ['', 'CGST', taxLocal],
-        ['', 'CGST', taxLocal],
-      ],
+              ['', 'CGST', taxLocal],
+              ['', 'CGST', taxLocal],
+            ],
       [
         '',
         'ROUND OFF (${roundOff > 0 ? '+' : '-'})',

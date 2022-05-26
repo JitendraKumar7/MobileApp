@@ -43,19 +43,23 @@ class _BusinessCardState extends State<BusinessCardPage> {
     setState(() => takeScreenshot = false);
   }
 
-  Future<void> onSave(DocumentSnapshot<CompanyModal> document) async {
-    var page = EditBusinessCardPage.page(document);
+  Future<void> onSave() async {
+    var page = EditBusinessCardPage.page(id!, modal!);
     var result = await Navigator.push(context, page);
 
     if (result != null) {
       try {
         var data = (result as CompanyModal).toJson();
-        await document.reference.update({'$id': data});
+        await reference?.update({'$id': data});
       } catch (e) {
         debugPrint('Error $e');
       }
     }
-    Navigator.popUntil(context, ModalRoute.withName('/index'));
+
+    Navigator.popUntil(
+      context,
+      ModalRoute.withName('/index'),
+    );
   }
 
   var style = const TextStyle(
@@ -104,6 +108,10 @@ class _BusinessCardState extends State<BusinessCardPage> {
                         Container(
                           margin: const EdgeInsets.only(left: 9, right: 9),
                           clipBehavior: Clip.hardEdge,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[100],
+                            borderRadius: BorderRadius.circular(6),
+                          ),
                           child: modal?.logo != null
                               ? Image.network(
                                   modal!.logo ?? '',
@@ -112,10 +120,6 @@ class _BusinessCardState extends State<BusinessCardPage> {
                                   fit: BoxFit.fill,
                                 )
                               : null,
-                          decoration: BoxDecoration(
-                            color: Colors.grey[100],
-                            borderRadius: BorderRadius.circular(6),
-                          ),
                         ),
                         Expanded(
                           child: Column(
@@ -236,7 +240,7 @@ class _BusinessCardState extends State<BusinessCardPage> {
                               ? null
                               : () async {
                                   setState(() => uploading = true);
-                                  await onSave(snapshot.data!);
+                                  await onSave();
                                 },
                           icon: uploading
                               ? const CupertinoActivityIndicator()
@@ -270,17 +274,17 @@ class _BusinessCardState extends State<BusinessCardPage> {
 }
 
 class EditBusinessCardPage extends StatelessWidget {
-  const EditBusinessCardPage(this.document, {Key? key}) : super(key: key);
+  const EditBusinessCardPage(this.id, this.modal, {Key? key}) : super(key: key);
 
-  static Route page(DocumentSnapshot<CompanyModal> document) {
-    return MaterialPageRoute(builder: (_) => EditBusinessCardPage(document));
+  static Route page(String id, CompanyModal modal) {
+    return MaterialPageRoute(builder: (_) => EditBusinessCardPage(id, modal));
   }
 
-  final DocumentSnapshot<CompanyModal> document;
+  final CompanyModal modal;
+  final String id;
 
   @override
   Widget build(BuildContext context) {
-    var modal = document.data() ?? CompanyModal();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: const Toolbar('BUSINESS CARD'),
@@ -291,7 +295,7 @@ class EditBusinessCardPage extends StatelessWidget {
               capture: (url) => modal.logo = url,
               url: modal.logo ?? '',
               ref: 'logo',
-              id: document.id,
+              id: id,
             ),
             const SizedBox(height: 24),
             TextFormField(

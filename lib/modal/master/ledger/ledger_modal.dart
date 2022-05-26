@@ -3,7 +3,6 @@ import 'dart:convert';
 class LedgerModal {
   dynamic name;
   dynamic email;
-  dynamic mobile;
   dynamic parent;
   dynamic address;
   dynamic pinCode;
@@ -12,6 +11,7 @@ class LedgerModal {
   dynamic partyGstin;
   dynamic countryName;
   dynamic mailingName;
+  dynamic ledgerMobile;
   dynamic ledStateName;
   dynamic accountNumber;
   dynamic closingBalance;
@@ -44,6 +44,7 @@ class LedgerModal {
     data['CLOSINGBALANCE'] = closingBalance;
     data['ACCOUNTNUMBER'] = accountNumber;
     data['LEDSTATENAME'] = ledStateName;
+    data['LEDGERMOBILE'] = ledgerMobile;
     data['COUNTRYNAME'] = countryName;
     data['MAILINGNAME'] = mailingName;
     data['PARTYGSTIN'] = partyGstin;
@@ -52,7 +53,6 @@ class LedgerModal {
     data['ADDRESS'] = address;
     data['PINCODE'] = pinCode;
     data['PARENT'] = parent;
-    data['MOBILE'] = mobile;
     data['EMAIL'] = email;
     data['NAME'] = name;
     return data;
@@ -68,6 +68,7 @@ class LedgerModal {
     openingBalance = json['OPENINGBALANCE'];
     accountNumber = json['ACCOUNTNUMBER'];
     ledStateName = json['LEDSTATENAME'];
+    ledgerMobile = json['LEDGERMOBILE'];
     countryName = json['COUNTRYNAME'];
     mailingName = json['MAILINGNAME'];
     partyGstin = json['PARTYGSTIN'];
@@ -76,7 +77,6 @@ class LedgerModal {
     address = json['ADDRESS'];
     pinCode = json['PINCODE'];
     parent = json['PARENT'];
-    mobile = json['MOBILE'];
     email = json['EMAIL'];
     name = json['NAME'];
   }

@@ -87,65 +87,65 @@ class ViewStatementPage extends StatelessWidget {
               return Column(children: [
                 Container(
                   alignment: Alignment.center,
-                  child: Text(
-                    company.getName,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
                   padding: const EdgeInsets.only(
                     bottom: 9,
                     right: 18,
                     left: 18,
                     top: 18,
                   ),
+                  child: Text(
+                    company.getName,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
                 ),
                 Container(
                   alignment: Alignment.center,
-                  child: const Text('LEDGER ACCOUNT'),
                   padding: const EdgeInsets.only(
                     bottom: 9,
                     right: 18,
                     left: 18,
                     top: 9,
                   ),
+                  child: const Text('LEDGER ACCOUNT'),
                 ),
                 Container(
                   alignment: Alignment.center,
+                  padding: const EdgeInsets.only(
+                    bottom: 9,
+                    right: 18,
+                    left: 18,
+                    top: 9,
+                  ),
                   child: Text(
                     modal.name,
                     style: const TextStyle(fontWeight: FontWeight.w600),
                   ),
+                ),
+                Container(
+                  alignment: Alignment.center,
                   padding: const EdgeInsets.only(
                     bottom: 9,
                     right: 18,
                     left: 18,
                     top: 9,
                   ),
-                ),
-                Container(
-                  alignment: Alignment.center,
                   child: Text(
                     modal.gst,
                     style: const TextStyle(fontWeight: FontWeight.w600),
                   ),
-                  padding: const EdgeInsets.only(
-                    bottom: 9,
-                    right: 18,
-                    left: 18,
-                    top: 9,
-                  ),
                 ),
                 Container(
                   alignment: Alignment.center,
-                  child: Text(
-                    modal.period,
-                    style: const TextStyle(fontWeight: FontWeight.w600),
-                  ),
                   padding: const EdgeInsets.only(
                     bottom: 18,
                     right: 18,
                     left: 18,
                     top: 9,
+                  ),
+                  child: Text(
+                    modal.period,
+                    style: const TextStyle(fontWeight: FontWeight.w600),
                   ),
                 ),
                 Expanded(

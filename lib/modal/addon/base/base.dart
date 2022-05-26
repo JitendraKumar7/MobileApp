@@ -32,7 +32,6 @@ class BaseModal {
 
   Map<String, dynamic> jsonData() {
     final data = <String, dynamic>{};
-    data['COMPANY'] = company.toJson();
     data['LEDGER'] = ledger.toJson();
 
     data['UPDATE'] = update;
@@ -54,7 +53,6 @@ class BaseModal {
   Map<String, dynamic> toJson() => jsonData();
 
   void jsonParse(Map<String, dynamic> json) {
-    company = CompanyModal.fromJson(json['COMPANY']);
     ledger = LedgerModal.fromJson(json['LEDGER']);
 
     remark = json['REMARK'];

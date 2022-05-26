@@ -90,11 +90,11 @@ class LedgerViewPage extends StatelessWidget {
           ),
           RowView(
             title: 'Phone No.',
-            value: modal.mobile ?? '',
+            value: modal.ledgerMobile ?? '',
             button: IconButton(
               icon: const Icon(Icons.call),
               onPressed: () async {
-                var url = Uri.tryParse('tel:${modal.mobile}');
+                var url = Uri.tryParse('tel:${modal.ledgerMobile}');
                 debugPrint('Phone No. url ==> $url');
                 if (url != null) {
                   launchUrl(url);

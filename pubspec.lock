@@ -119,7 +119,7 @@ packages:
       name: cloud_firestore
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.1.15"
+    version: "3.1.16"
   cloud_firestore_platform_interface:
     dependency: transitive
     description:
@@ -169,13 +169,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.4"
-  empty_widget:
-    dependency: "direct main"
-    description:
-      name: empty_widget
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.5"
   equatable:
     dependency: transitive
     description:
@@ -275,7 +268,7 @@ packages:
     source: hosted
     version: "3.3.15"
   firebase_core:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: firebase_core
       url: "https://pub.dartlang.org"
@@ -315,7 +308,7 @@ packages:
       name: firebase_dynamic_links
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.2.3"
+    version: "4.2.4"
   firebase_dynamic_links_platform_interface:
     dependency: transitive
     description:
@@ -540,7 +533,7 @@ packages:
       name: google_fonts
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.2"
+    version: "3.0.1"
   html:
     dependency: transitive
     description:
@@ -575,14 +568,14 @@ packages:
       name: image_cropper
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.2"
+    version: "2.0.3"
   image_cropper_for_web:
     dependency: transitive
     description:
       name: image_cropper_for_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.3"
+    version: "0.0.4"
   image_cropper_platform_interface:
     dependency: transitive
     description:
@@ -813,7 +806,7 @@ packages:
       name: pdf
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.8.0"
+    version: "3.8.1"
   pedantic:
     dependency: transitive
     description:
@@ -848,7 +841,7 @@ packages:
       name: printing
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.9.0"
+    version: "5.9.1"
   process:
     dependency: transitive
     description:
@@ -862,7 +855,7 @@ packages:
       name: provider
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.0.2"
+    version: "6.0.3"
   qr:
     dependency: transitive
     description:
@@ -877,13 +870,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.27.3"
-  safe_device:
-    dependency: "direct main"
-    description:
-      name: safe_device
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.1"
   screenshot:
     dependency: "direct main"
     description:
@@ -1015,13 +1001,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.4.9"
-  trust_location:
-    dependency: transitive
-    description:
-      name: trust_location
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.13"
   typed_data:
     dependency: transitive
     description:

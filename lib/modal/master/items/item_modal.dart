@@ -51,13 +51,7 @@ class ItemModal {
     (json['TAXDETAILS'] ?? []).forEach((v) {
       taxDetails.add(TaxDetails.fromJson(v));
     });
-    if (json['SHOW'] == true || json['SHOW'] == 'true') {
-      isShow = true;
-    }
-    // print
-    else {
-      debugPrint('${json['NAME']} => ${json['SHOW']}');
-    }
+    isShow = json['SHOW'] == true;
     standardPrice = json['STANDARDPRICE'];
     standardCost = json['STANDARDCOST'];
     parent = json['PARENT'];

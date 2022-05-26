@@ -39,6 +39,7 @@ class AddSalesOrderPage extends StatelessWidget {
           style: ElevatedButton.styleFrom(minimumSize: const Size(180, 45)),
           onPressed: () async {
             if (modal.items.isNotEmpty) {
+              debugPrint('SalesOrder ${reference.path}');
               db.salesOrder(reference).doc(modal.document).set(modal);
               Navigator.pop(context, true);
             }
