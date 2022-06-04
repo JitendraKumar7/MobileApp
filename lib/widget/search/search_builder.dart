@@ -139,10 +139,10 @@ class StreamLoader<T> extends StatelessWidget {
             baseColor: Colors.blue,
             highlightColor: Colors.orange,
             child: Container(
-              child: const SpinKitWave(color: Colors.white),
-              alignment: Alignment.center,
-              height: size.height,
               width: size.width,
+              height: size.height,
+              alignment: Alignment.center,
+              child: const SpinKitWave(color: Colors.white),
             ),
           );
         },

@@ -159,6 +159,9 @@ class LedgerSalesPage extends SalesPage {
   }
 
   @override
+  bool get showAllReports => true;
+
+  @override
   void onClick(
     List<QueryDocumentSnapshot<MonthModal>> docs,
     BuildContext context,
@@ -190,6 +193,9 @@ class LedgerPurchasePage extends PurchasePage {
       builder: (_) => LedgerPurchasePage(reference, partyName),
     );
   }
+
+  @override
+  bool get showAllReports => true;
 
   @override
   void onClick(

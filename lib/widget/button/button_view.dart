@@ -106,6 +106,7 @@ class MonthGridView extends StatelessWidget {
   final GestureTapCallback? june;
   final GestureTapCallback? july;
   final GestureTapCallback? may;
+  final VoidCallback? onPressed;
 
   final String label;
   final String name;
@@ -126,6 +127,7 @@ class MonthGridView extends StatelessWidget {
     this.december,
     this.february,
     this.september,
+    this.onPressed,
   }) : super(key: key);
 
   @override
@@ -138,61 +140,69 @@ class MonthGridView extends StatelessWidget {
           child: ListTitle(name),
         ),
         Expanded(
-          child: Row(
-            children: [
-              TextButtonView(onTap: april, label: 'APRIL'),
-              TextButtonView(onTap: may, label: 'MAY'),
-            ],
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          ),
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            TextButtonView(onTap: april, label: 'APRIL'),
+            TextButtonView(onTap: may, label: 'MAY'),
+          ]),
         ),
         Expanded(
-          child: Row(
-            children: [
-              TextButtonView(onTap: june, label: 'JUNE'),
-              TextButtonView(onTap: july, label: 'JULY'),
-            ],
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          ),
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            TextButtonView(onTap: june, label: 'JUNE'),
+            TextButtonView(onTap: july, label: 'JULY'),
+          ]),
         ),
         Expanded(
-          child: Row(
-            children: [
-              TextButtonView(onTap: august, label: 'AUGUST'),
-              TextButtonView(onTap: september, label: 'SEPTEMBER'),
-            ],
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          ),
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            TextButtonView(onTap: august, label: 'AUGUST'),
+            TextButtonView(onTap: september, label: 'SEPTEMBER'),
+          ]),
         ),
         Expanded(
-          child: Row(
-            children: [
-              TextButtonView(onTap: october, label: 'OCTOBER'),
-              TextButtonView(onTap: november, label: 'NOVEMBER'),
-            ],
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          ),
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            TextButtonView(onTap: october, label: 'OCTOBER'),
+            TextButtonView(onTap: november, label: 'NOVEMBER'),
+          ]),
         ),
         Expanded(
-          child: Row(
-            children: [
-              TextButtonView(onTap: december, label: 'DECEMBER'),
-              TextButtonView(onTap: january, label: 'JANUARY'),
-            ],
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          ),
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            TextButtonView(onTap: december, label: 'DECEMBER'),
+            TextButtonView(onTap: january, label: 'JANUARY'),
+          ]),
         ),
         Expanded(
-          child: Row(
-            children: [
-              TextButtonView(onTap: february, label: 'FEBRUARY'),
-              TextButtonView(onTap: march, label: 'MARCH'),
-            ],
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          ),
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            TextButtonView(onTap: february, label: 'FEBRUARY'),
+            TextButtonView(onTap: march, label: 'MARCH'),
+          ]),
         ),
       ]),
-      appBar: Toolbar(label),
+      appBar: Toolbar(
+        label,
+        actions: [
+          if (onPressed != null)
+            InkWell(
+              onTap: onPressed,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(
+                      Icons.all_inbox,
+                      size: 18,
+                    ),
+                    Text(
+                      'All Month  ',
+                      style: TextStyle(fontSize: 10),
+                    )
+                  ]),
+            ),
+        ],
+      ),
     );
   }
 }

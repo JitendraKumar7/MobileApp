@@ -34,6 +34,8 @@ class PurchasePage extends StatelessWidget {
     }
   }
 
+  bool get showAllReports => false;
+
   @override
   Widget build(BuildContext context) {
     return StreamLoader(
@@ -42,6 +44,16 @@ class PurchasePage extends StatelessWidget {
         return MonthGridView(
           'PURCHASE',
           reference.parent.id,
+          onPressed: docs.isEmpty || showAllReports
+              ? null
+              : () {
+                  var page = AllReportsPage.page(docs, (InvoiceModal modal) {
+                    var page =
+                        ViewPurchasePage.page(modal.setLedger(reference));
+                    Navigator.push(context, page);
+                  });
+                  Navigator.push(context, page);
+                },
           september: () => onClick(docs, context, 'September'),
           february: () => onClick(docs, context, 'February'),
           december: () => onClick(docs, context, 'December'),

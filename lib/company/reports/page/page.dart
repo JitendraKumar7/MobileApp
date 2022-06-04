@@ -48,3 +48,54 @@ class ReportsPage extends StatelessWidget {
     );
   }
 }
+
+class AllReportsPage extends StatelessWidget {
+  final List<QueryDocumentSnapshot<MonthModal>> docs;
+  final TapCallback<InvoiceModal> callback;
+
+  const AllReportsPage({
+    Key? key,
+    required this.docs,
+    required this.callback,
+  }) : super(key: key);
+
+  static Route page(
+    List<QueryDocumentSnapshot<MonthModal>> docs,
+    TapCallback<InvoiceModal> callback,
+  ) {
+    return MaterialPageRoute(
+      builder: (_) => AllReportsPage(docs: docs, callback: callback),
+    );
+  }
+
+  Stream<QuerySnapshot<InvoiceModal>> getInvoiceAllMonth() async* {
+    for (var document in docs) {
+      var data = db.getInvoiceByMonth(document.reference);
+      await for (var invoice in data) {
+        yield invoice;
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var id = docs.first.reference.parent.id;
+    var title = id.toUpperCase();
+    return Scaffold(
+      body: QueryStreamBuilder(
+        stream: getInvoiceAllMonth(),
+        filter: (InvoiceModal modal, String value) {
+          var name = modal.partyName.toLowerCase();
+          return name.contains(value);
+        },
+        builder: (InvoiceModal modal) => ListTile(
+          subtitle: ListSubTitle(modal.id, modal.date),
+          title: ListTitle(modal.partyName),
+          leading: const Leading(report),
+          onTap: () => callback(modal),
+        ),
+      ),
+      appBar: Toolbar(title),
+    );
+  }
+}

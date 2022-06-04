@@ -42,6 +42,15 @@ class PaymentsPage extends StatelessWidget {
         return MonthGridView(
           'PAYMENTS',
           reference.parent.id,
+          onPressed: docs.isEmpty
+              ? null
+              : () {
+                  var page = AllReportsPage.page(docs, (InvoiceModal modal) {
+                    var page = ViewPaymentPage.page(modal.setLedger(reference));
+                    Navigator.push(context, page);
+                  });
+                  Navigator.push(context, page);
+                },
           september: () => onClick(docs, context, 'September'),
           february: () => onClick(docs, context, 'February'),
           december: () => onClick(docs, context, 'December'),
