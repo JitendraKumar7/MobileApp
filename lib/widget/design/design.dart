@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
 class RowView extends StatelessWidget {
-  final Widget? button;
+  final List<Widget> buttons;
   final String? value;
   final String title;
 
   const RowView({
     Key? key,
     this.value,
-    this.button,
     required this.title,
+    this.buttons = const [],
   }) : super(key: key);
 
   @override
@@ -23,7 +23,7 @@ class RowView extends StatelessWidget {
           ),
         ),
         Expanded(child: Text(value ?? '')),
-        if (button != null) button!,
+        ...buttons,
       ]);
 }
 

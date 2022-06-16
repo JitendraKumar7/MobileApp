@@ -1,5 +1,6 @@
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
+import 'package:tally/date/date.dart';
 import 'package:tally/modal/modal.dart';
 
 import '../component.dart';
@@ -44,7 +45,7 @@ Widget table({
   Map<int, Alignment>? cellAlignments,
   Map<int, TableColumnWidth>? columnWidths,
 }) {
-  var _oddDecoration = headerCount == 1 ? oddRowDecoration : null;
+  var oddDecoration = headerCount == 1 ? oddRowDecoration : null;
   return Table.fromTextArray(
     data: data,
     border: null,
@@ -54,7 +55,7 @@ Widget table({
     headerStyle: headerStyle,
     columnWidths: columnWidths,
     cellAlignments: cellAlignments,
-    oddRowDecoration: _oddDecoration,
+    oddRowDecoration: oddDecoration,
     headerDecoration: headerDecoration,
     cellAlignment: Alignment.centerRight,
     headerAlignment: Alignment.centerRight,
@@ -420,5 +421,136 @@ List<Widget> bodyStatement(Context context, StatementModal modal) {
       columnWidths: columnWidths,
       cellAlignments: cellAlignments,
     ),
+  ];
+}
+
+Widget headerPriceList(
+  Context context,
+  CompanyModal modal,
+) {
+  var headers = <String>['ITEM', 'HSN', 'DESCRIPTION', 'T.P.', 'MRP'];
+  var columnWidths = {
+    0: const FlexColumnWidth(2),
+    1: const FlexColumnWidth(1),
+    2: const FlexColumnWidth(2),
+    3: const FlexColumnWidth(1),
+    4: const FlexColumnWidth(1),
+  };
+  var cellAlignments = {
+    0: Alignment.centerLeft,
+    1: Alignment.center,
+    2: Alignment.center,
+    3: Alignment.center,
+    4: Alignment.centerLeft,
+  };
+  return Column(children: [
+    Container(
+      alignment: Alignment.center,
+      child: Text(
+        modal.getName.split('-').first,
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+      ),
+    ),
+    Container(
+      alignment: Alignment.center,
+      child: Text(
+        modal.getAddress,
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      ),
+      padding: const EdgeInsets.only(
+        bottom: 18,
+        top: 18,
+      ),
+    ),
+    Container(
+      alignment: Alignment.center,
+      child: Row(children: [
+        Text(
+          date,
+          textAlign: TextAlign.center,
+          style: const TextStyle(fontSize: 18, color: colorWhite),
+        ),
+        Expanded(
+          child: Text(
+            'PRICE LIST',
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 28),
+          ),
+        ),
+        Text(
+          date,
+          textAlign: TextAlign.center,
+          style: const TextStyle(fontSize: 18),
+        ),
+      ]),
+      padding: const EdgeInsets.only(bottom: 18),
+    ),
+    Table.fromTextArray(
+      data: [],
+      headers: headers,
+      border:   TableBorder(
+        left: BorderSide.none,
+        right: BorderSide.none,
+        top: BorderSide(),
+        bottom: BorderSide(),
+        horizontalInside: BorderSide.none,
+        verticalInside: BorderSide.none,
+      ),
+      headerStyle: const TextStyle(
+        color: colorBlack,
+        fontSize: 18,
+      ),
+      columnWidths: columnWidths,
+      cellAlignments: cellAlignments,
+      //headerDecoration: headerDecoration,
+      headerAlignment: Alignment.centerRight,
+    ),
+  ]);
+}
+
+List<Widget> bodyPriceList(Context context, List<PriceListModal> items) {
+  var columnWidths = {
+    0: const FlexColumnWidth(2),
+    1: const FlexColumnWidth(1),
+    2: const FlexColumnWidth(2),
+    3: const FlexColumnWidth(1),
+    4: const FlexColumnWidth(1),
+  };
+  var cellAlignments = {
+    0: Alignment.centerLeft,
+    1: Alignment.center,
+    2: Alignment.center,
+    3: Alignment.center,
+    4: Alignment.centerLeft,
+  };
+
+  return [
+    for (int i = 0; i < items.length; i++) ...[
+      Container(
+        padding: const EdgeInsets.all(18),
+        alignment: Alignment.center,
+        child: Text(items[i].title,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: colorBlack,
+              fontSize: 24,
+            )),
+      ),
+      Table.fromTextArray(
+        data: items[i].items,
+        border: null,
+        cellStyle: const TextStyle(
+          color: colorBlack,
+          fontSize: 18,
+        ),
+        headerCount: 0,
+        columnWidths: columnWidths,
+        cellAlignments: cellAlignments,
+        oddRowDecoration: oddRowDecoration,
+        cellAlignment: Alignment.centerRight,
+      )
+    ]
   ];
 }

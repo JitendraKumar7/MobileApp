@@ -33,6 +33,8 @@ class LedgerViewPage extends StatelessWidget {
           capture: (bytes) {},
           id: '',
         ),
+
+        // Name
         Container(
           padding: const EdgeInsets.all(12),
           alignment: Alignment.center,
@@ -45,7 +47,7 @@ class LedgerViewPage extends StatelessWidget {
           ),
         ),
 
-        //Address
+        // Address
         CardView('address', children: [
           RowView(title: 'Address', value: modal.address),
           RowView(title: 'State', value: modal.ledStateName),
@@ -53,17 +55,15 @@ class LedgerViewPage extends StatelessWidget {
           RowView(title: 'PIN Code', value: modal.pinCode),
         ]),
 
-        //Registration
+        // Registration
         CardView('registration', children: [
           RowView(title: 'Parent', value: modal.parent),
-          RowView(
-            title: 'GSTIN',
-            value: modal.partyGstin,
-            button: ElevatedButton(
+          RowView(title: 'GSTIN', value: modal.partyGstin, buttons: [
+            ElevatedButton(
               child: const Text('Verify'),
               onPressed: () {},
             ),
-          ),
+          ]),
           RowView(title: 'State', value: modal.priorStateName),
           RowView(title: 'PAN No.', value: modal.incomeTexNumber),
           RowView(
@@ -72,13 +72,15 @@ class LedgerViewPage extends StatelessWidget {
           ),
         ]),
 
-        //Contact
+        // Contact
         CardView('Contact', children: [
-          RowView(
-            title: 'Email Id',
-            value: modal.email ?? '',
-            button: IconButton(
-              icon: const Icon(Icons.mail),
+          RowView(title: 'Email Id', value: modal.email ?? '', buttons: [
+            IconButton(
+              icon: Icon(
+                Icons.mail,
+                color: Colors.blue[300],
+              ),
+              padding: EdgeInsets.zero,
               onPressed: () async {
                 var url = Uri.tryParse('mailto:${modal.email}');
                 debugPrint('Email Id url ==> $url');
@@ -87,22 +89,48 @@ class LedgerViewPage extends StatelessWidget {
                 }
               },
             ),
-          ),
+          ]),
           RowView(
-            title: 'Phone No.',
-            value: modal.ledgerMobile ?? '',
-            button: IconButton(
-              icon: const Icon(Icons.call),
-              onPressed: () async {
-                var url = Uri.tryParse('tel:${modal.ledgerMobile}');
-                debugPrint('Phone No. url ==> $url');
-                if (url != null) {
-                  launchUrl(url);
-                }
-              },
-            ),
-          ),
+              title: 'Phone No.',
+              value: modal.ledgerMobile ?? '',
+              buttons: [
+                IconButton(
+                  icon: Icon(
+                    Icons.call,
+                    color: Colors.blue[300],
+                  ),
+                  padding: EdgeInsets.zero,
+                  onPressed: () async {
+                    var url = Uri.tryParse('tel:${modal.ledgerMobile}');
+                    debugPrint('Phone No. url ==> $url');
+                    if (url != null) {
+                      launchUrl(url);
+                    }
+                  },
+                ),
+                IconButton(
+                  icon: const Icon(
+                    Icons.whatsapp,
+                    color: Color(0xFF25d366),
+                  ),
+                  padding: EdgeInsets.zero,
+                  onPressed: () async {
+                    if (modal.ledgerMobile != null) {
+                      var mobile = '${modal.ledgerMobile}'
+                          .replaceFirst('91', '')
+                          .replaceAll('+', '')
+                          .replaceAll(' ', '');
+                      var url = 'https://wa.me/91$mobile';
+                      await launchUrl(
+                        Uri.parse(url),
+                        mode: LaunchMode.externalApplication,
+                      );
+                    }
+                  },
+                ),
+              ]),
         ]),
+
         //Account Balance
         CardView('Account Balance', children: [
           RowView(
@@ -115,14 +143,14 @@ class LedgerViewPage extends StatelessWidget {
           ),
         ]),
 
-        //Account Info
+        // Account Info
         CardView('Banking Info', children: [
           RowView(title: 'Bank Name', value: modal.bankName),
           RowView(title: 'IFSC Code', value: modal.ifscCode),
           RowView(title: 'Acc. Number', value: modal.accountNumber),
         ]),
 
-        //Account Reports
+        // Account Reports
         CardView('Transaction', children: [
           Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
             ElevatedButton(

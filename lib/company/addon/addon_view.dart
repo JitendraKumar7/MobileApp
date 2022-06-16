@@ -5,6 +5,7 @@ import 'package:tally/widget/widget.dart';
 
 import 'card/card.dart';
 import 'link/user.dart';
+import 'price/price_list.dart';
 import 'sales/sales_order.dart';
 import 'proforma/proforma.dart';
 import 'quotation/quotation.dart';
@@ -24,6 +25,12 @@ class AddonView extends StatelessWidget {
     return Scaffold(
       appBar: const Toolbar('BUSINESS ADDONS'),
       body: Column(children: [
+        Container(
+          alignment: Alignment.center,
+          padding: const EdgeInsets.all(18),
+          child: ListTitle(reference.parent.id.split('-').first),
+        ),
+        //const Divider(),
         Expanded(
           child: Row(children: [
             ButtonView(
@@ -94,10 +101,10 @@ class AddonView extends StatelessWidget {
           child: Row(children: [
             ButtonView(
               name: report,
-              label: 'M Box',
+              label: 'Price List',
               onTap: () {
-                //var page = QuotationPage.page(reference);
-                //Navigator.push(context, page);
+                var page = PriceList.page(reference);
+                Navigator.push(context, page);
               },
             ),
             //const VerticalDivider(),

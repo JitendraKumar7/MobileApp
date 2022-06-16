@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tally/constant/constant.dart';
@@ -32,7 +34,7 @@ class ReportsPage extends StatelessWidget {
     var title = '$id - ${document.id}'.toUpperCase();
     return Scaffold(
       body: QueryStreamBuilder(
-        stream: db.getInvoiceByMonth(document.reference),
+        stream: db.getInvoiceByMonth(document.reference).snapshots(),
         filter: (InvoiceModal modal, String value) {
           var name = modal.partyName.toLowerCase();
           return name.contains(value);
@@ -68,13 +70,13 @@ class AllReportsPage extends StatelessWidget {
     );
   }
 
-  Stream<QuerySnapshot<InvoiceModal>> getInvoiceAllMonth() async* {
-    for (var document in docs) {
-      var data = db.getInvoiceByMonth(document.reference);
-      await for (var invoice in data) {
-        yield invoice;
-      }
-    }
+  Future<List<QueryDocumentSnapshot<InvoiceModal>>> getInvoiceAllMonth() async {
+    List<QueryDocumentSnapshot<InvoiceModal>> list = [];
+    await Future.forEach(docs, (QueryDocumentSnapshot<MonthModal> doc) async {
+      var data = await db.getInvoiceByMonth(doc.reference).get();
+      list.addAll(data.docs);
+    });
+    return list;
   }
 
   @override
@@ -82,18 +84,27 @@ class AllReportsPage extends StatelessWidget {
     var id = docs.first.reference.parent.id;
     var title = id.toUpperCase();
     return Scaffold(
-      body: QueryStreamBuilder(
-        stream: getInvoiceAllMonth(),
-        filter: (InvoiceModal modal, String value) {
-          var name = modal.partyName.toLowerCase();
-          return name.contains(value);
+      body: FutureBuilder(
+        future: getInvoiceAllMonth(),
+        builder: (_,
+            AsyncSnapshot<List<QueryDocumentSnapshot<InvoiceModal>>> snapshot) {
+          if (snapshot.hasData) {
+            var data = snapshot.data ?? [];
+            return data.isEmpty
+                ? const EmptyView()
+                : SearchView(data, (InvoiceModal modal, String value) {
+                    var name = modal.partyName.toLowerCase();
+                    return name.contains(value);
+                  },
+                    (InvoiceModal modal) => ListTile(
+                          subtitle: ListSubTitle(modal.id, modal.date),
+                          title: ListTitle(modal.partyName),
+                          leading: const Leading(report),
+                          onTap: () => callback(modal),
+                        ));
+          }
+          return const LoaderPage();
         },
-        builder: (InvoiceModal modal) => ListTile(
-          subtitle: ListSubTitle(modal.id, modal.date),
-          title: ListTitle(modal.partyName),
-          leading: const Leading(report),
-          onTap: () => callback(modal),
-        ),
       ),
       appBar: Toolbar(title),
     );

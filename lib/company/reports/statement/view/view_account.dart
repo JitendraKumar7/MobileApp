@@ -6,7 +6,7 @@ import 'package:tally/services/services.dart';
 import 'package:tally/widget/widget.dart';
 import 'package:lazy_data_table/lazy_data_table.dart';
 
-import '../../../reports_view.dart';
+import '../../reports_view.dart';
 import '../pdf/view_pdf.dart';
 
 class ViewStatementPage extends StatelessWidget {

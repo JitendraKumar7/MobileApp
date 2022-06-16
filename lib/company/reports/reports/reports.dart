@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import 'package:tally/constant/constant.dart';
 import 'package:tally/widget/widget.dart';
-import 'package:tally/modal/modal.dart';
 
 import '../reports_view.dart';
 
@@ -21,11 +20,12 @@ class ReportsView extends StatelessWidget {
     return Scaffold(
       appBar: const Toolbar('BUSINESS REPORTS'),
       body: Column(children: [
-        /*Container(
+        Container(
           alignment: Alignment.center,
           padding: const EdgeInsets.all(18),
-          child: ListTitle(document.data().getName),
-        ),*/
+          child: ListTitle(reference.parent.id.split('-').first),
+        ),
+        //const Divider(),
         Expanded(
           child: Row(children: [
             ButtonView(
@@ -95,19 +95,19 @@ class ReportsView extends StatelessWidget {
         Expanded(
           child: Row(children: [
             ButtonView(
-              name: reportStocks,
-              label: 'Stocks',
+              name: reportStatement,
+              label: 'Statements',
               onTap: () {
-                var page = StockPage.page(reference);
+                var page = StatementPage.page(reference);
                 Navigator.push(context, page);
               },
             ),
             //const VerticalDivider(),
             ButtonView(
-              name: reportStatement,
-              label: 'Statements',
+              name: reportStocks,
+              label: 'Outstanding',
               onTap: () {
-                var page = StatementPage.page(reference);
+                var page = OutstandingPage.page(reference);
                 Navigator.push(context, page);
               },
             ),

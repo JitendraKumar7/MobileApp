@@ -4,6 +4,7 @@ export 'statement/statement_pdf.dart';
 export 'purchase/purchase_pdf.dart';
 export 'proforma/proforma_pdf.dart';
 export 'order/sales_order_pdf.dart';
+export 'price/price_list_pdf.dart';
 export 'credit/credit_pdf.dart';
 export 'debit/debit_pdf.dart';
 export 'payment/payment.dart';

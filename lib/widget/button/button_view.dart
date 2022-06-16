@@ -137,7 +137,7 @@ class MonthGridView extends StatelessWidget {
         Container(
           alignment: Alignment.center,
           padding: const EdgeInsets.all(18),
-          child: ListTitle(name),
+          child: ListTitle(name.split('-').first),
         ),
         Expanded(
           child:

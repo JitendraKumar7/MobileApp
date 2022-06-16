@@ -198,8 +198,7 @@ class FirestoreServices {
         .snapshots();
   }
 
-  Stream<QuerySnapshot<InvoiceModal>> getInvoiceByMonth(
-      DocumentReference reference) {
+  Query<InvoiceModal> getInvoiceByMonth(DocumentReference reference) {
     return reference
         .collection('TRANSACTION')
         .withConverter<InvoiceModal>(
@@ -207,8 +206,7 @@ class FirestoreServices {
               InvoiceModal.fromJson(snapshot.data()),
           toFirestore: (model, _) => model.toJson(),
         )
-        .orderBy('VOUCHERDATE', descending: true)
-        .snapshots();
+        .orderBy('VOUCHERDATE', descending: true);
   }
 
   Stream<QuerySnapshot<InvoiceModal>> getInvoiceByQuery(

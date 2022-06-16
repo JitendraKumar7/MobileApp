@@ -20,7 +20,7 @@ class MasterItems extends StatelessWidget {
       child: Column(children: [
         const TabBar(
           tabs: [
-            Tab(text: 'GROUP ITEMS'),
+            Tab(text: 'ITEMS GROUP'),
             Tab(text: 'ALL ITEMS'),
           ],
           labelColor: Colors.blue,

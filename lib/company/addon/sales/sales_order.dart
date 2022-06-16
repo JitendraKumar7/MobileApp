@@ -5,11 +5,11 @@ import 'package:tally/modal/modal.dart';
 import 'package:tally/services/services.dart';
 import 'package:tally/widget/widget.dart';
 
-import '../../reports/statement/account/view/view_account.dart';
+import '../../reports/statement/view/view_account.dart';
 import 'add/add_sales.dart';
 import 'view/view_sales.dart';
 
-class SalesPage extends StatelessWidget {
+class SalesPage extends StatefulWidget {
   final DocumentReference reference;
 
   static Route page(DocumentReference reference) {
@@ -19,20 +19,78 @@ class SalesPage extends StatelessWidget {
   const SalesPage(this.reference, {Key? key}) : super(key: key);
 
   @override
+  State<SalesPage> createState() => _SalesPageState();
+}
+
+class _SalesPageState extends State<SalesPage> {
+  late Stream<QuerySnapshot<OrderModal>> stream;
+
+  @override
+  void initState() {
+    super.initState();
+    stream = db
+        .salesOrder(widget.reference)
+        .orderBy('TIMESTAMP', descending: true)
+        .snapshots();
+  }
+
+  void _sortSalesOrders() async {
+    var result = await showMenu(
+        context: context,
+        elevation: 8.0,
+        position: const RelativeRect.fromLTRB(100, 109, 9, 0),
+        items: const [
+          PopupMenuItem(
+            value: 'ALL',
+            child: Text('ALL'),
+          ),
+          PopupMenuItem(
+            value: 'RECEIVED',
+            child: Text('NEW'),
+          ),
+          PopupMenuItem(
+            value: 'HOLD',
+            child: Text('HOLD'),
+          ),
+          PopupMenuItem(
+            value: 'CANCEL',
+            child: Text('CANCELLED'),
+          ),
+          PopupMenuItem(
+            value: 'CONFIRMED',
+            child: Text('CONFIRMED'),
+          ),
+          PopupMenuItem(
+            value: 'DISPATCHED',
+            child: Text('DISPATCHED'),
+          ),
+        ]);
+    if (result != null) {
+      stream = result == 'ALL'
+          ? db
+              .salesOrder(widget.reference)
+              .orderBy('TIMESTAMP', descending: true)
+              .snapshots()
+          : db
+              .salesOrder(widget.reference)
+              .where('STATUS', isEqualTo: result)
+              .snapshots();
+      setState(() => debugPrint('_sortSalesOrders $result'));
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: QueryStreamBuilder(
-        stream: db
-            .salesOrder(reference)
-            .orderBy('TIMESTAMP', descending: true)
-            .snapshots(),
+        stream: stream,
         filter: (OrderModal modal, String value) {
           var name = modal.name.toLowerCase();
           return name.contains(value);
         },
         builder: (OrderModal modal) => ListTile(
           onTap: () {
-            var route = ViewSalesOrder.page(reference, modal);
+            var route = ViewSalesOrder.page(widget.reference, modal);
             Navigator.push(context, route);
           },
           title: ListTitle(modal.name),
@@ -42,7 +100,7 @@ class SalesPage extends StatelessWidget {
             InkWell(
               onTap: () {
                 var page = SalesStatementPage.page(
-                  reference,
+                  widget.reference,
                   modal.ledger.name,
                 );
                 Navigator.push(context, page);
@@ -76,11 +134,16 @@ class SalesPage extends StatelessWidget {
           leading: const Leading(addonSalesOrder),
         ),
       ),
-      appBar: const Toolbar('SALES ORDER'),
+      appBar: Toolbar('SALES ORDER', actions: [
+        IconButton(
+          onPressed: _sortSalesOrders,
+          icon: const Icon(Icons.sort),
+        )
+      ]),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {
-          var route = AddSalesOrderPage.page(reference);
+          var route = AddSalesOrderPage.page(widget.reference);
           Navigator.push(context, route);
         },
       ),
@@ -175,7 +238,7 @@ class SalesPage extends StatelessWidget {
               TextButton(
                 onPressed: () {
                   db
-                      .salesOrder(reference)
+                      .salesOrder(widget.reference)
                       .doc(modal.document)
                       .update(modal.doc);
 
@@ -206,26 +269,17 @@ class SalesStatementPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: const Toolbar('ACCOUNT STATEMENT'),
       body: StreamBuilder(
         stream: db.getStatementByQuery(reference, name),
         builder: (_, AsyncSnapshot<QuerySnapshot<StatementModal>> snapshot) {
           if (snapshot.hasData) {
             var data = snapshot.data?.docs ?? [];
-            if (data.isEmpty) {
-              return const Scaffold(
-                appBar: Toolbar('ACCOUNT STATEMENT'),
-                body: EmptyView(),
-              );
-            }
-            return ViewStatementPage(
-              reference,
-              data.first.data(),
-            );
+            return data.isEmpty
+                ? const EmptyView()
+                : ViewStatementPage(reference, data.first.data());
           }
-          return const Scaffold(
-            appBar: Toolbar('ACCOUNT STATEMENT'),
-            body: LoaderPage(),
-          );
+          return const LoaderPage();
         },
       ),
     );

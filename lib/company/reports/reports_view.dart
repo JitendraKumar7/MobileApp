@@ -1,3 +1,4 @@
+export 'outstanding/outstanding.dart';
 export 'statement/statement.dart';
 export 'purchase/purchase.dart';
 export 'receipts/receipts.dart';

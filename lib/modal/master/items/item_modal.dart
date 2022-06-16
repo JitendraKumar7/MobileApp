@@ -1,14 +1,20 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
-
 import '../../modal.dart';
+
+class PriceListModal {
+  final List<List<String>> items;
+  final String title;
+
+  PriceListModal(this.items, this.title);
+}
 
 class ItemModal {
   String? mrp;
   String? guid;
   String? name;
   String? parent;
+  String? description;
   String? standardCost;
   String? standardPrice;
 
@@ -35,6 +41,7 @@ class ItemModal {
     data['STOCKDETAILS'] = stockDetails.toJson();
     data['STANDARDPRICE'] = standardPrice;
     data['STANDARDCOST'] = standardCost;
+    data['DESCRIPTION'] = description;
     data['PARENT'] = parent;
     data['SHOW'] = isShow;
     data['NAME'] = name;
@@ -54,6 +61,7 @@ class ItemModal {
     isShow = json['SHOW'] == true;
     standardPrice = json['STANDARDPRICE'];
     standardCost = json['STANDARDCOST'];
+    description = json['DESCRIPTION'];
     parent = json['PARENT'];
     name = json['NAME'];
     guid = json['GUID'];
@@ -71,6 +79,14 @@ class ItemModal {
       mrp: mrp ?? '',
     );
   }
+
+  List<String> get value => <String>[
+        name ?? '',
+        stockDetails.hsnCode ?? '',
+        description ?? '',
+        standardPrice?.split('/').first ?? '',
+        mrp?.split('/').first ?? ''
+      ];
 }
 
 class TaxDetails {
