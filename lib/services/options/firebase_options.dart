@@ -11,14 +11,14 @@ const String _databaseURL =
     'https://tally-konnect-55ffb-default-rtdb.firebaseio.com';
 
 FirebaseOptions get options {
-  String _appId = '1:93429636162:web:5bcd680539d281a6fa61db';
+  String appId = '1:93429636162:web:5bcd680539d281a6fa61db';
   if (!kIsWeb) {
     if (Platform.isAndroid) {
-      _appId = kDebugMode
+      appId = kDebugMode
           ? '1:93429636162:android:f887b3decd26061cfa61db'
           : '1:93429636162:android:f7b998c09c752b35fa61db';
     } else if (Platform.isIOS) {
-      _appId = '1:93429636162:ios:45ed69d19fa68238fa61db';
+      appId = '1:93429636162:ios:45ed69d19fa68238fa61db';
     }
   }
   return FirebaseOptions(
@@ -29,6 +29,6 @@ FirebaseOptions get options {
     authDomain: _authDomain,
     projectId: _projectId,
     apiKey: _apiKey,
-    appId: _appId,
+    appId: appId,
   );
 }

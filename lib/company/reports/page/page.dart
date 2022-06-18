@@ -76,6 +76,7 @@ class AllReportsPage extends StatelessWidget {
       var data = await db.getInvoiceByMonth(doc.reference).get();
       list.addAll(data.docs);
     });
+    list.sort((a, b) => b.data().voucherDate.compareTo(a.data().voucherDate));
     return list;
   }
 

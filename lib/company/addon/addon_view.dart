@@ -4,7 +4,6 @@ import 'package:tally/constant/constant.dart';
 import 'package:tally/widget/widget.dart';
 
 import 'card/card.dart';
-import 'link/user.dart';
 import 'price/price_list.dart';
 import 'sales/sales_order.dart';
 import 'proforma/proforma.dart';
@@ -46,8 +45,8 @@ class AddonView extends StatelessWidget {
               name: addonLinkUser,
               label: 'QR Code',
               onTap: () {
-                var page = UserPage.page(reference);
-                Navigator.push(context, page);
+                //var page = UserPage.page(reference);
+                //Navigator.push(context, page);
               },
             ),
           ]),

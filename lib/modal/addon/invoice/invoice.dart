@@ -30,7 +30,7 @@ class ProformaModal extends BaseModal {
             ]
           : [
               ['', 'CGST', taxLocal],
-              ['', 'CGST', taxLocal],
+              ['', 'SGST', taxLocal],
             ],
       [
         '',

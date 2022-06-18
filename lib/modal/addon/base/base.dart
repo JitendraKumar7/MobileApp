@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:uuid/uuid.dart';
 
 import '../../modal.dart';
@@ -46,8 +47,7 @@ class BaseModal {
   String toString() => jsonEncode(toJson());
 
   void setItems(List<ItemModal>? result) {
-    var _items = result?.map((e) => e.toItem()).toList();
-    items.addAll(_items ?? []);
+    result?.forEach((e) => items.add(e.toItem()));
   }
 
   Map<String, dynamic> toJson() => jsonData();

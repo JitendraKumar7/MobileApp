@@ -490,13 +490,13 @@ Widget headerPriceList(
     Table.fromTextArray(
       data: [],
       headers: headers,
-      border:   TableBorder(
-        left: BorderSide.none,
-        right: BorderSide.none,
+      border: const TableBorder(
         top: BorderSide(),
         bottom: BorderSide(),
-        horizontalInside: BorderSide.none,
+        left: BorderSide.none,
+        right: BorderSide.none,
         verticalInside: BorderSide.none,
+        horizontalInside: BorderSide.none,
       ),
       headerStyle: const TextStyle(
         color: colorBlack,
@@ -504,7 +504,6 @@ Widget headerPriceList(
       ),
       columnWidths: columnWidths,
       cellAlignments: cellAlignments,
-      //headerDecoration: headerDecoration,
       headerAlignment: Alignment.centerRight,
     ),
   ]);

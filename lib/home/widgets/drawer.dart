@@ -1,4 +1,5 @@
 import 'package:app_review/app_review.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info/package_info.dart';
@@ -9,7 +10,6 @@ import 'package:tally/modal/modal.dart';
 import 'package:tally/profile/profile.dart';
 import 'package:tally/services/services.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 
 import '../../about/about.dart';
 import 'avatar.dart';
@@ -31,6 +31,8 @@ void supportDialog(BuildContext context) {
               padding: const EdgeInsets.all(12),
               children: [
                 Container(
+                  padding: const EdgeInsets.all(12),
+                  alignment: Alignment.center,
                   child: const Text(
                     'HELP & SUPPORT',
                     style: TextStyle(
@@ -39,14 +41,12 @@ void supportDialog(BuildContext context) {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  padding: const EdgeInsets.all(12),
-                  alignment: Alignment.center,
                 ),
                 const SizedBox(height: 18),
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
-                    launch('tel:+918375938947');
+                    launchUrl(Uri.parse('tel:+918375938947'));
                   },
                   child: const Text('CALL - +91 8375938947'),
                 ),
@@ -55,16 +55,17 @@ void supportDialog(BuildContext context) {
                     Navigator.of(context).pop();
                     var title = 'HELP & SUPPORT';
                     var email = 'info@tallykonnect.com';
-                    launch('mailto:$email?subject=$title&body=$title');
+                    launchUrl(
+                        Uri.parse('mailto:$email?subject=$title&body=$title'));
                   },
                   child: const Text('MAIL - info@tallykonnect.com'),
                 ),
                 Container(
+                  alignment: Alignment.centerRight,
                   child: TextButton(
                     onPressed: () => Navigator.of(context).pop(),
                     child: const Text('DISMISS'),
                   ),
-                  alignment: Alignment.centerRight,
                 )
               ]),
         ),
@@ -92,6 +93,8 @@ void feedbackDialog(BuildContext context, String id) {
               padding: const EdgeInsets.all(12),
               children: [
                 Container(
+                  padding: const EdgeInsets.all(12),
+                  alignment: Alignment.center,
                   child: const Text(
                     'SHARE YOUR FEEDBACK',
                     style: TextStyle(
@@ -100,8 +103,6 @@ void feedbackDialog(BuildContext context, String id) {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  padding: const EdgeInsets.all(12),
-                  alignment: Alignment.center,
                 ),
                 const SizedBox(height: 18),
                 TextFormField(

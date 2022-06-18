@@ -126,12 +126,12 @@ class InvoiceModal {
   }
 
   List<LedgerDetails> get _ledgerDetails {
-    List<LedgerDetails> _details = [...ledgerDetails];
-    _details.removeWhere((e) => e.isRemove(partyName));
+    List<LedgerDetails> details = [...ledgerDetails];
+    details.removeWhere((e) => e.isRemove(partyName));
     if (productsEmpty) {
-      _details.removeWhere((e) => e.isProduct);
+      details.removeWhere((e) => e.isProduct);
     }
-    return _details;
+    return details;
   }
 
   List<List<String>> get sundry {

@@ -56,6 +56,7 @@ class _BusinessCardState extends State<BusinessCardPage> {
       }
     }
 
+    // ignore: use_build_context_synchronously
     Navigator.popUntil(
       context,
       ModalRoute.withName('/index'),
@@ -216,6 +217,7 @@ class _BusinessCardState extends State<BusinessCardPage> {
                           capture: (url) async {
                             modal!.signature = url;
                             await reference!.update({'$id.SIGNATURE': url});
+                            // ignore: use_build_context_synchronously
                             Navigator.popUntil(
                               context,
                               ModalRoute.withName('/index'),

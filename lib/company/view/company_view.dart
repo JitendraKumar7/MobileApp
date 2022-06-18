@@ -1,12 +1,10 @@
-import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:tally/company/company.dart';
-import 'package:tally/modal/modal.dart';
 import 'package:tally/constant/constant.dart';
+import 'package:tally/modal/modal.dart';
 import 'package:tally/services/services.dart';
 
 class Company extends StatelessWidget {
@@ -87,16 +85,16 @@ class Company extends StatelessWidget {
                     leading: Container(
                       width: 48,
                       clipBehavior: Clip.hardEdge,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[100],
+                        shape: BoxShape.circle,
+                      ),
                       child: company.logo == null
                           ? Image.asset(logo)
                           : Image.network(
                               company.logo!,
                               fit: BoxFit.fill,
                             ),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[100],
-                        shape: BoxShape.circle,
-                      ),
                     ),
                   ),
                   Row(

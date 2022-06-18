@@ -52,11 +52,8 @@ class ForgotForm extends StatelessWidget {
               Container(
                 height: 250,
                 width: size.width - 160,
-                child: Image.asset(
-                  logo,
-                  fit: BoxFit.fill,
-                ),
                 margin: const EdgeInsets.only(right: 40),
+                child: Image.asset(logo, fit: BoxFit.fill),
               ),
             ),
             const FadeAnimation(

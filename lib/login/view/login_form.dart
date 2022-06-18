@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:package_info/package_info.dart';
 import 'package:formz/formz.dart';
+import 'package:package_info/package_info.dart';
 import 'package:tally/app/app.dart';
 import 'package:tally/constant/constant.dart';
 import 'package:tally/login/cubit/login_cubit.dart';
@@ -44,11 +44,8 @@ class LoginForm extends StatelessWidget {
               Container(
                 height: 250,
                 width: size.width - 160,
-                child: Image.asset(
-                  logo,
-                  fit: BoxFit.fill,
-                ),
                 margin: const EdgeInsets.only(right: 40),
+                child: Image.asset(logo, fit: BoxFit.fill),
               ),
             ),
             FadeAnimation(2, _EmailInput()),

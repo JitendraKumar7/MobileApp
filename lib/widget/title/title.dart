@@ -34,6 +34,7 @@ class ListSubTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
             child: Text(
@@ -50,6 +51,5 @@ class ListSubTitle extends StatelessWidget {
             style: const TextStyle(fontSize: 12, color: Colors.black),
           ),
         ],
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
       );
 }

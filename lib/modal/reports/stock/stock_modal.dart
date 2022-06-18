@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import '../../modal.dart';
-
 class StockItem {
   dynamic name;
   dynamic rate;

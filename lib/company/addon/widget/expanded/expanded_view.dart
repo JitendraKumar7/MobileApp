@@ -113,6 +113,7 @@ class _ExpandedViewState extends State<ExpandedView> {
       var ledger = await Navigator.push(context, pageLedger);
 
       if (ledger == null) {
+        // ignore: use_build_context_synchronously
         Navigator.pop(context);
         return;
       }
@@ -176,6 +177,7 @@ class _ExpandedViewState extends State<ExpandedView> {
           ]),
         Container(
           alignment: Alignment.center,
+          padding: const EdgeInsets.all(12),
           child: Text(
             widget.header,
             style: const TextStyle(
@@ -184,7 +186,6 @@ class _ExpandedViewState extends State<ExpandedView> {
               fontWeight: FontWeight.bold,
             ),
           ),
-          padding: const EdgeInsets.all(12),
         ),
         ...widget.modal.items
             .map((item) => ItemView(
@@ -198,8 +199,8 @@ class _ExpandedViewState extends State<ExpandedView> {
         Container(
           alignment: const Alignment(0.9, 0.0),
           child: FloatingActionButton(
-            child: const Icon(Icons.add),
             onPressed: onPressed,
+            child: const Icon(Icons.add),
           ),
         ),
         if (widget.tax == null)

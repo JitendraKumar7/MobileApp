@@ -161,9 +161,9 @@ class _ImageWidgetState extends State<ImageWidget> {
     return Center(
       child: uploading
           ? SizedBox(
-              child: const LoaderPage(),
-              height: widget.height,
               width: widget.width,
+              height: widget.height,
+              child: const LoaderPage(),
             )
           : InkWell(
               onTap: onClicked,

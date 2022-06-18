@@ -38,7 +38,7 @@ class _PriceListState extends State<PriceList> {
                   Expanded(
                     child: ListView(
                       children: groups.map((parent) {
-                        checked['$parent'] = true;
+                        checked['$parent'] ??= true;
                         return Card(
                           clipBehavior: Clip.hardEdge,
                           shape: RoundedRectangleBorder(

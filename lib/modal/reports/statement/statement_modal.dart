@@ -138,14 +138,14 @@ class StatementModal {
 
   Widget data(int i, int j) {
     if (i == 0) {
-      var _opBal = Text(
+      var opBalWidget = Text(
         opBal.abs().toStringAsFixed(2),
         style: const TextStyle(fontWeight: FontWeight.bold),
       );
       if (opBal < 0 && j == 3) {
-        return _opBal;
+        return opBalWidget;
       } else if (opBal > 0 && j > 3) {
-        return _opBal;
+        return opBalWidget;
       }
 
       if (j == 0) {
@@ -159,14 +159,14 @@ class StatementModal {
     }
 
     if (i > length - 2) {
-      var _clBal = Text(
+      var clBalWidget = Text(
         clBal.abs().toStringAsFixed(2),
         style: const TextStyle(fontWeight: FontWeight.bold),
       );
       if (clBal < 0 && j == 3) {
-        return _clBal;
+        return clBalWidget;
       } else if (clBal > 0 && j > 3) {
-        return _clBal;
+        return clBalWidget;
       }
 
       if (j == 0) {
@@ -192,16 +192,16 @@ class StatementModal {
       ];
 
   List<List<String>> get value {
-    var _opBal = opBal.abs().toStringAsFixed(2);
-    var _clBal = clBal.abs().toStringAsFixed(2);
+    var opBal1 = opBal.abs().toStringAsFixed(2);
+    var clBal1 = clBal.abs().toStringAsFixed(2);
     return [
       [
         startDate,
         'Opening Bal.',
         '',
         '',
-        opBal > 0 ? '' : _opBal,
-        opBal > 0 ? _opBal : '',
+        opBal > 0 ? '' : opBal1,
+        opBal > 0 ? opBal1 : '',
       ],
       ...transaction.map((e) => e.value).toList(),
       [
@@ -209,8 +209,8 @@ class StatementModal {
         'Closing Bal.',
         '',
         '',
-        clBal > 0 ? '' : _clBal,
-        clBal > 0 ? _clBal : '',
+        clBal > 0 ? '' : clBal1,
+        clBal > 0 ? clBal1 : '',
       ],
     ];
   }

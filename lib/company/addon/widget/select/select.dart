@@ -44,11 +44,8 @@ class SelectItemPage extends StatelessWidget {
                 selected: modal.isSelected,
                 leading: modal.isSelected
                     ? const CircleAvatar(
-                        child: Icon(
-                          Icons.check,
-                          color: Colors.orange,
-                        ),
                         backgroundColor: Colors.white,
+                        child: Icon(Icons.check, color: Colors.orange),
                       )
                     : const Leading(masterItem),
                 title: ListTitle(modal.getName),
