@@ -225,6 +225,7 @@ class StatementModal {
   }
 
   void setTransaction(List<Transaction> list) {
+    transaction.clear();
     transaction.addAll(list);
   }
 }

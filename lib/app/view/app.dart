@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tally/app/app.dart';
 import 'package:tally/theme.dart';
+import 'package:tally/widget/widget.dart';
 
 class App extends StatelessWidget {
   const App({
@@ -40,6 +41,18 @@ class AppView extends StatelessWidget {
         onGeneratePages: onGenerateAppViewPages,
       ),
       debugShowCheckedModeBanner: false,
+      builder: (BuildContext context, Widget? child) {
+        final MediaQueryData data = MediaQuery.of(context);
+
+        ErrorWidget.builder = (FlutterErrorDetails errorDetails) {
+          debugPrint('FlutterErrorDetails $errorDetails');
+          return const EmptyView();
+        };
+        return MediaQuery(
+          data: data.copyWith(textScaleFactor: 1),
+          child: child ?? Container(),
+        );
+      },
     );
   }
 }
