@@ -10,7 +10,7 @@ List<Page> onGenerateAppViewPages(AppStatus state, List<Page<dynamic>> pages) {
     case AppStatus.forgotten:
       return [ForgotPage.page()];
     case AppStatus.authenticated:
-      return [HomePage.page()];
+      return [IndexPage.page()];
     case AppStatus.unauthenticated:
     default:
       return [LoginPage.page()];

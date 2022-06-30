@@ -1,5 +1,4 @@
 import 'package:app_review/app_review.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info/package_info.dart';
@@ -45,14 +44,14 @@ void supportDialog(BuildContext context) {
                 const SizedBox(height: 18),
                 TextButton(
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    //Navigator.of(context).pop();
                     launchUrl(Uri.parse('tel:+918375938947'));
                   },
                   child: const Text('CALL - +91 8375938947'),
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    //Navigator.of(context).pop();
                     var title = 'HELP & SUPPORT';
                     var email = 'info@tallykonnect.com';
                     launchUrl(
@@ -154,167 +153,189 @@ class DrawerLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     var bloc = context.read<AppBloc>();
     final user = bloc.state.user;
-    return Drawer(
-      child: ListView(children: [
-        Container(
-          padding: const EdgeInsets.only(top: 12, bottom: 12),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [
-              Colors.blue.shade700,
-              Colors.blue.shade500,
-              Colors.blue.shade100,
-            ]),
-          ),
-          child: Column(children: [
-            Avatar(photo: user.photo),
-            const SizedBox(width: 12),
-            Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    user.name ?? '',
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                  Text(
-                    user.email ?? '',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                    ),
-                  ),
-                ]),
+    return ListView(children: [
+      Container(
+        padding: const EdgeInsets.only(top: 12, bottom: 12),
+        decoration: const BoxDecoration(
+          /*gradient: LinearGradient(colors: [
+            Colors.blue.shade700,
+            Colors.blue.shade500,
+            Colors.blue.shade100,
           ]),
+          */
+          color: Colors.blue,
         ),
-        ListTile(
-          onTap: () {
-            Navigator.of(context).pop();
-            Navigator.push(context, AboutPage.page());
-          },
-          title: const Text(
-            'About App',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          leading: const Icon(Icons.info),
-          trailing: const Icon(Icons.keyboard_arrow_right),
-        ),
-        const Divider(),
-        ListTile(
-          onTap: () {
-            Navigator.of(context).pop();
-            var page = ProfilePage.page(user.id);
-            Navigator.push(context, page);
-          },
-          title: const Text(
-            'Profile',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          leading: const Icon(Icons.person),
-          trailing: const Icon(Icons.keyboard_arrow_right),
-        ),
-        const Divider(),
-        ListTile(
-          onTap: () async {
-            Navigator.of(context).pop();
-            Share.share(
-              shareMessage,
-              subject: 'App Share',
-            );
-            final dynamicLinkParams = DynamicLinkParameters(
-              link: Uri.parse('https://tally-konnect-55ffb.web.app/'),
-              uriPrefix: 'https://tally-konnect-55ffb.web.app/link',
-              androidParameters:
-                  const AndroidParameters(packageName: 'tally.mobile.app'),
-              iosParameters: const IOSParameters(bundleId: 'tally.mobile.app'),
-            );
-            final dynamicLink = await FirebaseDynamicLinks.instance
-                .buildShortLink(dynamicLinkParams);
-            debugPrint('dynamicLink $dynamicLink');
-          },
-          title: const Text(
-            'Share App',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          leading: const Icon(Icons.share),
-          trailing: const Icon(Icons.keyboard_arrow_right),
-        ),
-        const Divider(),
-        ListTile(
-          onTap: () {
-            Navigator.of(context).pop();
-            feedbackDialog(context, user.id);
-          },
-          title: const Text(
-            'Feedback',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          leading: const Icon(Icons.feedback),
-          trailing: const Icon(Icons.keyboard_arrow_right),
-        ),
-        const Divider(),
-        ListTile(
-          onTap: () {
-            Navigator.of(context).pop();
-            supportDialog(context);
-          },
-          title: const Text(
-            'Help & Support',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          leading: const Icon(Icons.support_agent),
-          trailing: const Icon(Icons.keyboard_arrow_right),
-        ),
-        const Divider(),
-        ListTile(
-          onTap: () {
-            Navigator.of(context).pop();
-            AppReview.storeListing;
-          },
-          title: const Text(
-            'Rate & Review',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          leading: const Icon(Icons.reviews),
-          trailing: const Icon(Icons.keyboard_arrow_right),
-        ),
-        const Divider(),
-        ListTile(
-          onTap: () {
-            Navigator.of(context).pop();
-            var bloc = context.read<AppBloc>();
-            bloc.add(AppLogoutRequested());
-          },
-          title: const Text(
-            'Logout',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          leading: const Icon(Icons.logout),
-          trailing: const Icon(Icons.keyboard_arrow_right),
-        ),
-        const Divider(),
-        FutureBuilder(
-          future: PackageInfo.fromPlatform(),
-          builder: (_, AsyncSnapshot<PackageInfo> snapshot) {
-            if (snapshot.hasData) {
-              var packageInfo = snapshot.data;
-              var appName = packageInfo?.appName;
-              var version = packageInfo?.version;
-              var packageName = packageInfo?.packageName;
-              var buildNumber = packageInfo?.buildNumber;
-              debugPrint('$packageName $buildNumber');
-              return Container(
-                padding: const EdgeInsets.only(right: 24),
-                alignment: Alignment.centerRight,
-                child: Text(
-                  '$appName - $version',
-                  style: Theme.of(context).textTheme.subtitle2,
+        child: Column(children: [
+          Avatar(photo: user.photo),
+          const SizedBox(width: 12),
+          Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  user.name ?? '',
+                  style: const TextStyle(color: Colors.white),
                 ),
-              );
-            }
-            return const SizedBox();
-          },
+                Text(
+                  user.email ?? '',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                  ),
+                ),
+              ]),
+        ]),
+      ),
+      ListTile(
+        onTap: () {
+          //Navigator.of(context).pop();
+          Navigator.push(context, AboutPage.page());
+        },
+        title: const Text(
+          'About App',
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
-      ]),
-    );
+        leading: const Icon(Icons.info),
+        trailing: const Icon(Icons.keyboard_arrow_right),
+      ),
+      const Divider(
+        height: 3,
+        color: Colors.black,
+      ),
+      ListTile(
+        onTap: () {
+          //Navigator.of(context).pop();
+          var page = ProfilePage.page(user.id);
+          Navigator.push(context, page);
+        },
+        title: const Text(
+          'Profile',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        leading: const Icon(Icons.person),
+        trailing: const Icon(Icons.keyboard_arrow_right),
+      ),
+      const Divider(
+        height: 3,
+        color: Colors.black,
+      ),
+      ListTile(
+        onTap: () async {
+          //Navigator.of(context).pop();
+          Share.share(shareMessage, subject: 'App Share');
+          /*final dynamicLinkParams = DynamicLinkParameters(
+            link: Uri.parse('https://tally-konnect-55ffb.web.app/'),
+            uriPrefix: 'https://tally-konnect-55ffb.web.app/link',
+            androidParameters:
+                const AndroidParameters(packageName: 'tally.mobile.app'),
+            iosParameters: const IOSParameters(bundleId: 'tally.mobile.app'),
+          );*/
+          //final dynamicLink = await FirebaseDynamicLinks.instance
+              //.buildShortLink(dynamicLinkParams);
+          //debugPrint('dynamicLink $dynamicLink');
+        },
+        title: const Text(
+          'Share App',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        leading: const Icon(Icons.share),
+        trailing: const Icon(Icons.keyboard_arrow_right),
+      ),
+      const Divider(
+        height: 3,
+        color: Colors.black,
+      ),
+      ListTile(
+        onTap: () {
+          //Navigator.of(context).pop();
+          feedbackDialog(context, user.id);
+        },
+        title: const Text(
+          'Feedback',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        leading: const Icon(Icons.feedback),
+        trailing: const Icon(Icons.keyboard_arrow_right),
+      ),
+      const Divider(
+        height: 3,
+        color: Colors.black,
+      ),
+      ListTile(
+        onTap: () {
+          //Navigator.of(context).pop();
+          supportDialog(context);
+        },
+        title: const Text(
+          'Help & Support',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        leading: const Icon(Icons.support_agent),
+        trailing: const Icon(Icons.keyboard_arrow_right),
+      ),
+      const Divider(
+        height: 3,
+        color: Colors.black,
+      ),
+      ListTile(
+        onTap: () {
+          //Navigator.of(context).pop();
+          AppReview.storeListing;
+        },
+        title: const Text(
+          'Rate & Review',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        leading: const Icon(Icons.reviews),
+        trailing: const Icon(Icons.keyboard_arrow_right),
+      ),
+      const Divider(
+        height: 3,
+        color: Colors.black,
+      ),
+      ListTile(
+        onTap: () {
+          //Navigator.of(context).pop();
+          var bloc = context.read<AppBloc>();
+          bloc.add(AppLogoutRequested());
+        },
+        title: const Text(
+          'Logout',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        leading: const Icon(Icons.logout),
+        trailing: const Icon(Icons.keyboard_arrow_right),
+      ),
+      const Divider(
+        height: 3,
+        color: Colors.black,
+      ),
+      FutureBuilder(
+        future: PackageInfo.fromPlatform(),
+        builder: (_, AsyncSnapshot<PackageInfo> snapshot) {
+          if (snapshot.hasData) {
+            var packageInfo = snapshot.data;
+            var appName = packageInfo?.appName;
+            var version = packageInfo?.version;
+            var packageName = packageInfo?.packageName;
+            var buildNumber = packageInfo?.buildNumber;
+            debugPrint('$packageName $buildNumber');
+            return Container(
+              padding: const EdgeInsets.only(
+                bottom: 24,
+                right: 24,
+                top: 18,
+              ),
+              alignment: Alignment.centerRight,
+              child: Text(
+                '$appName - $version',
+                style: Theme.of(context).textTheme.subtitle2,
+              ),
+            );
+          }
+          return const SizedBox();
+        },
+      ),
+    ]);
   }
 }

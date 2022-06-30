@@ -7,6 +7,7 @@ class CompanyModal {
   String? email;
   String? gstin;
   String? mobile;
+  String? period;
   String? address;
   String? pinCode;
   String? stateName;
@@ -39,6 +40,7 @@ class CompanyModal {
     signature = json['SIGNATURE'];
     address = json['ADDRESS'];
     pinCode = json['PINCODE'];
+    period = json['PERIOD'];
     mobile = json['MOBILE'];
     gstin = json['GSTIN'];
     email = json['EMAIL'];
@@ -59,6 +61,7 @@ class CompanyModal {
     data['SIGNATURE'] = signature;
     data['ADDRESS'] = address;
     data['PINCODE'] = pinCode;
+    data['PERIOD'] = period;
     data['MOBILE'] = mobile;
     data['GSTIN'] = gstin;
     data['EMAIL'] = email;

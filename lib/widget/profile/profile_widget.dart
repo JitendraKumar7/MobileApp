@@ -180,23 +180,24 @@ class _ImageWidgetState extends State<ImageWidget> {
   }
 
   Widget buildEditIcon(Color color) {
+    var isSmall = widget.height > 90;
     return buildCircle(
       color: Colors.white,
-      all: 3,
+      all: isSmall ? 3 : 1,
       child: buildCircle(
         color: color,
-        all: 8,
+        all: isSmall ? 8 : 3,
         child: Icon(
           widget.url.isEmpty ? Icons.add_a_photo : Icons.edit,
           color: Colors.white,
-          size: 20,
+          size: isSmall ? 20 : 10,
         ),
       ),
     );
   }
 
   Widget buildImage() {
-    var boxFit = BoxFit.cover;
+    var boxFit = BoxFit.fill;
 
     final image = fileUrl.isNotEmpty
         ? Image.network(fileUrl, fit: boxFit)

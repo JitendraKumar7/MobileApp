@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:tally/constant/constant.dart';
 import 'package:tally/widget/widget.dart';
 
-import 'card/card.dart';
+import 'business/business.dart';
 import 'price/price_list.dart';
-import 'sales/sales_order.dart';
 import 'proforma/proforma.dart';
-import 'quotation/quotation.dart';
 import 'purchase/purchase_order.dart';
+import 'quotation/quotation.dart';
+import 'sales/sales_order.dart';
 
 class AddonView extends StatelessWidget {
   const AddonView(this.reference, {Key? key}) : super(key: key);
@@ -36,17 +36,17 @@ class AddonView extends StatelessWidget {
               name: addonCard,
               label: 'Business Card',
               onTap: () {
-                var page = BusinessCardPage.page(reference);
+                var page = ShareCardPage.page(reference);
                 Navigator.push(context, page);
               },
             ),
             //const VerticalDivider(),
             ButtonView(
-              name: addonLinkUser,
-              label: 'QR Code',
+              name: report,
+              label: 'Price List',
               onTap: () {
-                //var page = UserPage.page(reference);
-                //Navigator.push(context, page);
+                var page = PriceList.page(reference);
+                Navigator.push(context, page);
               },
             ),
           ]),
@@ -91,28 +91,6 @@ class AddonView extends StatelessWidget {
               onTap: () {
                 var page = ProformaPage.page(reference);
                 Navigator.push(context, page);
-              },
-            ),
-          ]),
-        ),
-        //const Divider(),
-        Expanded(
-          child: Row(children: [
-            ButtonView(
-              name: report,
-              label: 'Price List',
-              onTap: () {
-                var page = PriceList.page(reference);
-                Navigator.push(context, page);
-              },
-            ),
-            //const VerticalDivider(),
-            ButtonView(
-              name: gst,
-              label: 'Gst Window',
-              onTap: () {
-                //var page = ProformaPage.page(reference);
-                //Navigator.push(context, page);
               },
             ),
           ]),

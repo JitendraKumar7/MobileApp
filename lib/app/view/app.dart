@@ -46,7 +46,10 @@ class AppView extends StatelessWidget {
 
         ErrorWidget.builder = (FlutterErrorDetails errorDetails) {
           debugPrint('FlutterErrorDetails $errorDetails');
-          return const EmptyView();
+          return Scaffold(
+            appBar: AppBar(title: const Text('ERROR')),
+            body: const EmptyView(),
+          );
         };
         return MediaQuery(
           data: data.copyWith(textScaleFactor: 1),

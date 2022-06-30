@@ -3,7 +3,7 @@ const String logo = 'assets/logo.png';
 const String person = 'assets/person.png';
 const String product = 'assets/product.jpg';
 const String calendar = 'assets/calendar.jpg';
-const String cardBack = 'assets/card_back.jpg';
+const String cardBack = 'assets/card_back.png';
 const String background = 'assets/background.png';
 
 const String masterItem = 'assets/icons/items.png';
@@ -27,13 +27,8 @@ const String addonSalesOrder = 'assets/icons/sales_order.png';
 const String addonPurchaseOrder = 'assets/icons/purchase_order.png';
 const String addonProformaInvoice = 'assets/icons/proforma_invoice.png';
 
-const String iOS = 'https://apps.apple.com/app/id1601196670';
-
-const String android =
-    'https://play.google.com/store/apps/details?id=tally.mobile.app';
-
 const String shareMessage = 'Remain connected with your business'
     '\n\nGet Tally on mobile\n\nDownload\n'
     'TallyKonnect - Tally on mobile app\n'
-    '\niOS\n$iOS \n\nAndroid\n$android';
+    '\nhttps://tallykonnect.page.link/app';
 
