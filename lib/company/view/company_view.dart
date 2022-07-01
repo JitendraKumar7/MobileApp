@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:tally/company/company.dart';
 import 'package:tally/constant/constant.dart';
@@ -19,7 +18,20 @@ class Company extends StatefulWidget {
 }
 
 class _CompanyState extends State<Company> {
-  List<CompanyModal> list = [];
+  final controller = TextEditingController();
+  final List<CompanyModal> documents = [];
+  final List<CompanyModal> list = [];
+
+  search() {
+    list.clear();
+    String value = controller.text.toUpperCase();
+
+    list.addAll(value.isEmpty
+        ? documents
+        : documents.where((doc) => doc.getName.contains(value)).toList());
+
+    setState(() => true);
+  }
 
   @override
   void initState() {
@@ -27,11 +39,14 @@ class _CompanyState extends State<Company> {
     try {
       var values = widget.data.data();
       values?.forEach((key, value) {
-        list.add(CompanyModal.fromJson(value, key));
+        documents.add(CompanyModal.fromJson(value, key));
       });
+      search();
     } catch (ex) {
       debugPrint('$ex');
     }
+
+    controller.addListener(search);
   }
 
   @override
@@ -45,6 +60,7 @@ class _CompanyState extends State<Company> {
           vertical: 12,
         ),
         child: TextFormField(
+          controller: controller,
           decoration: InputDecoration(
             hintText: 'Search Companies',
             suffixIcon: const Icon(Icons.search),

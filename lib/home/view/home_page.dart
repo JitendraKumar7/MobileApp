@@ -111,7 +111,10 @@ class _IndexPageState extends State<IndexPage> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-          onTap: (newIndex) => setState(() => _index = newIndex),
+          onTap: (newIndex) {
+            //debugPrint('DASHBOARD $_index, $newIndex');
+            setState(() => _index = newIndex);
+          },
           currentIndex: _index,
           unselectedFontSize: 8,
           selectedFontSize: 8,
