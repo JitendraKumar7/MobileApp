@@ -12,7 +12,7 @@ Future<Uint8List> getPaymentPdf(InvoiceModal modal) async {
       headerFrom(modal.company, header),
       Divider(thickness: 9, color: colorBlue),
       bodySlip(context, modal.slip(true)),
-      footer(context, modal.company.name),
+      footer(context, modal.company.company),
     ]),
   );
   return create(page);

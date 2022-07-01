@@ -15,7 +15,7 @@ Future<Uint8List> getReceiptPdf(InvoiceModal modal) async {
         color: colorBlue,
       ),
       bodySlip(context, modal.slip(false)),
-      footer(context, modal.company.name),
+      footer(context, modal.company.company),
     ]),
   );
   return create(page);

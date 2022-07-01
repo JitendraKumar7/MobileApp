@@ -20,7 +20,7 @@ Future<Uint8List> getPurchaseOrderPdf(OrderModal modal) async {
         bodyOrder(context, modal.data),
         Expanded(child: Text('')),
         Text(modal.remark, style: const TextStyle(fontSize: 12)),
-        footer(context, modal.company.name),
+        footer(context, modal.company.company),
       ],
       crossAxisAlignment: CrossAxisAlignment.start,
     ),

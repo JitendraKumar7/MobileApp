@@ -23,7 +23,7 @@ Future<Uint8List> getQuotationPdf(QuotationModal modal) async {
         Text('Terms & Conditions', style: const TextStyle(fontSize: 12)),
         SizedBox(height: 9),
         Text(modal.remark, style: const TextStyle(fontSize: 11)),
-        footer(context, modal.company.name),
+        footer(context, modal.company.company),
       ],
       crossAxisAlignment: CrossAxisAlignment.start,
     ),

@@ -21,6 +21,8 @@ class CompanyModal {
 
   CompanyModal();
 
+  String get company => selectedCompany ?? name ?? '';
+
   String get getName => (selectedCompany ?? name)?.toUpperCase() ?? '';
 
   String get getAddress =>

@@ -9,30 +9,35 @@ import 'package:tally/services/services.dart';
 
 import '../addon/business/business.dart';
 
-class Company extends StatelessWidget {
+class Company extends StatefulWidget {
   final DocumentSnapshot<Map<String, dynamic>> data;
 
   const Company(this.data, {Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    SystemChannels.lifecycle.setMessageHandler((msg) async {
-      debugPrint('SystemChannels > $msg');
-      return msg;
-    });
+  State<Company> createState() => _CompanyState();
+}
 
-    var size = MediaQuery.of(context).size;
+class _CompanyState extends State<Company> {
+  List<CompanyModal> list = [];
 
-    List<CompanyModal> list = [];
+  @override
+  void initState() {
+    super.initState();
     try {
-      var values = data.data();
+      var values = widget.data.data();
       values?.forEach((key, value) {
         list.add(CompanyModal.fromJson(value, key));
-        debugPrint('companyName $key');
       });
     } catch (ex) {
       debugPrint('$ex');
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+
     return Column(children: [
       Container(
         padding: const EdgeInsets.symmetric(
@@ -53,7 +58,7 @@ class Company extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           children: list.map<Widget>((company) {
             return StreamBuilder(
-              stream: db.getCompanyDoc(data.reference, company.key!),
+              stream: db.getCompanyDoc(widget.data.reference, company.key!),
               builder: (_, AsyncSnapshot<QuerySnapshot> snapshot) {
                 var docs = snapshot.data?.docs ?? [];
                 if (docs.isEmpty) {

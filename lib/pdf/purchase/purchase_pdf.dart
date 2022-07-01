@@ -10,7 +10,7 @@ Future<Uint8List> getPurchasePdf(InvoiceModal modal) async {
     pageTheme: await theme(modal.company),
     build: (Context context) => bodyProduct(context, modal),
     header: (Context context) => headerTo(modal.company, header),
-    footer: (Context context) => footer(context, modal.company.name),
+    footer: (Context context) => footer(context, modal.company.company),
   );
   return create(page);
 }
