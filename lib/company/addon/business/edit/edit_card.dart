@@ -100,7 +100,10 @@ class EditCompanyPage extends StatelessWidget {
                 height: 40,
                 width: 120,
               ),
-              const Text('Signature'),
+              const Text(
+                'Add Digital Signature',
+                style: TextStyle(fontSize: 12),
+              ),
             ]),
           ]),
         ),

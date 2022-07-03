@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
 import 'package:tally/constant/constant.dart';
 import 'package:tally/widget/widget.dart';
 
@@ -18,12 +17,16 @@ class ReportsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFFEECEA),
       appBar: const Toolbar('BUSINESS REPORTS'),
       body: Column(children: [
         Container(
           alignment: Alignment.center,
           padding: const EdgeInsets.all(18),
-          child: ListTitle(reference.parent.id.split('-').first),
+          child: ListTitle(
+            reference.parent.id.split('-').first,
+            color: Colors.blue,
+          ),
         ),
         //const Divider(),
         Expanded(

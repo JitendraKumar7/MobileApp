@@ -1,8 +1,9 @@
 import 'dart:typed_data';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:tally/modal/modal.dart';
 import 'package:pdf/widgets.dart';
+import 'package:tally/modal/modal.dart';
 
 import '../../../widget/widget.dart';
 

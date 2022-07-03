@@ -8,8 +8,7 @@ import 'package:tally/widget/widget.dart';
 class ViewAccountPdf extends StatelessWidget {
   final StatementModal modal;
 
-  const ViewAccountPdf(this.modal, {Key? key})
-      : super(key: key);
+  const ViewAccountPdf(this.modal, {Key? key}) : super(key: key);
 
   static Route page(StatementModal modal) {
     return MaterialPageRoute(builder: (_) => ViewAccountPdf(modal));

@@ -1,7 +1,6 @@
 import '../../modal.dart';
 
-class QuotationModal extends BaseModal{
-
+class QuotationModal extends BaseModal {
   QuotationModal();
 
   List<List<String>> get data {
@@ -12,5 +11,4 @@ class QuotationModal extends BaseModal{
     if (json == null) return;
     jsonParse(json);
   }
-
 }

@@ -12,7 +12,7 @@ class ForgotState extends Equatable {
   final String? errorMessage;
 
   @override
-  List<Object> get props => [email,  status];
+  List<Object> get props => [email, status];
 
   ForgotState copyWith({
     Email? email,

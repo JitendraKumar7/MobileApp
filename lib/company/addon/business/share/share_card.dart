@@ -168,7 +168,7 @@ class ShareCardPage extends StatelessWidget {
                                       ),
                                     ),
                                   ]),
-                             const SizedBox(height: 9),
+                              const SizedBox(height: 9),
                             ]),
                       ),
                     ]),

@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
-import 'package:tally/modal/modal.dart';
-import 'package:tally/widget/widget.dart';
 import 'package:tally/constant/constant.dart';
+import 'package:tally/modal/modal.dart';
 import 'package:tally/services/services.dart';
+import 'package:tally/widget/widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../reports/reports_view.dart';

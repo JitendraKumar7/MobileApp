@@ -22,12 +22,16 @@ class AddonView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFFEECEA),
       appBar: const Toolbar('BUSINESS ADDONS'),
       body: Column(children: [
         Container(
           alignment: Alignment.center,
           padding: const EdgeInsets.all(18),
-          child: ListTitle(reference.parent.id.split('-').first),
+          child: ListTitle(
+            reference.parent.id.split('-').first,
+            color: Colors.blue,
+          ),
         ),
         //const Divider(),
         Expanded(

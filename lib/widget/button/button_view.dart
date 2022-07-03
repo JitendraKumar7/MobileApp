@@ -21,10 +21,11 @@ class ButtonView extends StatelessWidget {
     return Expanded(
       child: Card(
         clipBehavior: Clip.hardEdge,
+        elevation: 4,
         child: InkWell(
           onTap: onTap,
           child: Container(
-            color: color,
+            color: color ?? const Color(0xFFFEECEA),
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -39,7 +40,7 @@ class ButtonView extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       fontSize: 15,
-                      color: Colors.indigo,
+                      color: Colors.blue,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

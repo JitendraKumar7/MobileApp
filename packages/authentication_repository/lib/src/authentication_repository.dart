@@ -153,4 +153,3 @@ extension on firebase_auth.User {
         name: displayName,
       );
 }
-

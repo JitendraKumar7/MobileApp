@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tally/widget/widget.dart';
 
-import 'widget/bar.dart';
-import 'items/master_items.dart';
 import 'groups/master_groups.dart';
+import 'items/master_items.dart';
 import 'ledger/master_ledger.dart';
+import 'widget/bar.dart';
 
 class MasterView extends StatelessWidget {
   const MasterView(this.reference, {Key? key}) : super(key: key);

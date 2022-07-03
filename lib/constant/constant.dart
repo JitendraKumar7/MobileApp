@@ -31,4 +31,3 @@ const String shareMessage = 'Remain connected with your business'
     '\n\nGet Tally on mobile\n\nDownload\n'
     'TallyKonnect - Tally on mobile app\n'
     '\nhttps://tallykonnect.page.link/app';
-

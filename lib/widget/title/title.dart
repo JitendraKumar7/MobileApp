@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 class ListTitle extends StatelessWidget {
   final String title;
+  final Color? color;
 
   const ListTitle(
     this.title, {
     Key? key,
+    this.color,
   }) : super(key: key);
 
   @override
@@ -14,9 +16,10 @@ class ListTitle extends StatelessWidget {
       title.toUpperCase(),
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
-      style: const TextStyle(
+      style: TextStyle(
         fontWeight: FontWeight.bold,
         fontSize: 13,
+        color: color,
       ),
     );
   }
@@ -34,7 +37,7 @@ class ListSubTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
             child: Text(

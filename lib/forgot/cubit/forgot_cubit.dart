@@ -19,7 +19,6 @@ class ForgotCubit extends Cubit<ForgotState> {
     ));
   }
 
-
   Future<void> resetPassword() async {
     if (!state.status.isValidated) return;
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
@@ -35,5 +34,4 @@ class ForgotCubit extends Cubit<ForgotState> {
       emit(state.copyWith(status: FormzStatus.submissionFailure));
     }
   }
-
 }

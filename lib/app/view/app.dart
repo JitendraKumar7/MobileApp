@@ -53,7 +53,7 @@ class AppView extends StatelessWidget {
         };
         return MediaQuery(
           data: data.copyWith(textScaleFactor: 1),
-          child: child ?? Container(),
+          child: SafeArea(child: child ?? Container()),
         );
       },
     );

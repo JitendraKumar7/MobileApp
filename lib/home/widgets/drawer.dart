@@ -231,7 +231,7 @@ class DrawerLayout extends StatelessWidget {
             iosParameters: const IOSParameters(bundleId: 'tally.mobile.app'),
           );*/
           //final dynamicLink = await FirebaseDynamicLinks.instance
-              //.buildShortLink(dynamicLinkParams);
+          //.buildShortLink(dynamicLinkParams);
           //debugPrint('dynamicLink $dynamicLink');
         },
         title: const Text(

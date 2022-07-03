@@ -42,35 +42,35 @@ class MasterItems extends StatelessWidget {
                           var groups = docs
                               .where((e) => e.data().parent == parent)
                               .toList();
-                            return Card(
-                              clipBehavior: Clip.hardEdge,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(6),
+                          return Card(
+                            clipBehavior: Clip.hardEdge,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: ListTile(
+                              onTap: () {
+                                var page = MasterGroupItems.page(groups);
+                                Navigator.push(context, page);
+                              },
+                              leading: const CircleAvatar(
+                                child: Icon(
+                                  Icons.add_shopping_cart,
+                                  color: Colors.white,
+                                ),
                               ),
-                              child: ListTile(
-                                onTap: () {
-                                  var page = MasterGroupItems.page(groups);
-                                  Navigator.push(context, page);
+                              title: ListTitle('$parent'),
+                              trailing: Checkbox(
+                                value: isShow.data().isShow,
+                                onChanged: (bool? value) {
+                                  for (var e in groups) {
+                                    var modal = e.data();
+                                    modal.isShow = value!;
+                                    e.reference.set(modal);
+                                  }
                                 },
-                                leading: const CircleAvatar(
-                                  child: Icon(
-                                    Icons.add_shopping_cart,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                title: ListTitle('$parent'),
-                                trailing: Checkbox(
-                                  value: isShow.data().isShow,
-                                  onChanged: (bool? value) {
-                                    for (var e in groups) {
-                                      var modal = e.data();
-                                      modal.isShow = value!;
-                                      e.reference.set(modal);
-                                    }
-                                  },
-                                ),
                               ),
-                            );
+                            ),
+                          );
                         }).toList(),
                       );
               },

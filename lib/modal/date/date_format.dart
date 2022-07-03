@@ -2,7 +2,7 @@ import 'package:intl/intl.dart';
 
 final _dateFormat = DateFormat('dd-MM-yyyy');
 
-String getDateFormat(String date, [String tag='Date :']) {
+String getDateFormat(String date, [String tag = 'Date :']) {
   try {
     var parseDate = DateTime.parse(date);
     return '$tag ${_dateFormat.format(parseDate)}';

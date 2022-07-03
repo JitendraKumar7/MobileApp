@@ -4,8 +4,8 @@ import 'package:tally/modal/modal.dart';
 import 'package:tally/services/services.dart';
 import 'package:tally/widget/widget.dart';
 
-import '../view/view_sales.dart';
 import '../../widget/widget.dart';
+import '../view/view_sales.dart';
 
 class AddSalesOrderPage extends StatelessWidget {
   final DocumentReference reference;

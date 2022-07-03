@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:lazy_data_table/lazy_data_table.dart';
 import 'package:tally/modal/modal.dart';
 import 'package:tally/modal/modal.dart' as m;
 import 'package:tally/services/services.dart';
 import 'package:tally/widget/widget.dart';
-import 'package:lazy_data_table/lazy_data_table.dart';
 
 import '../../reports_view.dart';
 import '../pdf/view_pdf.dart';

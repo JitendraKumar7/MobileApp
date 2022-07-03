@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tally/widget/widget.dart';
-import 'package:tally/constant/constant.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tally/constant/constant.dart';
+import 'package:tally/widget/widget.dart';
 
 class NavigatePage extends StatelessWidget {
   final int index;
