@@ -12,6 +12,7 @@ import 'package:tally/services/services.dart';
 import 'package:tally/widget/widget.dart';
 
 import '../../company/company.dart';
+import '../../gstin_window/gstin_window.dart';
 import '../home.dart';
 
 class HomePage extends StatelessWidget {
@@ -97,7 +98,7 @@ class _IndexPageState extends State<IndexPage> {
     return Scaffold(
       body: IndexedStack(
         index: _index,
-        children: const [HomePage(), EmptyView(), DrawerLayout()],
+        children: const [HomePage(), GstinWindow(), DrawerLayout()],
       ),
       backgroundColor: Colors.blue[50],
       appBar: AppBar(
