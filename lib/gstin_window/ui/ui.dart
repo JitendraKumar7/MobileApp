@@ -94,7 +94,7 @@ class _SearchGstNumberState extends State<SearchGstNumber> {
       TextFormField(
         controller: controller,
         textInputAction: TextInputAction.search,
-        onFieldSubmitted: (value) => onFieldSubmitted,
+        onFieldSubmitted: (value) => onFieldSubmitted(),
         decoration: InputDecoration(
           hintText: 'Company GST',
           suffixIcon: IconButton(
@@ -246,7 +246,7 @@ class _SearchBusinessNameState extends State<SearchBusinessName> {
       TextFormField(
         controller: controller,
         textInputAction: TextInputAction.search,
-        onFieldSubmitted: (value) => onFieldSubmitted,
+        onFieldSubmitted: (value) => onFieldSubmitted(),
         decoration: InputDecoration(
           hintText: 'Company Name',
           suffixIcon: IconButton(
@@ -294,6 +294,19 @@ class _SearchFilingReportState extends State<SearchFilingReport> {
   final controller = TextEditingController();
   var modal = FilingReport();
 
+  Widget rowWidget(String value, [double fontSize = 15]) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 9.0,
+        vertical: 6.0,
+      ),
+      child: Text(
+        value,
+        style: TextStyle(fontSize: fontSize),
+      ),
+    );
+  }
+
   Future<void> onFieldSubmitted() async {
     String url = 'gstDetailsSearch/${controller.text}';
 
@@ -309,13 +322,15 @@ class _SearchFilingReportState extends State<SearchFilingReport> {
     controller.text = '09AAHCM0525A1ZZ';
   }
 
+  FilingStatus? filingStatus;
+
   @override
   Widget build(BuildContext context) {
     return ListView(padding: const EdgeInsets.all(12), children: [
       TextFormField(
         controller: controller,
         textInputAction: TextInputAction.search,
-        onFieldSubmitted: (value) => onFieldSubmitted,
+        onFieldSubmitted: (value) => onFieldSubmitted(),
         decoration: InputDecoration(
           hintText: 'GSTIN Number',
           suffixIcon: IconButton(
@@ -325,22 +340,54 @@ class _SearchFilingReportState extends State<SearchFilingReport> {
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(9)),
         ),
       ),
-      const SizedBox(height: 9),
-      DropdownButtonFormField<String>(
-        borderRadius: BorderRadius.circular(9),
-        items: <String>[
-          '2018-2019',
-          '2019-2020',
-          '2020-2021',
-          '2021-2022',
-        ].map((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
-        }).toList(),
-        onChanged: (_) {},
-      )
+      const SizedBox(height: 18),
+      if (modal.result.filingStatus.isNotEmpty)
+        DropdownButtonFormField<FilingStatus>(
+          borderRadius: BorderRadius.circular(9),
+          hint: const Text('Select Filing Year'),
+          items: modal.result.filingStatus.map((FilingStatus value) {
+            return DropdownMenuItem<FilingStatus>(
+              value: value,
+              child: Text('${value.filingYear}'),
+            );
+          }).toList(),
+          onChanged: (value) {
+            setState(() => filingStatus = value);
+          },
+        ),
+      const SizedBox(height: 18),
+      if (filingStatus != null)
+        Table(
+            columnWidths: const {
+              0: FlexColumnWidth(2),
+              1: FlexColumnWidth(3),
+            },
+            border: TableBorder.all(
+              borderRadius: BorderRadius.circular(6),
+              width: 0.6,
+            ),
+            children: [
+              TableRow(children: [
+                rowWidget('Month Of Filing', 12),
+                rowWidget('${filingStatus?.monthOfFiling}'),
+              ]),
+              TableRow(children: [
+                rowWidget('Method Of Filling', 12),
+                rowWidget('${filingStatus?.methodOfFilling}'),
+              ]),
+              TableRow(children: [
+                rowWidget('Date Of Filing', 12),
+                rowWidget('${filingStatus?.dateOfFiling}'),
+              ]),
+              TableRow(children: [
+                rowWidget('GST Type', 12),
+                rowWidget('${filingStatus?.gstType}'),
+              ]),
+              TableRow(children: [
+                rowWidget('GST Status', 12),
+                rowWidget('${filingStatus?.gstStatus}'),
+              ]),
+            ]),
     ]);
   }
 }

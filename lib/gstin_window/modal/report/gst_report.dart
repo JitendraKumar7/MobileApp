@@ -1,85 +1,57 @@
 class FilingReport {
-  String? task;
-  Essentials essentials = Essentials();
-  String? id;
+  var result = Result();
   String? patronId;
-  Result result = Result();
+  String? task;
+  String? id;
 
-  FilingReport({task, essentials, id, patronId, result});
+  FilingReport();
 
-  FilingReport.fromJson(Map<String, dynamic> json) {
-    task = json['task'];
-    essentials = json['essentials'] != null
-        ? Essentials.fromJson(json['essentials'])
-        : Essentials();
-    id = json['id'];
+  FilingReport.fromJson(Map<String, dynamic>? json) {
+    if (json == null) return;
+    result = Result.fromJson(json['result']);
     patronId = json['patronId'];
-    result =
-        json['result'] != null ? Result.fromJson(json['result']) : Result();
+    task = json['task'];
+    id = json['id'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['task'] = task;
-    data['essentials'] = essentials.toJson();
-
-    data['id'] = id;
-    data['patronId'] = patronId;
     data['result'] = result.toJson();
-
-    return data;
-  }
-}
-
-class Essentials {
-  String? gstin;
-
-  Essentials({gstin});
-
-  Essentials.fromJson(Map<String, dynamic> json) {
-    gstin = json['gstin'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['gstin'] = gstin;
+    data['patronId'] = patronId;
+    data['task'] = task;
+    data['id'] = id;
     return data;
   }
 }
 
 class Result {
-  GstnDetailed gstnDetailed = GstnDetailed();
-  List<GstnRecords> gstnRecords = [];
+  var aggregateTurnOverRange = AggregateTurnOverRange();
+  var gstnDetailed = GstnDetailed();
   String? gstin;
-  String? annualAggregateTurnOver;
-  AggregateTurnOverRange aggregateTurnOverRange = AggregateTurnOverRange();
   String? grossTotalIncome;
+  String? annualAggregateTurnOver;
   String? grossTotalIncomeFinancialYear;
+  List<GstnRecords> gstnRecords = [];
   List<FilingStatus> filingStatus = [];
 
   Result();
 
-  Result.fromJson(Map<String, dynamic> json) {
-    gstnDetailed = json['gstnDetailed'] != null
-        ? GstnDetailed.fromJson(json['gstnDetailed'])
-        : GstnDetailed();
-    if (json['gstnRecords'] != null) {
-      json['gstnRecords'].forEach((v) {
-        gstnRecords.add(GstnRecords.fromJson(v));
-      });
-    }
-    gstin = json['gstin'];
-    annualAggregateTurnOver = json['annualAggregateTurnOver'];
-    aggregateTurnOverRange = json['aggregateTurnOverRange'] != null
-        ? AggregateTurnOverRange.fromJson(json['aggregateTurnOverRange'])
-        : AggregateTurnOverRange();
-    grossTotalIncome = json['grossTotalIncome'];
+  Result.fromJson(Map<String, dynamic>? json) {
+    if (json == null) return;
+    aggregateTurnOverRange =
+        AggregateTurnOverRange.fromJson(json['aggregateTurnOverRange']);
+    gstnDetailed = GstnDetailed.fromJson(json['gstnDetailed']);
+
+    json['gstnRecords']?.forEach((v) {
+      gstnRecords.add(GstnRecords.fromJson(v));
+    });
+    json['filingStatus']?.forEach((v) {
+      filingStatus.add(FilingStatus.fromJson(v));
+    });
     grossTotalIncomeFinancialYear = json['grossTotalIncomeFinancialYear'];
-    if (json['filingStatus'] != null) {
-      json['filingStatus'].forEach((v) {
-        filingStatus.add(FilingStatus.fromJson(v));
-      });
-    }
+    annualAggregateTurnOver = json['annualAggregateTurnOver'];
+    grossTotalIncome = json['grossTotalIncome'];
+    gstin = json['gstin'];
   }
 
   Map<String, dynamic> toJson() {
@@ -131,11 +103,12 @@ class GstnDetailed {
   String? complianceRating;
   List<AdditionalPlaceAddress> additionalPlaceAddress = [];
   List<String> directorNames = [];
-  AdditionalPlaceAddress principalPlaceAddress = AdditionalPlaceAddress();
+  var principalPlaceAddress = AdditionalPlaceAddress();
 
   GstnDetailed();
 
-  GstnDetailed.fromJson(Map<String, dynamic> json) {
+  GstnDetailed.fromJson(Map<String, dynamic>? json) {
+    if (json == null) return;
     constitutionOfBusiness = json['constitutionOfBusiness'];
     legalNameOfBusiness = json['legalNameOfBusiness'];
     tradeNameOfBusiness = json['tradeNameOfBusiness'];
@@ -165,15 +138,14 @@ class GstnDetailed {
     additionalPlaceState = json['additionalPlaceState'];
     additionalPlacePincode = json['additionalPlacePincode'];
     complianceRating = json['complianceRating'];
-    if (json['additionalPlaceAddress'] != null) {
-      json['additionalPlaceAddress'].forEach((v) {
-        additionalPlaceAddress.add(AdditionalPlaceAddress.fromJson(v));
-      });
-    }
+
+    json['additionalPlaceAddress']?.forEach((v) {
+      additionalPlaceAddress.add(AdditionalPlaceAddress.fromJson(v));
+    });
+
     directorNames = json['directorNames'].cast<String>();
-    principalPlaceAddress = json['principalPlaceAddress'] != null
-        ? AdditionalPlaceAddress.fromJson(json['principalPlaceAddress'])
-        : AdditionalPlaceAddress();
+    principalPlaceAddress =
+        AdditionalPlaceAddress.fromJson(json['principalPlaceAddress']);
   }
 
   Map<String, dynamic> toJson() {
@@ -222,19 +194,18 @@ class AdditionalPlaceAddress {
   String? natureOfBusiness;
   String? mobile;
   String? lastUpdatedDate;
-  SplitAddress splitAddress = SplitAddress();
+  var splitAddress = SplitAddress();
 
   AdditionalPlaceAddress();
 
-  AdditionalPlaceAddress.fromJson(Map<String, dynamic> json) {
+  AdditionalPlaceAddress.fromJson(Map<String, dynamic>? json) {
+    if (json == null) return;
     emailId = json['emailId'];
     address = json['address'];
     natureOfBusiness = json['natureOfBusiness'];
     mobile = json['mobile'];
     lastUpdatedDate = json['lastUpdatedDate'];
-    splitAddress = json['splitAddress'] != null
-        ? SplitAddress.fromJson(json['splitAddress'])
-        : SplitAddress();
+    splitAddress = SplitAddress.fromJson(json['splitAddress']);
   }
 
   Map<String, dynamic> toJson() {
@@ -259,7 +230,8 @@ class SplitAddress {
 
   SplitAddress();
 
-  SplitAddress.fromJson(Map<String, dynamic> json) {
+  SplitAddress.fromJson(Map<String, dynamic>? json) {
+    if (json == null) return;
     district = json['district'].cast<String>();
     if (json['state'] != null) {
       json['state'].forEach((v) {
@@ -296,17 +268,10 @@ class GstnRecords {
   String? gstinRefId;
   String? gstin;
 
-  GstnRecords(
-      {applicationStatus,
-      registrationName,
-      mobNum,
-      regType,
-      emailId,
-      tinNumber,
-      gstinRefId,
-      gstin});
+  GstnRecords();
 
-  GstnRecords.fromJson(Map<String, dynamic> json) {
+  GstnRecords.fromJson(Map<String, dynamic>? json) {
+    if (json == null) return;
     applicationStatus = json['applicationStatus'];
     registrationName = json['registrationName'];
     mobNum = json['mobNum'];
@@ -337,7 +302,8 @@ class AggregateTurnOverRange {
 
   AggregateTurnOverRange({minimum, maximum});
 
-  AggregateTurnOverRange.fromJson(Map<String, dynamic> json) {
+  AggregateTurnOverRange.fromJson(Map<String, dynamic>? json) {
+    if (json == null) return;
     minimum = json['minimum'];
     maximum = json['maximum'];
   }
@@ -358,15 +324,10 @@ class FilingStatus {
   String? gstType;
   String? gstStatus;
 
-  FilingStatus(
-      {filingYear,
-      monthOfFiling,
-      methodOfFilling,
-      dateOfFiling,
-      gstType,
-      gstStatus});
+  FilingStatus();
 
-  FilingStatus.fromJson(Map<String, dynamic> json) {
+  FilingStatus.fromJson(Map<String, dynamic>? json) {
+    if (json == null) return;
     filingYear = json['filingYear'];
     monthOfFiling = json['monthOfFiling'];
     methodOfFilling = json['methodOfFilling'];
