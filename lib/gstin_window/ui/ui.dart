@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:firebase_remote_config/firebase_remote_config.dart';
+//import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -11,27 +11,28 @@ import '../modal/report/gst_report.dart';
 // https://api.fidypay.com/pg/
 
 Future<Map<String, dynamic>> setting(String path) async {
-  final instance = FirebaseRemoteConfig.instance;
+  //final instance = FirebaseRemoteConfig.instance;
 
   /*await instance.setConfigSettings(RemoteConfigSettings(
     minimumFetchInterval: Duration.zero,
     fetchTimeout: Duration.zero,
   ));*/
 
-  await instance.fetchAndActivate();
+  //await instance.fetchAndActivate();
 
-  var url = Uri.parse('${instance.getString('FidPayUrl')}$path');
-  var json = jsonDecode(instance.getString('FidPayHeaders'));
+  //var url = Uri.parse('${instance.getString('FidPayUrl')}$path');
+  //var json = jsonDecode(instance.getString('FidPayHeaders'));
 
   Map<String, String> headers = {};
-  json.forEach((k, v) => headers['$k'] = '$v');
-  var response = await http.post(url, headers: headers);
+  //json.forEach((k, v) => headers['$k'] = '$v');
+  //var response = await http.post(url, headers: headers);
 
   //debugPrint('Response url: $url');
   //debugPrint('Response headers: $headers');
 
   //debugPrint('Response body: ${response.body}');
-  return response.statusCode == 200 ? jsonDecode(response.body) : {};
+  //return response.statusCode == 200 ? jsonDecode(response.body) : {};
+  return headers;
 }
 
 class GstinWindow extends StatelessWidget {
@@ -322,7 +323,7 @@ class _SearchFilingReportState extends State<SearchFilingReport> {
     controller.text = '09AAHCM0525A1ZZ';
   }
 
-  FilingStatus? filingStatus;
+  List<FilingStatus> filingStatus = [];
 
   @override
   Widget build(BuildContext context) {
@@ -342,21 +343,23 @@ class _SearchFilingReportState extends State<SearchFilingReport> {
       ),
       const SizedBox(height: 18),
       if (modal.result.filingStatus.isNotEmpty)
-        DropdownButtonFormField<FilingStatus>(
+        DropdownButtonFormField<String>(
           borderRadius: BorderRadius.circular(9),
           hint: const Text('Select Filing Year'),
-          items: modal.result.filingStatus.map((FilingStatus value) {
-            return DropdownMenuItem<FilingStatus>(
+          items: modal.filingStatus.map((String? value) {
+            return DropdownMenuItem<String>(
               value: value,
-              child: Text('${value.filingYear}'),
+              child: Text('$value'),
             );
           }).toList(),
-          onChanged: (value) {
-            setState(() => filingStatus = value);
-          },
+          onChanged: (value) => setState(() {
+            filingStatus = modal.result.filingStatus
+                .where((e) => e.filingYear == value)
+                .toList();
+          }),
         ),
       const SizedBox(height: 18),
-      if (filingStatus != null)
+      for (var item in filingStatus)
         Table(
             columnWidths: const {
               0: FlexColumnWidth(2),
@@ -369,25 +372,25 @@ class _SearchFilingReportState extends State<SearchFilingReport> {
             children: [
               TableRow(children: [
                 rowWidget('Month Of Filing', 12),
-                rowWidget('${filingStatus?.monthOfFiling}'),
+                rowWidget('${item.monthOfFiling}'),
               ]),
               TableRow(children: [
                 rowWidget('Method Of Filling', 12),
-                rowWidget('${filingStatus?.methodOfFilling}'),
+                rowWidget('${item.methodOfFilling}'),
               ]),
               TableRow(children: [
                 rowWidget('Date Of Filing', 12),
-                rowWidget('${filingStatus?.dateOfFiling}'),
+                rowWidget('${item.dateOfFiling}'),
               ]),
               TableRow(children: [
                 rowWidget('GST Type', 12),
-                rowWidget('${filingStatus?.gstType}'),
+                rowWidget('${item.gstType}'),
               ]),
               TableRow(children: [
                 rowWidget('GST Status', 12),
-                rowWidget('${filingStatus?.gstStatus}'),
+                rowWidget('${item.gstStatus}'),
               ]),
-            ]),
+            ])
     ]);
   }
 }

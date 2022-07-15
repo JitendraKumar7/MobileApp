@@ -6,6 +6,9 @@ class FilingReport {
 
   FilingReport();
 
+  Set<String?> get filingStatus =>
+      result.filingStatus.map((e) => e.filingYear).toSet();
+
   FilingReport.fromJson(Map<String, dynamic>? json) {
     if (json == null) return;
     result = Result.fromJson(json['result']);
