@@ -1,6 +1,6 @@
 class SearchCompany {
-  var essentials = Essentials();
   var result = Result();
+  var error = Error();
 
   String? patronId;
   String? task;
@@ -13,8 +13,8 @@ class SearchCompany {
   SearchCompany.fromJson(Map<String, dynamic>? json) {
     if (json == null) return;
 
-    essentials = Essentials.fromJson(json['essentials']);
     result = Result.fromJson(json['result']);
+    error = Error.fromJson(json['error']);
     patronId = json['patronId'];
     task = json['task'];
     id = json['id'];
@@ -22,7 +22,6 @@ class SearchCompany {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['essentials'] = essentials.toJson();
     data['result'] = result.toJson();
     data['patronId'] = patronId;
     data['task'] = task;
@@ -31,19 +30,28 @@ class SearchCompany {
   }
 }
 
-class Essentials {
-  String? companyName;
+class Error {
+  int? statusCode, status;
+  String? message, name;
 
-  Essentials();
+  Error();
 
-  Essentials.fromJson(Map<String, dynamic>? json) {
+  bool get isNotEmpty => message != null && name != null;
+
+  Error.fromJson(Map<String, dynamic>? json) {
     if (json == null) return;
-    companyName = json['companyName'];
+    statusCode = json['statusCode'];
+    message = json['message'];
+    status = json['status'];
+    name = json['name'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['companyName'] = companyName;
+    data['statusCode'] = statusCode;
+    data['message'] = message;
+    data['status'] = status;
+    data['name'] = name;
     return data;
   }
 }

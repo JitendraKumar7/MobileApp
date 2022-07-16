@@ -1,38 +1,39 @@
 import 'dart:convert';
 
-//import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:tally/widget/widget.dart';
 
 import '../modal/company/search_company.dart';
 import '../modal/gst/search_gst.dart';
 import '../modal/report/gst_report.dart';
 
 // https://api.fidypay.com/pg/
+// https://prelive.fidypay.com/pg/
 
 Future<Map<String, dynamic>> setting(String path) async {
-  //final instance = FirebaseRemoteConfig.instance;
+  final instance = FirebaseRemoteConfig.instance;
 
   /*await instance.setConfigSettings(RemoteConfigSettings(
     minimumFetchInterval: Duration.zero,
     fetchTimeout: Duration.zero,
   ));*/
 
-  //await instance.fetchAndActivate();
+  await instance.fetchAndActivate();
 
-  //var url = Uri.parse('${instance.getString('FidPayUrl')}$path');
-  //var json = jsonDecode(instance.getString('FidPayHeaders'));
+  var url = Uri.parse('${instance.getString('FidPayUrl')}$path');
+  var json = jsonDecode(instance.getString('FidPayHeaders'));
 
   Map<String, String> headers = {};
-  //json.forEach((k, v) => headers['$k'] = '$v');
-  //var response = await http.post(url, headers: headers);
+  json.forEach((k, v) => headers['$k'] = '$v');
+  var response = await http.post(url, headers: headers);
 
-  //debugPrint('Response url: $url');
-  //debugPrint('Response headers: $headers');
+  debugPrint('Response url: $url');
+  debugPrint('Response headers: $headers');
 
-  //debugPrint('Response body: ${response.body}');
-  //return response.statusCode == 200 ? jsonDecode(response.body) : {};
-  return headers;
+  debugPrint('Response body: ${response.body}');
+  return response.statusCode == 200 ? jsonDecode(response.body) : {};
 }
 
 class GstinWindow extends StatelessWidget {
@@ -73,20 +74,25 @@ class SearchGstNumber extends StatefulWidget {
 class _SearchGstNumberState extends State<SearchGstNumber> {
   final controller = TextEditingController();
   var modal = SearchGst();
+  var isLoading = false;
 
   Future<void> onFieldSubmitted() async {
+    modal = SearchGst();
+
+    // Generate URL
     String url = 'gstSearch/${controller.text}';
+    setState(() => isLoading = true);
 
     // fetch data from server
     modal = SearchGst.fromJson(await setting(url));
     debugPrint('Search GST => ${modal.toJson()}');
-    setState(() => false);
+    setState(() => isLoading = false);
   }
 
   @override
   void initState() {
     super.initState();
-    controller.text = '09AAHCM0525A1ZZ';
+    //controller.text = '09AAHCM0525A1ZZ';
   }
 
   @override
@@ -105,8 +111,17 @@ class _SearchGstNumberState extends State<SearchGstNumber> {
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(9)),
         ),
       ),
+      const SizedBox(height: 18),
+      if (isLoading) const LoaderPage(),
+      if (modal.error.isNotEmpty)
+        Text(
+          '${modal.error.message}',
+          style: TextStyle(
+            color: Colors.red[900],
+            fontSize: 18,
+          ),
+        ),
       if (modal.isNotEmpty) ...[
-        const SizedBox(height: 12),
         Text(
           'Legal name of business',
           style: TextStyle(
@@ -225,20 +240,38 @@ class SearchBusinessName extends StatefulWidget {
 class _SearchBusinessNameState extends State<SearchBusinessName> {
   final controller = TextEditingController();
   var modal = SearchCompany();
+  var isLoading = false;
 
   Future<void> onFieldSubmitted() async {
+    modal = SearchCompany();
+
+    // Generate URL
     String url = 'gstSearchCompanyName/${controller.text}';
+    setState(() => isLoading = true);
 
     // fetch data from server
     modal = SearchCompany.fromJson(await setting(url));
     debugPrint('Search Company => ${modal.toJson()}');
-    setState(() => false);
+    setState(() => isLoading = false);
   }
 
   @override
   void initState() {
     super.initState();
-    controller.text = 'MRK TRADEX PRIVATE LIMITED';
+    // controller.text = 'MRK TRADEX PRIVATE LIMITED';
+  }
+
+  Widget rowWidget(String value, [double fontSize = 15]) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 9.0,
+        vertical: 6.0,
+      ),
+      child: Text(
+        value,
+        style: TextStyle(fontSize: fontSize),
+      ),
+    );
   }
 
   @override
@@ -257,29 +290,33 @@ class _SearchBusinessNameState extends State<SearchBusinessName> {
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(9)),
         ),
       ),
-      if (modal.isNotEmpty) ...[
-        Container(
-          padding: const EdgeInsets.only(
-            bottom: 9,
-            top: 18,
+      const SizedBox(height: 18),
+      if (isLoading) const LoaderPage(),
+      if (modal.error.isNotEmpty)
+        Text(
+          '${modal.error.message}',
+          style: TextStyle(
+            color: Colors.red[900],
+            fontSize: 18,
           ),
-          child: Text(modal.essentials.companyName ?? ''),
         ),
-        const Divider(),
-        for (var i = 0; i < modal.result.gstDetails.length; i++)
-          Container(
-            padding: const EdgeInsets.only(
-              bottom: 6,
-              top: 6,
+      if (modal.result.gstDetails.isNotEmpty)
+        Table(
+            border: TableBorder.all(
+              borderRadius: BorderRadius.circular(6),
+              width: 0.6,
             ),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('${modal.result.gstDetails[i].state}'),
-                  Text('${modal.result.gstDetails[i].gstin}'),
+            children: [
+              TableRow(children: [
+                rowWidget('STATE'),
+                rowWidget('GSTIN'),
+              ]),
+              for (var detail in modal.result.gstDetails)
+                TableRow(children: [
+                  rowWidget('${detail.state}'),
+                  rowWidget('${detail.gstin}'),
                 ]),
-          ),
-      ],
+            ]),
     ]);
   }
 }
@@ -294,6 +331,7 @@ class SearchFilingReport extends StatefulWidget {
 class _SearchFilingReportState extends State<SearchFilingReport> {
   final controller = TextEditingController();
   var modal = FilingReport();
+  var isLoading = false;
 
   Widget rowWidget(String value, [double fontSize = 15]) {
     return Container(
@@ -309,20 +347,27 @@ class _SearchFilingReportState extends State<SearchFilingReport> {
   }
 
   Future<void> onFieldSubmitted() async {
+    modal = FilingReport();
+    filingStatus = [];
+    filingYear = null;
+
+    // Generate URL
     String url = 'gstDetailsSearch/${controller.text}';
+    setState(() => isLoading = true);
 
     // fetch data from server
     modal = FilingReport.fromJson(await setting(url));
     debugPrint('Filing Report => ${modal.toJson()}');
-    setState(() => false);
+    setState(() => isLoading = false);
   }
 
   @override
   void initState() {
     super.initState();
-    controller.text = '09AAHCM0525A1ZZ';
+    // controller.text = '09AAHCM0525A1ZZ';
   }
 
+  String? filingYear;
   List<FilingStatus> filingStatus = [];
 
   @override
@@ -342,6 +387,15 @@ class _SearchFilingReportState extends State<SearchFilingReport> {
         ),
       ),
       const SizedBox(height: 18),
+      if (isLoading) const LoaderPage(),
+      if (modal.error.isNotEmpty)
+        Text(
+          '${modal.error.message}',
+          style: TextStyle(
+            color: Colors.red[900],
+            fontSize: 18,
+          ),
+        ),
       if (modal.result.filingStatus.isNotEmpty)
         DropdownButtonFormField<String>(
           borderRadius: BorderRadius.circular(9),
@@ -352,14 +406,16 @@ class _SearchFilingReportState extends State<SearchFilingReport> {
               child: Text('$value'),
             );
           }).toList(),
+          value: filingYear,
           onChanged: (value) => setState(() {
             filingStatus = modal.result.filingStatus
                 .where((e) => e.filingYear == value)
                 .toList();
+            filingYear = value;
           }),
         ),
       const SizedBox(height: 18),
-      for (var item in filingStatus)
+      for (var item in filingStatus) ...[
         Table(
             columnWidths: const {
               0: FlexColumnWidth(2),
@@ -390,7 +446,9 @@ class _SearchFilingReportState extends State<SearchFilingReport> {
                 rowWidget('GST Status', 12),
                 rowWidget('${item.gstStatus}'),
               ]),
-            ])
+            ]),
+        const SizedBox(height: 18),
+      ]
     ]);
   }
 }

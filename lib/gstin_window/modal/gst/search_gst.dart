@@ -1,6 +1,6 @@
 class SearchGst {
-  var essentials = Essentials();
   var result = Result();
+  var error = Error();
 
   String? patronId;
   String? task;
@@ -8,13 +8,12 @@ class SearchGst {
 
   SearchGst();
 
-
   bool get isNotEmpty => patronId != null && task != null && id != null;
 
   SearchGst.fromJson(Map<String, dynamic>? json) {
     if (json == null) return;
-    essentials = Essentials.fromJson(json['essentials']);
     result = Result.fromJson(json['result']);
+    error = Error.fromJson(json['error']);
     patronId = json['patronId'];
     task = json['task'];
     id = json['id'];
@@ -22,7 +21,6 @@ class SearchGst {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['essentials'] = essentials.toJson();
     data['result'] = result.toJson();
     data['patronId'] = patronId;
     data['task'] = task;
@@ -31,19 +29,28 @@ class SearchGst {
   }
 }
 
-class Essentials {
-  String? gstin;
+class Error {
+  int? statusCode, status;
+  String? message, name;
 
-  Essentials();
+  Error();
 
-  Essentials.fromJson(Map<String, dynamic>? json) {
+  bool get isNotEmpty => message != null && name != null;
+
+  Error.fromJson(Map<String, dynamic>? json) {
     if (json == null) return;
-    gstin = json['gstin'];
+    statusCode = json['statusCode'];
+    message = json['message'];
+    status = json['status'];
+    name = json['name'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['gstin'] = gstin;
+    data['statusCode'] = statusCode;
+    data['message'] = message;
+    data['status'] = status;
+    data['name'] = name;
     return data;
   }
 }

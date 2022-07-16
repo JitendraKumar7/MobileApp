@@ -26,14 +26,11 @@ dependencies:
   share_plus: ^4.0.10
   collection: ^1.16.0
   app_review: ^2.1.1+1
-  #safe_device: ^1.1.1
-  #flutter_svg: ^1.1.1
   package_info: ^2.0.2
   flutter_bloc: ^8.0.1
   google_fonts: ^3.0.1
   url_strategy: ^0.2.0
   flow_builder: ^0.0.9
-  #empty_widget: ^0.0.5
   url_launcher: ^6.1.5
   image_picker: ^0.8.5+3
   image_cropper: ^2.0.3
@@ -48,7 +45,6 @@ dependencies:
   permission_handler: ^10.0.0
   cached_network_image: ^3.2.1
   font_awesome_flutter: ^10.1.0
-  #flutter_inappwebview: ^5.4.3+7
   flutter_widget_from_html: ^0.8.5
 
   #Google
@@ -62,7 +58,7 @@ dependencies:
   firebase_crashlytics: ^2.8.5
   firebase_performance: ^0.8.2
   firebase_dynamic_links: ^4.3.2
-  #firebase_remote_config: ^2.0.11
+  firebase_remote_config: ^2.0.12
   firebase_app_installations: ^0.1.1+2
 
   form_inputs:
