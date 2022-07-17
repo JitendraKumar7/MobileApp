@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:in_app_update/in_app_update.dart';
@@ -22,21 +23,31 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = context.select((AppBloc bloc) => bloc.state.user);
     return Column(children: [
-      CarouselSlider(
-        options: CarouselOptions(
-          viewportFraction: 1,
-          autoPlay: true,
-          height: 180.0,
-        ),
-        items: [1, 2, 3, 4, 5].map((i) {
-          return SizedBox(
-            width: double.infinity,
-            child: Image.network(
-              'https://picsum.photos/30$i/200',
-              fit: BoxFit.cover,
-            ),
-          );
-        }).toList(),
+      //\\ /TallyKonnect/CarouselSlider
+      //\\ images[]
+
+      SizedBox(
+        height: 180.0,
+        child: StreamBuilder(
+            stream: db.carouselSlider(),
+            builder: (_,
+                AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>>
+                    snapshot) {
+              var data = snapshot.data?.get('images') ?? [];
+              return CarouselSlider(
+                options: CarouselOptions(
+                  viewportFraction: 1,
+                  autoPlay: true,
+                  height: 180.0,
+                ),
+                items: data.map<Widget>((i) {
+                  return SizedBox(
+                    width: double.infinity,
+                    child: Image.network(i, fit: BoxFit.cover),
+                  );
+                }).toList(),
+              );
+            }),
       ),
       Expanded(
         child: StreamBuilder(
@@ -90,7 +101,7 @@ class _IndexPageState extends State<IndexPage> {
   @override
   void initState() {
     super.initState();
-    checkForUpdate();
+    if (!kIsWeb) checkForUpdate();
   }
 
   @override

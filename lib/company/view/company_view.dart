@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:tally/company/company.dart';
@@ -131,8 +132,8 @@ class _CompanyState extends State<Company> {
                       else {
                         var reference = docs.first.reference;
                         return Container(
-                          height: size.width,
-                          width: size.width,
+                          height: kIsWeb ? 380 : size.width,
+                          width: kIsWeb ? 380 : size.width,
                           padding: const EdgeInsets.symmetric(
                             horizontal: 42,
                             vertical: 6,

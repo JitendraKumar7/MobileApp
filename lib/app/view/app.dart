@@ -1,5 +1,6 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flow_builder/flow_builder.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tally/app/app.dart';
@@ -46,16 +47,19 @@ class AppView extends StatelessWidget {
 
         ErrorWidget.builder = (FlutterErrorDetails errorDetails) {
           debugPrint('FlutterErrorDetails $errorDetails');
-          return Scaffold(
-            appBar: AppBar(title: const Text('ERROR')),
-            body: const EmptyView(),
-          );
+          return const Scaffold(body: EmptyView());
         };
         return MediaQuery(
           data: data.copyWith(textScaleFactor: 1),
           child: SafeArea(
             top: false,
-            child: child ?? Container(),
+            child: Container(
+              alignment: Alignment.center,
+              child: SizedBox(
+                width: kIsWeb ? 380 : data.size.width,
+                child: child ?? Container(),
+              ),
+            ),
           ),
         );
       },

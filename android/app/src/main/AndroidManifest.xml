@@ -7,7 +7,7 @@
     <application
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
-        android:label="Tally App"
+        android:label="Tally Konnect"
         tools:ignore="AllowBackup">
         <activity
             android:name=".MainActivity"

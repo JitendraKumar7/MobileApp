@@ -1,6 +1,6 @@
 {
-    "name": "app",
-    "short_name": "app",
+    "name": "Tally Konnect - Tally on mobile",
+    "short_name": "Tally Konnect",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

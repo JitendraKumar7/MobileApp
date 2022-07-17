@@ -447,9 +447,9 @@ Widget headerPriceList(
     Container(
       alignment: Alignment.center,
       child: Text(
-        modal.getName.split('-').first,
+        modal.getName,
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
       ),
     ),
     Container(
@@ -457,7 +457,7 @@ Widget headerPriceList(
       child: Text(
         modal.getAddress,
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
       ),
       padding: const EdgeInsets.only(
         bottom: 18,
@@ -470,19 +470,19 @@ Widget headerPriceList(
         Text(
           date,
           textAlign: TextAlign.center,
-          style: const TextStyle(fontSize: 18, color: colorWhite),
+          style: const TextStyle(fontSize: 8, color: colorWhite),
         ),
         Expanded(
           child: Text(
             'PRICE LIST',
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 28),
+            style: const TextStyle(fontSize: 10),
           ),
         ),
         Text(
           date,
           textAlign: TextAlign.center,
-          style: const TextStyle(fontSize: 18),
+          style: const TextStyle(fontSize: 8),
         ),
       ]),
       padding: const EdgeInsets.only(bottom: 18),
@@ -500,7 +500,7 @@ Widget headerPriceList(
       ),
       headerStyle: const TextStyle(
         color: colorBlack,
-        fontSize: 18,
+        fontSize: 10,
       ),
       columnWidths: columnWidths,
       cellAlignments: cellAlignments,
@@ -528,23 +528,22 @@ List<Widget> bodyPriceList(Context context, List<PriceListModal> items) {
   return [
     for (int i = 0; i < items.length; i++) ...[
       Container(
-        padding: const EdgeInsets.all(18),
+        padding: const EdgeInsets.all(9),
         alignment: Alignment.center,
-        child: Text(items[i].title,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: colorBlack,
-              fontSize: 24,
-            )),
+        child: Text(
+          items[i].title,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: colorBlack,
+            fontSize: 11,
+          ),
+        ),
       ),
       Table.fromTextArray(
         data: items[i].items,
         border: null,
-        cellStyle: const TextStyle(
-          color: colorBlack,
-          fontSize: 18,
-        ),
         headerCount: 0,
+        cellStyle: cellStyle,
         columnWidths: columnWidths,
         cellAlignments: cellAlignments,
         oddRowDecoration: oddRowDecoration,

@@ -103,7 +103,7 @@ class _SearchGstNumberState extends State<SearchGstNumber> {
         textInputAction: TextInputAction.search,
         onFieldSubmitted: (value) => onFieldSubmitted(),
         decoration: InputDecoration(
-          hintText: 'Company GST',
+          hintText: 'GSTIN Number',
           suffixIcon: IconButton(
             icon: const Icon(Icons.search),
             onPressed: onFieldSubmitted,

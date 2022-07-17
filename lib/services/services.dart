@@ -45,6 +45,10 @@ class FirestoreServices {
         .snapshots();
   }
 
+  Stream<DocumentSnapshot<Map<String, dynamic>>> carouselSlider() {
+    return _instance.doc('TallyKonnect/CarouselSlider').snapshots();
+  }
+
   Stream<DocumentSnapshot<Map<String, dynamic>>> getCompany(String id) {
     return _instance.collection(id).doc('Tally').snapshots();
   }

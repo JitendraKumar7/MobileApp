@@ -29,7 +29,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>TallyKonnect - Tally on mobile requires access your camera because our app required to update profile picture so that user can change there profile photo</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>TallyKonnect - Tally on mobile requires access your microphone permision to working properly</string>
+	<string>TallyKonnect - Tally on mobile requires access your microphone permission to working properly</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>TallyKonnect - Tally on mobile requires access your gallery because our app required to update profile picture so that user can change there profile photo</string>
 	<key>UILaunchStoryboardName</key>
