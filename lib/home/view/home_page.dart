@@ -41,9 +41,10 @@ class HomePage extends StatelessWidget {
                   height: 180.0,
                 ),
                 items: data.map<Widget>((i) {
-                  return SizedBox(
+                  return Image.network(
+                    i,
+                    fit: BoxFit.cover,
                     width: double.infinity,
-                    child: Image.network(i, fit: BoxFit.cover),
                   );
                 }).toList(),
               );

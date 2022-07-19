@@ -173,10 +173,13 @@ class InvoiceModal {
       ledgerDetails.add(LedgerDetails.fromJson(v));
     });
 
-    (json['PRODUCTS'] ?? []).forEach((v) {
-      products.add(Products.fromJson(v));
-    });
-
+    try {
+      (json['PRODUCTS'] ?? []).forEach((v) {
+        products.add(Products.fromJson(v));
+      });
+    } catch (e) {
+      // TODO [OPTIONAL]
+    }
     productTotalAmount = json['PRODUCTTOTALAMOUNT'];
     partyLedgerName = json['PARTYLEDGERNAME'];
     voucherNumber = json['VOUCHERNUMBER'];
